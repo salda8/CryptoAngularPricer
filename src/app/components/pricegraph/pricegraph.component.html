@@ -1,0 +1,28 @@
+<div>
+  <!-- <button (click)="onBtnClick()">Click to create!</button> -->
+  <mat-form-field>
+    <mat-select placeholder="Select pairs to plot" [formControl]="pairsToPlotControl" [(value)]="multipleSelectedMultiSeries" [disabled]="multi.length===0" multiple>
+      <mat-option *ngFor="let data of multi" [value]="data.name">{{data.name}}</mat-option>
+     
+    </mat-select>
+  </mat-form-field>
+  
+  <p>You selected: {{selectedMultiSeries}}</p>
+  <p>{{ multipleSelectedMultiSeries|| 'none'}}</p>
+  
+<ngx-charts-line-chart *ngIf="create"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="multi"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [autoScale]="autoScale"
+      (select)="onSelect($event)">
+    </ngx-charts-line-chart>
+  </div>

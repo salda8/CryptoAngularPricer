@@ -1,0 +1,46 @@
+<h1>HELLO</h1>
+<div id="getprice">
+    <form [formGroup]="requestform" novalidate>
+          <div class="form-group" >
+                  <label class="center-block">Currency:
+                              <select  class="form-control" [(ngModel)]="selectedCurrency" formControlName="currencies">
+                                <option *ngFor="let currency of currenciesList" [(ngValue)]="currency.name">{{currency.name}}</option>
+                              </select>
+                              <button (click)="unhideBtnClick()">{{unhideBtnText}}</button>
+                              <select  [hidden]="hideAdditionalCurrency" class="form-control" [(ngModel)]="selectedCurrency2" formControlName="currencies">
+                                <option *ngFor="let currency of currenciesList" [(ngValue)]="currency.name">{{currency.name}}</option>
+                              </select>
+                           
+                  </label>
+          </div>
+          <div class="form-group">
+                      <label class="center-block">Ticker:
+                        <input  class="form-control" formControlName="ticker">
+                      </label>
+                    </div>
+                    <div class="form-group">
+                          <button [disabled]="!requestform.valid" class="btn btn-group-sm" (click)="getPrice()">Get Price</button>
+                          <button [disabled]="!requestform.valid" class="btn btn-group-sm" (click)="getPriceMulti()">Get Price Multi</button>
+          </div>
+                 
+  
+  </form>
+<!--   
+  <p>{{selectedCurrency}}</p>
+  
+ <label>Result:</label>
+ <p *ngFor="let price of prices">
+      {{price}}
+ </p> -->
+ <div>
+<app-pricegraph>
+
+</app-pricegraph>
+</div>
+<div>
+<app-pricetable>
+
+</app-pricetable>
+</div>
+
+</div>
