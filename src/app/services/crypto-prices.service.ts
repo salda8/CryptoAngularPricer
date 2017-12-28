@@ -6,6 +6,12 @@ import { Observable } from "rxjs/Observable";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Icurrency } from "../models/icurrency";
 
+import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { timer } from "rxjs/observable/timer";
+import { PriceDetails, PriceDetailed } from "../models/pricedetailed";
+import { PriceUpdateService } from "./price-update.service";
+
+
 
 
 @Injectable()
@@ -13,34 +19,77 @@ export class CryptoPricesService {
   baseUrl = "https://min-api.cryptocompare.com/data/";
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private messageService: PriceUpdateService) {
     this.baseUrl = this.baseUrl + "price";
+    this.messageService = messageService;
+  }
+
+  async getContinousPriceUpdateS(ticker: string, pairedCurrency: string, timeout?: 50000, startAfter?: 0) {
+    while (true) {
+
+      const howlong = this.timer();
+      console.log("Trying to sleep for 10 seconds");
+      // const source = timer(startAfter, timeout);
+      await this.sleep(5000);
+
+      this.getPriceMultiByTicker(ticker, pairedCurrency).subscribe(result => {
+
+        let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
+
+        let xxx = detailedPrice.RAW[ticker];
+
+        let xx: PriceDetails = xxx[pairedCurrency];
+
+        xx.DATEWHENRECEIVED = new Date();
+        console.log(xx);
+        this.messageService.sendMessage(xx);
+
+
+
+      });
+
+      console.log("Finished sleeping:", howlong.seconds);
+
+
+
+
+    }
+
+
+
+  }
+
+  timer() {
+    const timeStart = new Date().getTime();
+    return {
+      /** <integer>s e.g 2s etc. */
+      get seconds() {
+        const seconds = Math.ceil((new Date().getTime() - timeStart) / 1000) + "s";
+        return seconds;
+      },
+      /** Milliseconds e.g. 2000ms etc. */
+      get ms() {
+        const ms = (new Date().getTime() - timeStart) + "ms";
+        return ms;
+      }
+    };
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   getPriceByTicker(ticker: string, pairedCurrency: string) {
     const url = `${this.baseUrl}?fsym=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
-    // let parameters = new HttpParams();
-    // parameters.append("fsym", ticker);
-    // parameters.append("tsyms", pairedCurrency);
-    // console.log(parameters.get("tsyms"), parameters.get("fsym"));
     let request = this.http.get(url);
-
-
 
     return request;
   }
 
   getPriceMultiByTicker(ticker: string, pairedCurrency: string) {
     const url = `${this.baseUrl}multifull?fsyms=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
-    // let parameters = new HttpParams();
     console.log(url);
-    // parameters.append("fsym", ticker);
-    // parameters.append("tsyms", pairedCurrency);
-    // console.log(parameters.get("tsyms"), parameters.get("fsym"));
     let request = this.http.get(url);
-
-
-
     return request;
   }
 }

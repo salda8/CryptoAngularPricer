@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Input } from "@angular/core";
 import { DISPLAY, PriceDetails } from "../../models/pricedetailed";
-import { PriceDetailsMessageService } from "../../services/price-details-message.service";
+import { PriceUpdateService } from "../../services/price-update.service";
 import { Subscription } from "rxjs/Subscription";
 import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
 
@@ -33,10 +33,11 @@ export class PricetableComponent implements OnDestroy {
     { prop: "LOW24HOUR" },
     { prop: "LASTMARKET" },
     { prop: "CHANGE24HOUR" },
-    { prop: "CHANGEPCT24HOUR" }];
+    { prop: "CHANGEPCT24HOUR" },
+    { prop: "DATEWHENRECEIVED" }];
 
 
-  constructor(msgService: PriceDetailsMessageService) {
+  constructor(msgService: PriceUpdateService) {
 
     this.msgService = msgService.getMessage().subscribe(message => {
       this.addRow(message);

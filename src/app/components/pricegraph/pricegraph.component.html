@@ -1,14 +1,23 @@
 <div>
   <!-- <button (click)="onBtnClick()">Click to create!</button> -->
   <mat-form-field>
-    <mat-select placeholder="Select pairs to plot" [formControl]="pairsToPlotControl" [(value)]="multipleSelectedMultiSeries" [disabled]="multi.length===0" multiple>
-      <mat-option *ngFor="let data of multi" [value]="data.name">{{data.name}}</mat-option>
+    <mat-select placeholder="Select pairs to plot" [formControl]="pairsToPlotControl"  [(ngModel)]="selectedCryptoPair" [disabled]="allReceivedPairs.length===0" (selectionChange)="onPairsToPlotSelectionChange()" multiple>
+      <mat-option *ngFor="let data of allReceivedPairs" [value]="data" ng-selected="">{{data}}</mat-option>
+     
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select value to plot" [formControl]="valuesToPlotControl" [(ngModel)]="selecetedValuesToPlot"  [disabled]="selectedCryptoPair.length===0" (selectionChange)="onValuesToPlotSelectionChange()" multiple>
+    
+      <mat-option *ngFor="let value of possibleValuesToPlot" [value]="value" >{{value}}</mat-option>
      
     </mat-select>
   </mat-form-field>
   
-  <p>You selected: {{selectedMultiSeries}}</p>
-  <p>{{ multipleSelectedMultiSeries|| 'none'}}</p>
+  <p>You selected: {{selectedCryptoPair}}</p>
+  <p>{{ selectedCryptoPair|| 'none'}}</p>
+  <p>You selected: {{selecetedValuesToPlot}}</p>
+  <p>{{ selecetedValuesToPlot|| 'none'}}</p>
   
 <ngx-charts-line-chart *ngIf="create"
       [view]="view"

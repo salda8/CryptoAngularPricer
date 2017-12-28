@@ -11,22 +11,21 @@ export interface ETH {
     USD: PriceDetails;
 }
 
-export class PriceChange {
+export class GraphLine {
     name: string;
+    series: GraphSeries[];
 
-    series: Series[];
-
-    constructor(name: string, series: Series[]) {
+    constructor(name: string, series: GraphSeries[]) {
         this.name = name;
 
         this.series = series;
     }
 }
 
-export class Series {
-    name: string;
+export class GraphSeries {
+    name: Date;
     value: number;
-    constructor(name: string, value: number) {
+    constructor(name: Date, value: number) {
         this.name = name;
         this.value = value;
 
@@ -64,6 +63,7 @@ export interface PriceDetails {
     MKTCAP: number;
     TOTALVOLUME24H: number;
     TOTALVOLUME24HTO: number;
+    DATEWHENRECEIVED: Date;
 }
 export interface DISPLAY {
     ETH: ETH1;

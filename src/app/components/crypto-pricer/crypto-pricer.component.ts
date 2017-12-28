@@ -5,7 +5,7 @@ import { Currency } from "../../models/currency";
 import { String, StringBuilder } from "typescript-string-operations-ng4";
 import { forEach } from "@angular/router/src/utils/collection";
 import { DISPLAY, PriceDetailed, PriceDetails } from "../../models/pricedetailed";
-import { PriceDetailsMessageService } from "../../services/price-details-message.service";
+import { PriceUpdateService } from "../../services/price-update.service";
 
 
 
@@ -15,20 +15,22 @@ import { PriceDetailsMessageService } from "../../services/price-details-message
   styleUrls: ["./crypto-pricer.component.css"]
 })
 export class CryptoPricerComponent implements OnInit {
-  msgService: PriceDetailsMessageService;
+  timeout: 10000;
+  msgService: PriceUpdateService;
   fb: FormBuilder;
   requestform: FormGroup;
   unhideBtnTexts: string[] = [];
   unhideBtnText: string = "";
   prices: string[] = [];
   service: CryptoPricesService;
-  currenciesList: Currency[] = [];
+  currencyControl: FormControl = new FormControl();
+  currenciesListString: string[] = ["USD", "EUR", "BTC", "ETH"];
+  currenciesList: Currency[] = [new Currency("USD", 1, true), new Currency("EUR", 4), new Currency("ETH", 3), new Currency("BTC", 2), new Currency("CZK", 6), new Currency("LTC", 5)];
   priceDetail: PriceDetails[] = [];
-  selectedCurrency: string;
-  selectedCurrency2: string;
-  hideAdditionalCurrency: boolean = true;
+  selectedCurrency: string[] = [this.currenciesListString[0]];
 
-  constructor(service: CryptoPricesService, fb: FormBuilder, msgService: PriceDetailsMessageService) {
+
+  constructor(service: CryptoPricesService, fb: FormBuilder, msgService: PriceUpdateService) {
     this.fb = fb;
     this.service = service;
     this.msgService = msgService;
@@ -41,8 +43,10 @@ export class CryptoPricerComponent implements OnInit {
 
     this.requestform = this.fb.group({
       ticker: ["ETH", Validators.required],
-      currencies: this.currenciesList
+      currencies: [[], Validators.required]
     });
+
+
 
   }
 
@@ -50,12 +54,13 @@ export class CryptoPricerComponent implements OnInit {
     this.unhideBtnTexts.push("Add one more currency");
     this.unhideBtnTexts.push("Remove");
     this.unhideBtnText = this.unhideBtnTexts[0];
-    this.currenciesList.push(new Currency("USD", 1));
-    this.currenciesList.push(new Currency("BTC", 2));
-    this.currenciesList.push(new Currency("ETH", 3));
-    this.currenciesList.push(new Currency("EUR", 4));
-    this.currenciesList.push(new Currency("LTC", 5));
-    this.currenciesList.push(new Currency("CZK", 6));
+    // this.currenciesList.push(new Currency("USD", 1));
+    // this.currenciesList.push(new Currency("BTC", 2));
+    // this.currenciesList.push(new Currency("ETH", 3));
+    // this.currenciesList.push(new Currency("EUR", 4));
+    // this.currenciesList.push(new Currency("LTC", 5));
+    // this.currenciesList.push(new Currency("CZK", 6));
+
     this.createForm(this.currenciesList);
 
 
@@ -63,14 +68,15 @@ export class CryptoPricerComponent implements OnInit {
 
   getPriceMulti() {
     const formModel = this.requestform.value;
-    let selected = String.Join(",", this.selectedCurrency, this.selectedCurrency2);
+    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
     this.service.getPriceMultiByTicker(formModel.ticker, selected).subscribe(result => {
 
       // bject.getOwnPropertyNames(res);
       let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
       let x = detailedPrice.RAW[formModel.ticker];
-      let xx = x[this.selectedCurrency];
-
+      let xx: PriceDetails = x[this.selectedCurrency[0]];
+      xx.DATEWHENRECEIVED = new Date();
+      console.log(xx);
       this.msgService.sendMessage(xx);
 
 
@@ -80,9 +86,16 @@ export class CryptoPricerComponent implements OnInit {
     );
   }
 
+  getPriceUpdatesMulti() {
+    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
+    const formModel = this.requestform.value;
+    this.service.getContinousPriceUpdateS(formModel.ticker, selected);
+  }
+
   getPrice() {
     const formModel = this.requestform.value;
-    let selected = String.Join(",", this.selectedCurrency, this.selectedCurrency2);
+
+    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
     this.service.getPriceByTicker(formModel.ticker, selected).subscribe(result => {
       console.log("RESULT:", JSON.stringify(result));
       // bject.getOwnPropertyNames(res);
@@ -110,21 +123,6 @@ export class CryptoPricerComponent implements OnInit {
     );
   }
 
-  unhideBtnClick() {
-    if (this.hideAdditionalCurrency) {
-      setTimeout(() => {
-        this.hideAdditionalCurrency = false;
-        this.unhideBtnText = this.unhideBtnTexts[1];
-      }, 1);
-    }
-    else {
-      setTimeout(() => {
-        this.hideAdditionalCurrency = true;
-        this.unhideBtnText = this.unhideBtnTexts[0];
-        this.selectedCurrency = "";
-      }, 1);
-    }
 
-  }
 
 }
