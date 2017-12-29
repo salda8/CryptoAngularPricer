@@ -20,7 +20,7 @@ export class CryptoPricesService {
 
 
   constructor(private http: HttpClient, private messageService: PriceUpdateService) {
-    this.baseUrl = this.baseUrl + "price";
+    this.baseUrl = this.baseUrl;
     this.messageService = messageService;
   }
 
@@ -80,14 +80,21 @@ export class CryptoPricesService {
   }
 
   getPriceByTicker(ticker: string, pairedCurrency: string) {
-    const url = `${this.baseUrl}?fsym=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
+    const url = `${this.baseUrl}price?fsym=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
     let request = this.http.get(url);
 
     return request;
   }
 
   getPriceMultiByTicker(ticker: string, pairedCurrency: string) {
-    const url = `${this.baseUrl}multifull?fsyms=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
+    const url = `${this.baseUrl}pricemultifull?fsyms=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
+    console.log(url);
+    let request = this.http.get(url);
+    return request;
+  }
+
+  getData(ticker: string, pairedCurrency: string) {
+    const url = `${this.baseUrl}subs?fsym=${ticker}&tsyms=${pairedCurrency}`;
     console.log(url);
     let request = this.http.get(url);
     return request;

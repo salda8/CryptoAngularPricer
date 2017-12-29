@@ -7,8 +7,6 @@ import { forEach } from "@angular/router/src/utils/collection";
 import { DISPLAY, PriceDetailed, PriceDetails } from "../../models/pricedetailed";
 import { PriceUpdateService } from "../../services/price-update.service";
 
-
-
 @Component({
   selector: "app-crypto-pricer",
   templateUrl: "./crypto-pricer.component.html",

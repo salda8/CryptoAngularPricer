@@ -22,6 +22,10 @@ import { ButtonModule } from "primeng/primeng";
 import { RadioButtonModule, DropdownModule } from "primeng/primeng";
 import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule } from "@angular/material";
 
+import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
+import { PriceUpdateService } from "./services/price-update.service";
+
+
 
 
 @NgModule({//
@@ -33,7 +37,9 @@ import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule,
 
     PricegraphComponent,
 
-    PricetableComponent
+    PricetableComponent,
+
+    CryptoStreamerComponent
 
   ],
   imports: [
@@ -47,7 +53,7 @@ import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule,
       { path: "home", component: HomeComponent },
       { path: "test", component: CryptoPricerComponent }])
   ],
-  providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService],
+  providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }
