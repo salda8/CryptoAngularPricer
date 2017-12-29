@@ -51,7 +51,8 @@ import { PriceUpdateService } from "./services/price-update.service";
     RouterModule.forRoot([
       { path: "", redirectTo: "home", pathMatch: "full" },
       { path: "home", component: HomeComponent },
-      { path: "test", component: CryptoPricerComponent }])
+      { path: "test", component: CryptoPricerComponent },
+      { path: "streamer", component: CryptoStreamerComponent }])
   ],
   providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService],
   bootstrap: [HomeComponent]
