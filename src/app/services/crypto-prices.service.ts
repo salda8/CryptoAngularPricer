@@ -33,7 +33,7 @@ export class CryptoPricesService {
   }
 
   getAllCoinsOnCryptoCompare() {
-    const url = "https://min-api.cryptocompare.com/data/all/coinlist"
+    const url = "https://min-api.cryptocompare.com/data/all/coinlist";
     return this.http.get(url);
   }
 
