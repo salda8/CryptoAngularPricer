@@ -19,22 +19,27 @@ export class PricetableComponent implements OnDestroy {
   ];
 
   columns = [
-    { prop: "FROMSYMBOL" },
-    { prop: "TOSYMBOL" },
-    { prop: "MARKET" },
+    { prop: "FROMSYMBOL", name: "PAIR" },
+
+
     { prop: "PRICE" },
-    { prop: "LASTVOLUME" },
-    { prop: "LASTVOLUMETO" },
-    { prop: "LASTTRADEID" },
-    { prop: "VOLUME24HOUR" },
-    { prop: "VOLUME24HOURTO" },
+    { prop: "CHANGEPCT24HOUR", name: "CHANGE 24H (%)" },
     { prop: "OPEN24HOUR" },
     { prop: "HIGH24HOUR" },
     { prop: "LOW24HOUR" },
-    { prop: "LASTMARKET" },
+
     { prop: "CHANGE24HOUR" },
-    { prop: "CHANGEPCT24HOUR" },
-    { prop: "DATEWHENRECEIVED" }];
+
+    { prop: "LASTVOLUME" },
+    { prop: "LASTVOLUMETO" },
+
+    { prop: "VOLUME24HOUR" },
+    { prop: "VOLUME24HOURTO" },
+    { prop: "DATEWHENRECEIVED" },
+    { prop: "LASTTRADEID" },
+    { prop: "MARKET" },
+    { prop: "LASTMARKET" }
+  ];
 
 
   constructor(msgService: PriceUpdateService) {
@@ -50,8 +55,10 @@ export class PricetableComponent implements OnDestroy {
   }
 
   addRow(row: PriceDetails) {
+    let rowToAdd = { ...row };
+    rowToAdd.FLAGS = row.FROMSYMBOL + "/" + row.TOSYMBOL;
     setTimeout(() => {
-      this.rows.push(row);
+      this.rows.push(rowToAdd);
 
       this.loadingIndicator = false;
       console.log("ROWS:", this.rows);

@@ -1,6 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 // import "hammerjs";
 
@@ -20,13 +19,14 @@ import { AccordionModule } from "primeng/primeng";
 import { PanelModule } from "primeng/primeng";
 import { ButtonModule } from "primeng/primeng";
 import { RadioButtonModule, DropdownModule } from "primeng/primeng";
-import { MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule } from "@angular/material";
+import {
+  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
+  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule
+} from "@angular/material";
 
 import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
 import { PriceUpdateService } from "./services/price-update.service";
-
-
-
+import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({//
   declarations: [
@@ -41,18 +41,17 @@ import { PriceUpdateService } from "./services/price-update.service";
 
     CryptoStreamerComponent
 
+
   ],
   imports: [
-    ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule, MatChipsModule, MatFormFieldModule, MatSelectModule,
+    ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
+    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule,
     PanelModule,
     ButtonModule,
     RadioButtonModule, DropdownModule,
-    BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule,
-    RouterModule.forRoot([
-      { path: "", redirectTo: "home", pathMatch: "full" },
-      { path: "home", component: HomeComponent },
-      { path: "test", component: CryptoPricerComponent },
-      { path: "streamer", component: CryptoStreamerComponent }])
+    BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule
+
+
   ],
   providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService],
   bootstrap: [HomeComponent]

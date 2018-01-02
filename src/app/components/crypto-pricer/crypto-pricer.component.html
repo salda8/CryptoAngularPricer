@@ -1,5 +1,4 @@
-<h1>HELLO</h1>
-<div id="getprice">
+
     <form [formGroup]="requestform" novalidate>
           <div class="form-group" >
                  
@@ -12,9 +11,13 @@
 
           </div>
           <div class="form-group">
-                      <label class="center-block">Ticker:
-                        <input  class="form-control" formControlName="ticker">
-                      </label>
+              <mat-form-field >
+                  <mat-select placeholder="Select crypto" formControlName="ticker"  [(ngModel)]="selectedCrypto"   multiple>
+                    <mat-option *ngFor="let crypto of cryptoList" [value]="crypto.symbol">{{crypto.symbol}}-{{crypto.name}}</mat-option>
+                   
+                  </mat-select>
+                </mat-form-field>
+                     
                     </div>
                     <div class="form-group">
                           <button [disabled]="!requestform.valid && !selectedCurrrency" class="btn btn-group-sm" (click)="getPrice()">Get Price</button>
@@ -25,25 +28,17 @@
                  
   
   </form>
-<!--   
-  <p>{{selectedCurrency}}</p>
-  
- <label>Result:</label>
- <p *ngFor="let price of prices">
-      {{price}}
- </p> -->
- <div>
-<app-pricegraph>
-
-</app-pricegraph>
-</div>
-<div>
+   
 <app-pricetable>
 
 </app-pricetable>
-<app-crypto-streamer>
+
+
+<app-pricegraph>
+
+</app-pricegraph>
+    
+<app-crypto-streamer *ngIf="enableStreamer">
   
 </app-crypto-streamer>
-</div>
 
-</div>

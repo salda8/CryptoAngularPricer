@@ -10,6 +10,7 @@ import { TimerObservable } from "rxjs/observable/TimerObservable";
 import { timer } from "rxjs/observable/timer";
 import { PriceDetails, PriceDetailed } from "../models/pricedetailed";
 import { PriceUpdateService } from "./price-update.service";
+import { Ticker } from "../models/ticker";
 
 
 
@@ -24,6 +25,27 @@ export class CryptoPricesService {
     this.messageService = messageService;
   }
 
+  getAllAvailableTickers(currency = "USD") {
+
+    const url = `https://api.coinmarketcap.com/v1/ticker/?convert=${currency}`;
+    return this.http.get(url);
+
+  }
+
+  getAllCoinsOnCryptoCompare() {
+    const url = "https://min-api.cryptocompare.com/data/all/coinlist"
+    return this.http.get(url);
+  }
+
+
+  callbackToPromise(method, ...args) {
+    return new Promise(function (resolve, reject) {
+      return method(...args, function (err, result) {
+        return err ? reject(err) : resolve(result);
+      });
+    });
+  }
+
   async getContinousPriceUpdateS(ticker: string, pairedCurrency: string, timeout?: 50000, startAfter?: 0) {
     while (true) {
 
@@ -32,16 +54,18 @@ export class CryptoPricesService {
       // const source = timer(startAfter, timeout);
       await this.sleep(5000);
 
-      this.getPriceMultiByTicker(ticker, pairedCurrency).subscribe(result => {
+      this.getPriceMultiByTicker(ticker, pairedCurrency).subscribe(message => {
+        let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(message));
+        let display = detailedPrice.DISPLAY[ticker];
+        let raw = detailedPrice.RAW[ticker];
+        console.log("RAW", raw);
 
-        let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
-
-        let xxx = detailedPrice.RAW[ticker];
-
-        let xx: PriceDetails = xxx[pairedCurrency];
-
+        raw = raw[pairedCurrency];
+        let xx: PriceDetails = raw;
+        xx.FROMSYMBOL = display[pairedCurrency].FROMSYMBOL;
+        xx.TOSYMBOL = display[pairedCurrency].TOSYMBOL;
+        xx.PRICE = raw.PRICE;
         xx.DATEWHENRECEIVED = new Date();
-        console.log(xx);
         this.messageService.sendMessage(xx);
 
 

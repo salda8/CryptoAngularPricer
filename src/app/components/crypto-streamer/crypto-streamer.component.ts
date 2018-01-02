@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import * as io from "socket.io-client";
 import { subscribeOn } from "rxjs/operator/subscribeOn";
 import { TYPE, StreamerUtils } from "../../ccc-streamer-utilities";
@@ -14,20 +15,30 @@ export class CryptoStreamerComponent implements OnInit {
   service: CryptoPricesService;
   fsym: string = "BTC";
   tsym: string = "USD";
+  columnNames = ["Market",
+    "Type",
+    "ID",
+    "Price",
+    "Quantity",
+    "Total"];
   trades: Trade[] = [];
   currentSubs;
   private socket: SocketIOClient.Socket;
   private streamerUtils: StreamerUtils = StreamerUtils.prototype;
 
 
-  constructor(service: CryptoPricesService) {
+  constructor(service: CryptoPricesService, private route: ActivatedRoute) {
     this.socket = io.connect("https://streamer.cryptocompare.com/");
     this.service = service;
+    this.route = route;
 
 
   }
 
   ngOnInit() {
+    console.log(this.route.snapshot);
+    this.tsym = this.route.snapshot.queryParams["currency"];
+    this.fsym = this.route.snapshot.queryParams["ticker"];
 
   }
   displayData(trade: any) {
@@ -49,12 +60,12 @@ export class CryptoStreamerComponent implements OnInit {
 
   private getSubs() {
     this.service.getData(this.fsym, this.tsym).subscribe(msg => {
-      //console.log(msg);
+      // console.log(msg);
       let possibleSubs = msg[this.tsym]["TRADES"];
       this.currentSubs = possibleSubs;
-      //console.log(this.currentSubs);
+      // console.log(this.currentSubs);
       this.subscribeandproceess();
-      //return possibleSubs;
+      // return possibleSubs;
 
     });
 
@@ -86,7 +97,7 @@ export class CryptoStreamerComponent implements OnInit {
     }
 
     this.trades.push(newTrade);
-    //console.log("NEW TRADE: ", newTrade);
+    // console.log("NEW TRADE: ", newTrade);
 
   };
   private Process(message: string) {

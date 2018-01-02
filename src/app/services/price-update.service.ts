@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Subject } from "rxjs/Subject";
-import { PriceDetails } from "../models/pricedetailed";
+import { PriceDetails, PriceDetailed } from "../models/pricedetailed";
 
 
 @Injectable()
