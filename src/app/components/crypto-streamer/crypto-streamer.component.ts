@@ -13,6 +13,8 @@ import { Trade } from "../../models/trade";
 })
 export class CryptoStreamerComponent implements OnInit {
   service: CryptoPricesService;
+  headerTitle: string = "";
+  streamingSources: string = "";
   fsym: string = "BTC";
   tsym: string = "USD";
   columnNames = ["Market",

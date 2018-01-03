@@ -4,14 +4,14 @@
       <div class="panel-group">
         <div class="panel panel-primary">
           <div class="panel-heading text-center">
-            <h4>BTC-USD Market Trades</h4>
+            <h4>{{headerTitle}}</h4>
           </div>
           <div class="panel-body">
-            <h6><a id="source" class="text-right" href="https://www.cryptocompare.com/"><strong>Source:</strong> CryptoCompare</a></h6>
+            <!-- <h6><a id="source" class="text-right" href="https://www.cryptocompare.com/"><strong>Source:</strong> CryptoCompare</a></h6> -->
             <div class="row btn-row">
-              <div class="col-xs-4">
+              <!-- <div class="col-xs-4">
                 <h3 id="stream-text">Streaming...</h3>
-              </div>
+              </div> -->
               <div class="col-xs-2">
                 <button class="btn btn-success btn-lg subon" id="subscribe" (click)="subscribe()">Subscribe</button>
               </div>
@@ -19,7 +19,7 @@
                 <button class="btn btn-danger btn-lg" id="unsubscribe" (click)="unsubscribe()">Unsubscribe</button>
               </div>
               <div class="col-xs-12 text-center">
-                <h6>Currently streaming from:</h6><i id="sub-exchanges"></i>
+                <h6>Currently streaming from:</h6><i>{{streamingSources}}</i>
               </div>
             </div>
             <table class="table">

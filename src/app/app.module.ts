@@ -28,6 +28,8 @@ import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-str
 import { PriceUpdateService } from "./services/price-update.service";
 import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
+import { CachingInterceptor } from "./caching-interceptor";
+import { HttpCacheBase, HttpCache } from "./models/http-cache";
 
 
 @NgModule({//
@@ -57,7 +59,7 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
 
 
   ],
-  providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService],
+  providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

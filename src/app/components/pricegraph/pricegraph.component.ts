@@ -10,6 +10,7 @@ import { FormControl } from "@angular/forms";
 import { query } from "@angular/core/src/animation/dsl";
 import { forEach } from "@angular/router/src/utils/collection";
 import { PriceUpdateService } from "../../services/price-update.service";
+import { PriceDetailsMessageService } from "../../services/price-details-message.service";
 
 
 
@@ -62,10 +63,9 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     "CHANGEPCT24HOUR"];
 
   selecetedValuesToPlot: string[] = [this.possibleValuesToPlot[0]];
-  liveUpdatesService: PriceUpdateService;
   // line, area
   autoScale = true;
-  constructor(msgService: PriceUpdateService, liveUpdatesService: PriceUpdateService) {
+  constructor(msgService: PriceUpdateService, liveUpdatesService: PriceDetailsMessageService) {
     this.liveUpdatesMessageService = liveUpdatesService.getMessage().subscribe(message => {
       this.proccessReceivedMessage(message);
     });
@@ -77,8 +77,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   }
 
   proccessReceivedMessage(message: PriceDetails) {
-    console.log("RECEIVED MESSAGE: " + message);
-    console.log("RECEIVED PRICE: " + message.PRICE);
+    console.log("RECEIVED MESSAGE: " + JSON.stringify(message));
     this.allReceivedPriceDetails.push(message);
     let seriesName = String.Join("/", message.FROMSYMBOL, message.TOSYMBOL);
     if (!this.allReceivedPairs.find(x => x === seriesName)) {
@@ -102,11 +101,6 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     }
   }
 
-  subscribeToLiveUpdateBtnClick() {
-    this.liveUpdatesMessageService = this.liveUpdatesService.getMessage().subscribe(message => {
-      this.proccessReceivedMessage(message);
-    });
-  }
 
   pushAndLogGraphLine(graphLine: GraphLine) {
     this.multi.push(graphLine);

@@ -1,10 +1,12 @@
-   <div id="navigatiom">
+   <div id="navigation">
     <nav class="light-blue lighten-1" role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
         <ul class="right hide-on-med-and-down">
           <li> <a routerLink="/">Home</a></li>
           <li> <a routerLink="/price">Price</a></li>
           <li> <a routerLink="/stream">Stream</a></li>
+          <li><input [(ngModel)]="name" type="text" /></li>
+            <li><button class="btn btn-sm" (click)="setNameBtnClick()">SET NAME</button></li>
         </ul>
   
         <ul id="nav-mobile" class="side-nav">

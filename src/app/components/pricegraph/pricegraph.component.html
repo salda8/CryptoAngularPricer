@@ -15,7 +15,7 @@
     </mat-select>
   </mat-form-field>
 <hr/>
-<ngx-charts-line-chart
+<ngx-charts-line-chart *ngIf="create"
       [view]="view"
       [scheme]="colorScheme"
       [results]="multi"

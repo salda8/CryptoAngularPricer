@@ -8,6 +8,7 @@ import { DISPLAY, PriceDetailed, PriceDetails } from "../../models/pricedetailed
 import { PriceUpdateService } from "../../services/price-update.service";
 import { Ticker } from "../../models/ticker";
 import { CURRENCIES } from "@angular/common/src/i18n/currencies";
+import { MatOption } from "@angular/material";
 
 @Component({
   selector: "app-crypto-pricer",
@@ -31,18 +32,23 @@ export class CryptoPricerComponent implements OnInit {
   currenciesListString: string[] = ["USD", "EUR", "BTC", "ETH"];
   cryptoListString: string[] = [];
   selectedCryptoString: string[] = [];
+  optionArr: MatOption[] = [];
   cryptoList: Ticker[] = [];
-  selectedCrypto: Ticker[] = [];
+  selectedCrypto: string[] = [];
   enableStreamer: false;
   currenciesList: Currency[] = [new Currency("USD", 1, true), new Currency("EUR", 4), new Currency("ETH", 3), new Currency("BTC", 2), new Currency("CZK", 6), new Currency("LTC", 5)];
   priceDetail: PriceDetails[] = [];
-  selectedCurrency: string[] = [this.currenciesListString[0]];
+  selectedCurrency: string[] = [];
 
 
   constructor(service: CryptoPricesService, fb: FormBuilder, msgService: PriceUpdateService) {
     this.fb = fb;
     this.service = service;
     this.msgService = msgService;
+
+  }
+
+  onChange(newValue) {
 
   }
 
@@ -60,7 +66,9 @@ export class CryptoPricerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.loading = true;
+
+
+    this.loading = true;
     this.unhideBtnTexts.push("Add one more currency");
     this.unhideBtnTexts.push("Remove");
     this.unhideBtnText = this.unhideBtnTexts[0];
@@ -74,8 +82,21 @@ export class CryptoPricerComponent implements OnInit {
 
 
       }
+      // this.cryptoList[0].selected = true;
 
-      // this.selectedCrypto.push(this.cryptoList[0]);
+      // localStorage.getItem("selectedTicker").split(",")
+      let tickersFromStorage = localStorage.getItem("selectedTicker").split(",");
+
+      for (let ticker of tickersFromStorage) {
+        this.selectedCrypto.push(this.cryptoList.find(x => x.symbol === ticker).symbol);
+      }
+
+      let currencyFromStorage = localStorage.getItem("selectedCurrency").split(",");
+
+      for (let currency of currencyFromStorage) {
+        this.selectedCurrency.push(this.currenciesListString.find(x => x === currency));
+      }
+
     });
 
 
@@ -87,23 +108,48 @@ export class CryptoPricerComponent implements OnInit {
   }
 
   getPriceMulti() {
-    const formModel = this.requestform.value;
-    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
-    this.service.getPriceMultiByTicker(formModel.ticker, selected).subscribe(result => {
+    let selectedTicker = this.requestform.value.ticker;
+    let selectedCurrency = this.selectedCurrency;
 
+    let selected = selectedCurrency.length === 1 ? selectedCurrency[0] : String.Join(",", selectedCurrency);
+    localStorage.setItem("selectedCurrency", selected);
+    localStorage.setItem("selectedTicker", selectedTicker);
+    this.service.getPriceMultiByTicker(selectedTicker, selected).subscribe(result => {
+      selectedTicker = selectedTicker.toString().split(",");
+      console.log(selectedTicker);
       // bject.getOwnPropertyNames(res);
       let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
-      let display = detailedPrice.DISPLAY[formModel.ticker];
-      let raw = detailedPrice.RAW[formModel.ticker];
-      console.log("RAW", raw);
+      console.log(detailedPrice);
+      let rawList = detailedPrice.RAW;
+      let displayList = detailedPrice.DISPLAY;
+      console.log(rawList);
 
-      raw = raw[selected];
-      let priceDetails: PriceDetails = raw;
-      priceDetails.FROMSYMBOL = display[selected].FROMSYMBOL;
-      priceDetails.TOSYMBOL = display[selected].TOSYMBOL;
-      priceDetails.PRICE = raw.PRICE;
-      priceDetails.DATEWHENRECEIVED = new Date();
-      this.msgService.sendMessage(priceDetails);
+
+      for (let i = 0; i < selectedTicker.length; i++) {
+        let oneRawTicker = rawList[selectedTicker[i]];
+        console.log("RAWTicker", oneRawTicker);
+        for (let currency of selectedCurrency) {
+          let oneRaw = oneRawTicker[currency];
+
+          // oneRawest.FROMSYMBOL = oneDisplay[selected[i]].FROMSYMBOL;
+          // oneRawest.TOSYMBOL = oneDisplay[selected[i]].TOSYMBOL;
+          // oneRaw[selected[i]].PRICE = raw.PRICE;
+          oneRaw.DATEWHENRECEIVED = new Date();
+          console.log("RAW", oneRaw);
+          this.msgService.sendMessage(oneRaw);
+        }
+      }
+      // let display = detailedPrice.DISPLAY[formModel.ticker];
+      // let raw = detailedPrice.RAW[formModel.ticker];
+
+      // raw = raw[selected];
+
+      // let priceDetails: PriceDetails[] = raw;
+      // priceDetails.FROMSYMBOL = display[selected].FROMSYMBOL;
+      // priceDetails.TOSYMBOL = display[selected].TOSYMBOL;
+      // priceDetails.PRICE = raw.PRICE;
+      // priceDetails.DATEWHENRECEIVED = new Date();
+      // this.msgService.sendMessage(priceDetails);
       // this.msgService.sendDisplayMessage(detailedPrice);
 
 

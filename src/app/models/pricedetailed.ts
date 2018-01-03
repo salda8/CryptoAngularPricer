@@ -5,7 +5,7 @@ export interface PriceDetailed {
 
 
 export interface RAW {
-    ETH: ETH;
+    ETH: ETH[];
 }
 export interface ETH {
     USD: PriceDetails;

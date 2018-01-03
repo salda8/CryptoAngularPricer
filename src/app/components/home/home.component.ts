@@ -16,14 +16,21 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   title: string;
   loading: boolean;
+  name: string = "";
 
 
   constructor(private router: Router) {
     this.title = "app";
     this.loading = true;
+    this.name = !localStorage.getItem("name") ? "" : "Hello, Welcome back:" + localStorage.getItem("name");
 
 
 
+  }
+
+  setNameBtnClick() {
+    localStorage.setItem("name", this.name);
+    console.log(localStorage);
   }
 
   ngAfterViewInit() {

@@ -56,7 +56,7 @@ export class PricetableComponent implements OnDestroy {
 
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
-    rowToAdd.FLAGS = row.FROMSYMBOL + "/" + row.TOSYMBOL;
+    rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
     setTimeout(() => {
       this.rows.push(rowToAdd);
 
