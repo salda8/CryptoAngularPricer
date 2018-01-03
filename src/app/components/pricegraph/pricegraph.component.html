@@ -1,4 +1,5 @@
 <div>
+  <h3>Graph component</h3>
   <!-- <button (click)="onBtnClick()">Click to create!</button> -->
   <mat-form-field>
     <mat-select placeholder="Select pairs to plot" [formControl]="pairsToPlotControl"  [(ngModel)]="selectedCryptoPair" [disabled]="allReceivedPairs.length===0" (selectionChange)="onPairsToPlotSelectionChange()" multiple>
@@ -13,8 +14,8 @@
      
     </mat-select>
   </mat-form-field>
- 
-<ngx-charts-line-chart *ngIf="create"
+<hr/>
+<ngx-charts-line-chart
       [view]="view"
       [scheme]="colorScheme"
       [results]="multi"

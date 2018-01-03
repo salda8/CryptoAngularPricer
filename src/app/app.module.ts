@@ -21,12 +21,14 @@ import { ButtonModule } from "primeng/primeng";
 import { RadioButtonModule, DropdownModule } from "primeng/primeng";
 import {
   MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
-  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule
+  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule, MatProgressSpinnerModule
 } from "@angular/material";
 
 import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
 import { PriceUpdateService } from "./services/price-update.service";
 import { AppRoutingModule } from "./app-routing.module";
+import { NotFoundComponent } from "./components/not-found/not-found.component";
+
 
 @NgModule({//
   declarations: [
@@ -39,13 +41,15 @@ import { AppRoutingModule } from "./app-routing.module";
 
     PricetableComponent,
 
-    CryptoStreamerComponent
+    CryptoStreamerComponent,
+
+    NotFoundComponent
 
 
   ],
   imports: [
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
-    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule,
+    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule,
     PanelModule,
     ButtonModule,
     RadioButtonModule, DropdownModule,

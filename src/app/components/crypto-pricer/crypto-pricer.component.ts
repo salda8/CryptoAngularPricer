@@ -16,6 +16,10 @@ import { CURRENCIES } from "@angular/common/src/i18n/currencies";
 })
 export class CryptoPricerComponent implements OnInit {
   timeout: 10000;
+  color = "warn";
+  mode = "indeterminate";
+  loading = true;
+  value = 50;
   msgService: PriceUpdateService;
   fb: FormBuilder;
   requestform: FormGroup;
@@ -56,13 +60,12 @@ export class CryptoPricerComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.loading = true;
     this.unhideBtnTexts.push("Add one more currency");
     this.unhideBtnTexts.push("Remove");
     this.unhideBtnText = this.unhideBtnTexts[0];
     let availableTickers = this.service.getAllAvailableTickers().subscribe((message) => {
       let toReturn: string[];
-
-
       let tickers: Ticker[] = JSON.parse(JSON.stringify(message));
 
       for (let i = 0; i < tickers.length; i++) {
@@ -78,6 +81,7 @@ export class CryptoPricerComponent implements OnInit {
 
 
     this.createForm(this.currenciesList);
+    this.loading = false;
 
 
   }
