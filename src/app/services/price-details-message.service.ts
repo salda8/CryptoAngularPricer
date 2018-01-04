@@ -2,9 +2,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Subject } from "rxjs/Subject";
 import { PriceDetails } from "../models/pricedetailed";
+import { MessageService } from "../models/message-service";
 
 @Injectable()
-export class PriceDetailsMessageService {
+export class ContinousPriceUpdatesMessageService implements MessageService<PriceDetails> {
   private subject = new Subject<PriceDetails>();
 
   sendMessage(message: PriceDetails) {

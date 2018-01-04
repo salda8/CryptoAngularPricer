@@ -13,7 +13,7 @@
           </div>
           <div class="form-group">
               <mat-form-field >
-                  <mat-select placeholder="Select crypto" formControlName="ticker"  (ngModelChange)="onChange($event)" [(ngModel)]="selectedCrypto"  multiple>
+                  <mat-select placeholder="Select crypto" formControlName="ticker" (ngModelChange)="onChange($event)" [(ngModel)]="selectedCrypto"  multiple>
                     <mat-option *ngFor="let crypto of cryptoList" [value]="crypto.symbol">{{crypto.symbol}}-{{crypto.name}}</mat-option>
                    
                   </mat-select>
@@ -21,9 +21,9 @@
                      
                     </div>
                     <div class="form-group">
-                          <button [disabled]="!requestform.valid && !selectedCurrrency" class="btn btn-group-sm" (click)="getPrice()">Get Price</button>
-                          <button [disabled]="!requestform.valid && !selectedCurrrency" class="btn btn-group-sm" (click)="getPriceMulti()">Get Price Multi</button>
-                          <button [disabled]="!requestform.valid && !selectedCurrrency" class="btn btn-group-sm" (click)="getPriceUpdatesMulti()">Get Price Updates</button>
+                          <button [disabled]="!requestform.valid && selectedCrypto.length===0 && selectedCurrency.length===0" class="btn btn-group-sm" (click)="getPrice()">Get Price</button>
+                          <button [disabled]="!requestform.valid && selectedCrypto.length===0 && selectedCurrency.length===0" class="btn btn-group-sm" (click)="getPriceMulti()">Get Price Multi</button>
+                          <button [disabled]="!requestform.valid && selectedCrypto.length===0 && selectedCurrency.length===0" class="btn btn-group-sm" (click)="getPriceUpdatesMulti()">Get Price Updates</button>
 
           </div>
                  

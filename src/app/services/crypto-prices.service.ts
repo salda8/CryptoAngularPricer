@@ -11,24 +11,47 @@ import { timer } from "rxjs/observable/timer";
 import { PriceDetails, PriceDetailed } from "../models/pricedetailed";
 import { PriceUpdateService } from "./price-update.service";
 import { Ticker } from "../models/ticker";
+import { MessageService } from "../models/message-service";
+import { ContinousPriceUpdatesMessageService } from "./price-details-message.service";
+import { request } from "../models/request";
 
 
 
 
 @Injectable()
 export class CryptoPricesService {
+  contUpdatesService: ContinousPriceUpdatesMessageService;
   baseUrl = "https://min-api.cryptocompare.com/data/";
 
 
-  constructor(private http: HttpClient, private messageService: PriceUpdateService) {
+  constructor(private http: HttpClient, private messageService: PriceUpdateService, private contMsgService: ContinousPriceUpdatesMessageService) {
     this.baseUrl = this.baseUrl;
     this.messageService = messageService;
+    this.contUpdatesService = this.contMsgService;
   }
 
   getAllAvailableTickers(currency = "USD") {
 
     const url = `https://api.coinmarketcap.com/v1/ticker/?convert=${currency}`;
-    return this.http.get(url);
+    let cryptoList: Ticker[] = [];
+    return this.http.get(url).toPromise();
+    //subscribe((message) => {
+
+    //   let tickers: Ticker[] = JSON.parse(JSON.stringify(message));
+    //   for (let i = 0; i < tickers.length; i++) {
+
+    //     cryptoList.push(tickers[i]);
+
+
+    //   }
+
+
+    // });
+
+    // return new Promise(cryptoList);
+  }
+
+  request() {
 
   }
 
@@ -38,49 +61,14 @@ export class CryptoPricesService {
   }
 
 
-  callbackToPromise(method, ...args) {
-    return new Promise(function (resolve, reject) {
-      return method(...args, function (err, result) {
-        return err ? reject(err) : resolve(result);
-      });
-    });
-  }
-
   async getContinousPriceUpdateS(ticker: string, pairedCurrency: string, timeout?: 50000, startAfter?: 0) {
     while (true) {
 
       const howlong = this.timer();
-      console.log("Trying to sleep for 10 seconds");
-      // const source = timer(startAfter, timeout);
-      await this.sleep(5000);
-
-      this.getPriceMultiByTicker(ticker, pairedCurrency).subscribe(message => {
-        let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(message));
-        let display = detailedPrice.DISPLAY[ticker];
-        let raw = detailedPrice.RAW[ticker];
-        console.log("RAW", raw);
-
-        raw = raw[pairedCurrency];
-        let xx: PriceDetails = raw;
-        xx.FROMSYMBOL = display[pairedCurrency].FROMSYMBOL;
-        xx.TOSYMBOL = display[pairedCurrency].TOSYMBOL;
-        xx.PRICE = raw.PRICE;
-        xx.DATEWHENRECEIVED = new Date();
-        this.messageService.sendMessage(xx);
-
-
-
-      });
-
-      console.log("Finished sleeping:", howlong.seconds);
-
-
-
+      this.getPriceMultiByTicker(ticker, pairedCurrency, this.contMsgService);
+      await this.sleep(timeout);
 
     }
-
-
-
   }
 
   timer() {
@@ -110,12 +98,33 @@ export class CryptoPricesService {
     return request;
   }
 
-  getPriceMultiByTicker(ticker: string, pairedCurrency: string) {
+  getPriceMultiByTicker(ticker: string, pairedCurrency: string, msgService: MessageService<PriceDetails> = this.messageService) {
     const url = `${this.baseUrl}pricemultifull?fsyms=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
     console.log(url);
     let request = this.http.get(url);
-    return request;
+    request.subscribe(result => {
+      let selectedTicker = ticker.split(",");
+      let selectedCurrency = pairedCurrency.split(",");
+      console.log(selectedTicker);
+      // bject.getOwnPropertyNames(res);
+      let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
+      console.log(detailedPrice);
+      let rawList = detailedPrice.RAW;
+      let displayList = detailedPrice.DISPLAY;
+      console.log(rawList);
+      for (let i = 0; i < selectedTicker.length; i++) {
+        let oneRawTicker = rawList[selectedTicker[i]];
+        console.log("RAWTicker", oneRawTicker);
+        for (let currency of selectedCurrency) {
+          let oneRaw = oneRawTicker[currency];
+          oneRaw.DATEWHENRECEIVED = new Date();
+          console.log("RAW", oneRaw);
+          msgService.sendMessage(oneRaw);
+        }
+      }
+    });
   }
+
 
   getData(ticker: string, pairedCurrency: string) {
     const url = `${this.baseUrl}subs?fsym=${ticker}&tsyms=${pairedCurrency}`;

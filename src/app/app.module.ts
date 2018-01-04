@@ -14,7 +14,7 @@ import { PricegraphComponent } from "./components/pricegraph/pricegraph.componen
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { PricetableComponent } from "./components/pricetable/pricetable.component";
 import { MessageService } from "./services/message.service";
-import { PriceDetailsMessageService } from "./services/price-details-message.service";
+import { ContinousPriceUpdatesMessageService } from "./services/price-details-message.service";
 import { AccordionModule } from "primeng/primeng";
 import { PanelModule } from "primeng/primeng";
 import { ButtonModule } from "primeng/primeng";
@@ -30,6 +30,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { CachingInterceptor } from "./caching-interceptor";
 import { HttpCacheBase, HttpCache } from "./models/http-cache";
+import { NgPipesModule } from "angular-pipes";
 
 
 @NgModule({//
@@ -55,11 +56,12 @@ import { HttpCacheBase, HttpCache } from "./models/http-cache";
     PanelModule,
     ButtonModule,
     RadioButtonModule, DropdownModule,
+    NgPipesModule,
     BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule
 
 
   ],
-  providers: [CryptoPricesService, HttpClient, MessageService, PriceDetailsMessageService, PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
+  providers: [CryptoPricesService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

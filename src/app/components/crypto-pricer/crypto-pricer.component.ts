@@ -10,6 +10,7 @@ import { Ticker } from "../../models/ticker";
 import { CURRENCIES } from "@angular/common/src/i18n/currencies";
 import { MatOption } from "@angular/material";
 
+
 @Component({
   selector: "app-crypto-pricer",
   templateUrl: "./crypto-pricer.component.html",
@@ -46,18 +47,19 @@ export class CryptoPricerComponent implements OnInit {
     this.service = service;
     this.msgService = msgService;
 
+
   }
 
   onChange(newValue) {
 
   }
 
-  createForm(questions: Currency[]) {
+  createForm() {
     let group: any = {};
     // let ticker = new FormControl("ticker", Validators.required);
 
     this.requestform = this.fb.group({
-      ticker: [this.selectedCrypto, Validators.required],
+      ticker: [[], Validators.required],
       currencies: [[], Validators.required]
     });
 
@@ -65,98 +67,60 @@ export class CryptoPricerComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-
-
+  async ngOnInit() {
     this.loading = true;
-    this.unhideBtnTexts.push("Add one more currency");
-    this.unhideBtnTexts.push("Remove");
-    this.unhideBtnText = this.unhideBtnTexts[0];
-    let availableTickers = this.service.getAllAvailableTickers().subscribe((message) => {
-      let toReturn: string[];
-      let tickers: Ticker[] = JSON.parse(JSON.stringify(message));
+    this.createForm();
+    let availableTickers: Object | Ticker[] = await this.service.getAllAvailableTickers(); // .then<Ticker[]>(t => this.cryptoList = t);
+    this.cryptoList = (<Ticker[]>availableTickers);
 
-      for (let i = 0; i < tickers.length; i++) {
-
-        this.cryptoList.push(tickers[i]);
-
-
-      }
-      // this.cryptoList[0].selected = true;
-
-      // localStorage.getItem("selectedTicker").split(",")
-      let tickersFromStorage = localStorage.getItem("selectedTicker").split(",");
-
-      for (let ticker of tickersFromStorage) {
-        this.selectedCrypto.push(this.cryptoList.find(x => x.symbol === ticker).symbol);
-      }
-
-      let currencyFromStorage = localStorage.getItem("selectedCurrency").split(",");
-
-      for (let currency of currencyFromStorage) {
-        this.selectedCurrency.push(this.currenciesListString.find(x => x === currency));
-      }
-
-    });
-
-
-
-    this.createForm(this.currenciesList);
+    this.getFromLocalStorage();
     this.loading = false;
-
 
   }
 
+  getFromLocalStorage() {
+    let tickersFromStorage = localStorage.getItem("selectedTicker").split(",");
+
+
+    let currencyFromStorage = localStorage.getItem("selectedCurrency").split(",");
+    if (currencyFromStorage.length > 0) {
+      for (let currency of currencyFromStorage) {
+
+        let cFromStorage = this.currenciesListString.find(x => x === currency);
+        this.selectedCurrency.push(cFromStorage);
+
+        this.requestform.patchValue({ "currencies": this.selectedCurrency });
+
+        // this.requestform.value.ticker = cFromStorage;
+        // this.selectedCurrency.push(cFromStorage);
+
+      }
+    }
+    if (tickersFromStorage.length > 0) {
+      for (let ticker of tickersFromStorage) {
+
+        let tickerFromStorage = this.cryptoList.find(x => x.symbol === ticker).symbol;
+        this.selectedCrypto.push(tickerFromStorage);
+        this.requestform.patchValue({ "ticker": this.selectedCrypto });
+
+      }
+    }
+
+    this.requestform.updateValueAndValidity(); // = tickerFromStorage;
+  }
+
+
+
   getPriceMulti() {
-    let selectedTicker = this.requestform.value.ticker;
+    let selectedCrypto = this.selectedCrypto;
     let selectedCurrency = this.selectedCurrency;
 
     let selected = selectedCurrency.length === 1 ? selectedCurrency[0] : String.Join(",", selectedCurrency);
+    let selectedTicker = selectedCrypto.length === 1 ? selectedCrypto[0] : String.Join(",", selectedCrypto);
     localStorage.setItem("selectedCurrency", selected);
     localStorage.setItem("selectedTicker", selectedTicker);
-    this.service.getPriceMultiByTicker(selectedTicker, selected).subscribe(result => {
-      selectedTicker = selectedTicker.toString().split(",");
-      console.log(selectedTicker);
-      // bject.getOwnPropertyNames(res);
-      let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
-      console.log(detailedPrice);
-      let rawList = detailedPrice.RAW;
-      let displayList = detailedPrice.DISPLAY;
-      console.log(rawList);
+    this.service.getPriceMultiByTicker(selectedTicker, selected);
 
-
-      for (let i = 0; i < selectedTicker.length; i++) {
-        let oneRawTicker = rawList[selectedTicker[i]];
-        console.log("RAWTicker", oneRawTicker);
-        for (let currency of selectedCurrency) {
-          let oneRaw = oneRawTicker[currency];
-
-          // oneRawest.FROMSYMBOL = oneDisplay[selected[i]].FROMSYMBOL;
-          // oneRawest.TOSYMBOL = oneDisplay[selected[i]].TOSYMBOL;
-          // oneRaw[selected[i]].PRICE = raw.PRICE;
-          oneRaw.DATEWHENRECEIVED = new Date();
-          console.log("RAW", oneRaw);
-          this.msgService.sendMessage(oneRaw);
-        }
-      }
-      // let display = detailedPrice.DISPLAY[formModel.ticker];
-      // let raw = detailedPrice.RAW[formModel.ticker];
-
-      // raw = raw[selected];
-
-      // let priceDetails: PriceDetails[] = raw;
-      // priceDetails.FROMSYMBOL = display[selected].FROMSYMBOL;
-      // priceDetails.TOSYMBOL = display[selected].TOSYMBOL;
-      // priceDetails.PRICE = raw.PRICE;
-      // priceDetails.DATEWHENRECEIVED = new Date();
-      // this.msgService.sendMessage(priceDetails);
-      // this.msgService.sendDisplayMessage(detailedPrice);
-
-
-
-    }, error => console.log("ERROR: ", error)
-
-    );
   }
 
   getPriceUpdatesMulti() {

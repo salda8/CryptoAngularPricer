@@ -10,7 +10,7 @@ import { FormControl } from "@angular/forms";
 import { query } from "@angular/core/src/animation/dsl";
 import { forEach } from "@angular/router/src/utils/collection";
 import { PriceUpdateService } from "../../services/price-update.service";
-import { PriceDetailsMessageService } from "../../services/price-details-message.service";
+import { ContinousPriceUpdatesMessageService } from "../../services/price-details-message.service";
 
 
 
@@ -65,7 +65,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   selecetedValuesToPlot: string[] = [this.possibleValuesToPlot[0]];
   // line, area
   autoScale = true;
-  constructor(msgService: PriceUpdateService, liveUpdatesService: PriceDetailsMessageService) {
+  constructor(msgService: PriceUpdateService, liveUpdatesService: ContinousPriceUpdatesMessageService) {
     this.liveUpdatesMessageService = liveUpdatesService.getMessage().subscribe(message => {
       this.proccessReceivedMessage(message);
     });
