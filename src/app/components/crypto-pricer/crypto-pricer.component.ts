@@ -72,6 +72,7 @@ export class CryptoPricerComponent implements OnInit {
     this.createForm();
     let availableTickers: Object | Ticker[] = await this.service.getAllAvailableTickers(); // .then<Ticker[]>(t => this.cryptoList = t);
     this.cryptoList = (<Ticker[]>availableTickers);
+    this.cryptoList.find(x => x.symbol === "MIOTA").symbol = "IOTA";
 
     this.getFromLocalStorage();
     this.loading = false;
@@ -99,9 +100,11 @@ export class CryptoPricerComponent implements OnInit {
     if (tickersFromStorage.length > 0) {
       for (let ticker of tickersFromStorage) {
 
-        let tickerFromStorage = this.cryptoList.find(x => x.symbol === ticker).symbol;
-        this.selectedCrypto.push(tickerFromStorage);
-        this.requestform.patchValue({ "ticker": this.selectedCrypto });
+        let tickerFromStorage = this.cryptoList.find(x => x.symbol === ticker);
+        if (tickerFromStorage) {
+          this.selectedCrypto.push(tickerFromStorage.symbol);
+          this.requestform.patchValue({ "ticker": this.selectedCrypto });
+        }
 
       }
     }
