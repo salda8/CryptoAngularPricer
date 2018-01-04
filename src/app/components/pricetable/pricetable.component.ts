@@ -4,6 +4,7 @@ import { DISPLAY, PriceDetails } from "../../models/pricedetailed";
 import { PriceUpdateService } from "../../services/price-update.service";
 import { Subscription } from "rxjs/Subscription";
 import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
+import { NgPipesModule, RoundPipe } from "angular-pipes";
 
 @Component({
   selector: "app-pricetable",
@@ -57,6 +58,10 @@ export class PricetableComponent implements OnDestroy {
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
+    rowToAdd.CHANGE24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGE24HOUR, 1);
+    rowToAdd.CHANGEPCT24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGEPCT24HOUR, 2);
+
+
     setTimeout(() => {
       this.rows.push(rowToAdd);
 

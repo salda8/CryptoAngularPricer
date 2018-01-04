@@ -1,6 +1,6 @@
 
 <div >
-    <form [formGroup]="requestform" novalidate>
+    <form [formGroup]="requestform" novalidate disabled="loading">
           <div class="form-group" >
                  
                       <mat-form-field >
@@ -13,13 +13,17 @@
           </div>
           <div class="form-group">
               <mat-form-field >
-                  <mat-select placeholder="Select crypto" formControlName="ticker" (ngModelChange)="onChange($event)" [(ngModel)]="selectedCrypto"  multiple>
-                    <mat-option *ngFor="let crypto of cryptoList" [value]="crypto.symbol">{{crypto.symbol}}-{{crypto.name}}</mat-option>
+                  <mat-select width="200 px" placeholder="Select crypto" formControlName="ticker" (ngModelChange)="onChange($event)" [(ngModel)]="selectedCrypto"  multiple>
+                    <mat-option *ngFor="let crypto of cryptoList" [value]="crypto.symbol">{{crypto.symbol}} {{crypto.price_usd}}$ <span [style.color]="crypto.percent_change_24h < '0' ? 'red': 'green'"> {{crypto.percent_change_24h}} %</span>
+                  </mat-option>
                    
                   </mat-select>
                 </mat-form-field>
-                     
-                    </div>
+                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="selectAll()">
+                    Select All
+                   </button>
+          </div>
+         
                     <div class="form-group">
                           <button [disabled]="!requestform.valid && selectedCrypto.length===0 && selectedCurrency.length===0" class="btn btn-group-sm" (click)="getPrice()">Get Price</button>
                           <button [disabled]="!requestform.valid && selectedCrypto.length===0 && selectedCurrency.length===0" class="btn btn-group-sm" (click)="getPriceMulti()">Get Price Multi</button>

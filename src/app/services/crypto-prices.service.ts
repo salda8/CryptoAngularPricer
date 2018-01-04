@@ -35,25 +35,9 @@ export class CryptoPricesService {
     const url = `https://api.coinmarketcap.com/v1/ticker/?convert=${currency}`;
     let cryptoList: Ticker[] = [];
     return this.http.get(url).toPromise();
-    //subscribe((message) => {
-
-    //   let tickers: Ticker[] = JSON.parse(JSON.stringify(message));
-    //   for (let i = 0; i < tickers.length; i++) {
-
-    //     cryptoList.push(tickers[i]);
-
-
-    //   }
-
-
-    // });
-
-    // return new Promise(cryptoList);
-  }
-
-  request() {
 
   }
+
 
   getAllCoinsOnCryptoCompare() {
     const url = "https://min-api.cryptocompare.com/data/all/coinlist";
@@ -63,10 +47,10 @@ export class CryptoPricesService {
 
   async getContinousPriceUpdateS(ticker: string, pairedCurrency: string, timeout?: 50000, startAfter?: 0) {
     while (true) {
-
+      await this.sleep(timeout);
       const howlong = this.timer();
       this.getPriceMultiByTicker(ticker, pairedCurrency, this.contMsgService);
-      await this.sleep(timeout);
+
 
     }
   }
@@ -104,22 +88,23 @@ export class CryptoPricesService {
     let request = this.http.get(url);
     request.subscribe(result => {
       let selectedTicker = ticker.split(",");
+
       let selectedCurrency = pairedCurrency.split(",");
-      console.log(selectedTicker);
-      // bject.getOwnPropertyNames(res);
+
       let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
-      console.log(detailedPrice);
+
       let rawList = detailedPrice.RAW;
       let displayList = detailedPrice.DISPLAY;
-      console.log(rawList);
+
       for (let i = 0; i < selectedTicker.length; i++) {
         let oneRawTicker = rawList[selectedTicker[i]];
-        console.log("RAWTicker", oneRawTicker);
-        for (let currency of selectedCurrency) {
-          let oneRaw = oneRawTicker[currency];
-          oneRaw.DATEWHENRECEIVED = new Date();
-          console.log("RAW", oneRaw);
-          msgService.sendMessage(oneRaw);
+        if (oneRawTicker) {
+          for (let currency of selectedCurrency) {
+            let oneRaw = oneRawTicker[currency];
+            oneRaw.DATEWHENRECEIVED = new Date();
+
+            msgService.sendMessage(oneRaw);
+          }
         }
       }
     });
@@ -128,7 +113,6 @@ export class CryptoPricesService {
 
   getData(ticker: string, pairedCurrency: string) {
     const url = `${this.baseUrl}subs?fsym=${ticker}&tsyms=${pairedCurrency}`;
-    console.log(url);
     let request = this.http.get(url);
     return request;
   }

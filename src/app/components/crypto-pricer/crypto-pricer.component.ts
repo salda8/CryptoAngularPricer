@@ -8,7 +8,8 @@ import { DISPLAY, PriceDetailed, PriceDetails } from "../../models/pricedetailed
 import { PriceUpdateService } from "../../services/price-update.service";
 import { Ticker } from "../../models/ticker";
 import { CURRENCIES } from "@angular/common/src/i18n/currencies";
-import { MatOption } from "@angular/material";
+import { MatOption, MatCheckbox } from "@angular/material";
+import { FlattenPipe, TakePipe, OrderByPipe } from "angular-pipes";
 
 
 @Component({
@@ -20,6 +21,7 @@ export class CryptoPricerComponent implements OnInit {
   timeout: 10000;
   color = "warn";
   mode = "indeterminate";
+
   loading = true;
   value = 50;
   msgService: PriceUpdateService;
@@ -49,8 +51,42 @@ export class CryptoPricerComponent implements OnInit {
 
 
   }
+  selectAll() {
+    let orderbyMktCap: string[] = OrderByPipe.prototype.transform(this.cryptoList.map(x => x.symbol), "MKTCAP");
+    console.log(orderbyMktCap);
+    let s = 0, i = 0;
+    const max = 300;
+    for (let o of orderbyMktCap) {
+      let l = o.length + 1;
+      if (l + s < 300) {
+        s += l;
+        i++;
+        console.log(s, i);
+        continue;
 
+      }
+      console.log("BREAK");
+      break;
+
+
+
+
+    }
+
+    let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
+    let remaining = orderbyMktCap.length - i;
+    console.log(flat);
+    this.selectedCrypto = flat;
+    this.requestform.patchValue({ "ticker": this.selectedCrypto });
+
+
+
+  }
   onChange(newValue) {
+
+  }
+
+  checkboxOnClick($event) {
 
   }
 
