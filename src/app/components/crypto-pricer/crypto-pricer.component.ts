@@ -71,26 +71,7 @@ export class CryptoPricerComponent implements OnInit {
   }
   selectAll() {
 
-    // let orderbyMktCap: string[] = OrderByPipe.prototype.transform(this.cryptoList.map(x => x.symbol), "MKTCAP");
-    // console.log(orderbyMktCap);
-    // let s = 0, i = 0;
-    // const max = 300;
-    // for (let o of orderbyMktCap) {
-    //   let l = o.length + 1;
-    //   if (l + s < 300) {
-    //     s += l;
-    //     i++;
-    //     console.log(s, i);
-    //     continue;
 
-    //   }
-    //   console.log("BREAK");
-    //   break;
-    // }
-
-    // let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
-    // let remaining = orderbyMktCap.length - i;
-    // console.log(flat);
     this.selectedCrypto = this.cryptoList.map(x => x.symbol);
     this.requestform.patchValue({ "ticker": this.selectedCrypto });
 
@@ -100,10 +81,7 @@ export class CryptoPricerComponent implements OnInit {
   onFilterChange($event) {
 
     this.cryptoList = SortByPipePipe.prototype.sort(this.cryptoList, this.selectedCryptoListFilter, "desc");
-    console.log(this.cryptoList);
-    // this.cryptoList = OrderByPipe.prototype.transform(this.cryptoList, [this.selectedCryptoListFilter, "+"]);
 
-    // this.requestform.patchValue({ "ticker": this.selectedCrypto });
   }
 
   onChange(newValue) {
@@ -191,41 +169,10 @@ export class CryptoPricerComponent implements OnInit {
   }
 
   getPriceUpdatesMulti() {
-    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
-    const formModel = this.requestform.value;
-    this.service.getContinousPriceUpdateS(formModel.ticker, selected);
+    this.service.getContinousPriceUpdateS(this.selectedCrypto, this.selectedCurrency);
   }
 
-  getPrice() {
-    const formModel = this.requestform.value;
 
-    let selected = this.selectedCurrency.length === 1 ? this.selectedCurrency[0] : String.Join(",", this.selectedCurrency);
-    this.service.getPriceByTicker(formModel.ticker, selected).subscribe(result => {
-      console.log("RESULT:", JSON.stringify(result));
-      // bject.getOwnPropertyNames(res);
-      let propertyName = Object.getOwnPropertyNames(result);
-      let property1 = Object.getOwnPropertyDescriptor(result, propertyName[0]);
-      this.prices = [];
-      let i = 0;
-      let isLast = false;
-      while (!isLast) {
-        let property = Object.getOwnPropertyDescriptor(result, propertyName[i]);
-        if (property !== undefined) {
-          let res = "One " + formModel.ticker + " is " + property.value + " " + propertyName[i];
-          this.prices.push(res);
-        }
-        else {
-          isLast = true;
-        }
-
-        i++;
-      }
-
-
-    }, error => console.log("ERROR: ", error)
-
-    );
-  }
 
 
 

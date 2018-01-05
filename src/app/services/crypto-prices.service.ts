@@ -46,7 +46,7 @@ export class CryptoPricesService {
   }
 
 
-  async getContinousPriceUpdateS(ticker: string, pairedCurrency: string, timeout?: 50000, startAfter?: 0) {
+  async getContinousPriceUpdateS(ticker: string[], pairedCurrency: string[], timeout?: 50000, startAfter?: 0) {
     while (true) {
       await this.sleep(timeout);
       const howlong = this.timer();

@@ -1,5 +1,9 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
 hr {
     display: block;
     height: 1px;
@@ -12,3 +16,19 @@ hr {
 h3{
     font-family:"Courier New", Courier, monospace
 }
+
+.is-plus{
+    background: green
+}
+.is-minus{
+    background: red
+}
+
+.is-big-plus{
+    background: darkgreen
+}
+.is-big-minus{
+    background: darkred
+}
+
+

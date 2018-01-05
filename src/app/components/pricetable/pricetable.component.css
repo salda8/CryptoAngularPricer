@@ -1,0 +1,14 @@
+.is-plus{
+    background: green
+}
+.is-minus{
+    background: red
+}
+
+.is-big-plus{
+    background: darkgreen
+}
+.is-big-minus{
+    background: darkred
+}
+
