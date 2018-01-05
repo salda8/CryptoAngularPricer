@@ -1,6 +1,8 @@
 <div>
     <h3>Table component</h3>
     <input type="text" placeholder="Type to filter pair collumn" [(ngModel)]="filter" (keyup)="updateFilter($event)"/>
+    <input type="number" placeholder="Filter market cap collumn" [(ngModel)]="marketCapFilter" (keyup)="updateMktCapFilter($event)"/>
+    
   <ngx-datatable
     [rows]="rows"
     class="material"
@@ -37,10 +39,15 @@
       {{ value | round:0 }}
 </ng-template>
 </ngx-datatable-column>
-    <!-- <ngx-datatable-column name="DATEWHENRECEIVED" prop="DATEWHENRECEIVED"></ngx-datatable-column> -->
+    <ngx-datatable-column name="MARKET CAP" prop="MKTCAP">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | round:0 }}
+  </ng-template>
+  </ngx-datatable-column>
     <ngx-datatable-column name="MARKET" prop="MARKET"></ngx-datatable-column>
     
     
   </ngx-datatable>
+  <button class="btn btn-sm" (click)="clearTable()">Clear table</button>
   
 </div>

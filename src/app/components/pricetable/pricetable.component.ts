@@ -19,6 +19,9 @@ export class PricetableComponent implements OnDestroy {
   maxRows = 20;
   filter: string = "";
   lastFilterLength: number = 1;
+  mktDefault: number = 100000000;
+  marketCapFilter: number = 100000000;
+
   tempRows = [];
   rows = [
 
@@ -57,48 +60,76 @@ export class PricetableComponent implements OnDestroy {
     this.msgService.unsubscribe();
   }
 
+  clearTable() {
+    this.rows = [];
+    this.tempRows = [];
+
+  }
+
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
-    rowToAdd.CHANGE24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGE24HOUR, 1);
-    rowToAdd.CHANGEPCT24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGEPCT24HOUR, 2);
-    this.tempRows.push(rowToAdd);
-    this.tempRows = [...this.tempRows];
-
-
-    setTimeout(() => {
-      this.rows.push(rowToAdd);
-
-      this.loadingIndicator = false;
+    let foundRow = this.tempRows.findIndex(x => x.FROMSYMBOL === rowToAdd.FROMSYMBOL);
+    if (foundRow !== -1) {
+      this.rows[foundRow] = row;
       this.rows = [...this.rows];
-    }, 0);
+    }
+    else {
+      rowToAdd.CHANGE24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGE24HOUR, 1);
+      rowToAdd.CHANGEPCT24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGEPCT24HOUR, 2);
+      this.tempRows.push(rowToAdd);
+      this.tempRows = [...this.tempRows];
+
+
+      setTimeout(() => {
+        this.rows.push(rowToAdd);
+
+        this.loadingIndicator = false;
+        this.rows = [...this.rows];
+      }, 0);
+    }
   }
-
-  updateFilter($event) {
-
-
+  updateMktCapFilter($event) {
     let filteredArray = [];
-    if (this.filter.length > this.lastFilterLength) {
-      for (let row of this.rows) {
-        if (row.FROMSYMBOL.indexOf(this.filter) >= 0) {
+    let filter = this.marketCapFilter;
+    console.log("filter", filter);
+    if (this.filter.length > 0) {
+      for (let row of this.tempRows) {
+        if (row.FROMSYMBOL.indexOf(this.filter) >= 0 && (row.MKTCAP > filter)) {
           filteredArray.push(row);
         }
       }
     }
     else {
       for (let row of this.tempRows) {
-        if (row.FROMSYMBOL.indexOf(this.filter) >= 0) {
+        if (row.MKTCAP > filter) {
+          filteredArray.push(row);
+        }
+      }
+    }
+    console.log("FA", filteredArray);
+    this.rows = [...filteredArray];
+  }
+  updateFilter($event) {
+    let filteredArray = [];
+    if (this.filter.length > this.lastFilterLength) {
+      for (let row of this.rows) {
+        if (row.FROMSYMBOL.indexOf(this.filter) >= 0 && (row.MKTCAP > this.marketCapFilter)) {
+          filteredArray.push(row);
+        }
+      }
+    }
+    else {
+      for (let row of this.tempRows) {
+        if (row.FROMSYMBOL.indexOf(this.filter) >= 0 && row.MKTCAP > (this.marketCapFilter === this.mktDefault ? 0 : (this.marketCapFilter))) {
           filteredArray.push(row);
         }
       }
     }
     this.lastFilterLength = this.filter.length;
     console.log(filteredArray);
-
-
     // update the rows
     this.rows = [...filteredArray];
-
     // Whenever the filter changes, always go back to the first page
     this.offset = 0;
 
