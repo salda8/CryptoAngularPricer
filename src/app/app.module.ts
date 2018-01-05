@@ -31,6 +31,7 @@ import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { CachingInterceptor } from "./caching-interceptor";
 import { HttpCacheBase, HttpCache } from "./models/http-cache";
 import { NgPipesModule } from "angular-pipes";
+import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
 
 
 @NgModule({//
@@ -46,7 +47,9 @@ import { NgPipesModule } from "angular-pipes";
 
     CryptoStreamerComponent,
 
-    NotFoundComponent
+    NotFoundComponent,
+
+    SortByPipePipe
 
 
   ],

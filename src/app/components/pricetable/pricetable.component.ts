@@ -66,7 +66,6 @@ export class PricetableComponent implements OnDestroy {
       this.rows.push(rowToAdd);
 
       this.loadingIndicator = false;
-      console.log("ROWS:", this.rows);
       this.rows = [...this.rows];
     }, 0);
   }

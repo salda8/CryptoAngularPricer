@@ -77,7 +77,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   }
 
   proccessReceivedMessage(message: PriceDetails) {
-    console.log("RECEIVED MESSAGE: " + JSON.stringify(message));
+    // console.log("RECEIVED MESSAGE: " + JSON.stringify(message));
     this.allReceivedPriceDetails.push(message);
     let seriesName = String.Join("/", message.FROMSYMBOL, message.TOSYMBOL);
     if (!this.allReceivedPairs.find(x => x === seriesName)) {
@@ -104,7 +104,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
 
   pushAndLogGraphLine(graphLine: GraphLine) {
     this.multi.push(graphLine);
-    console.log(this.multi);
+
 
   }
 
@@ -122,7 +122,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     }
 
     this.multi = [...this.multi];
-    console.log(this.multi);
+
   }
 
   getValuToPlot(type: string, priceDetails: PriceDetails): number {

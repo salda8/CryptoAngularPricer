@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Pipe, PipeTransform } from "@angular/core";
 import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { FormBuilder, FormGroup, FormControl, Validators, FormsModule } from "@angular/forms";
 import { Currency } from "../../models/currency";
@@ -10,12 +10,15 @@ import { Ticker } from "../../models/ticker";
 import { CURRENCIES } from "@angular/common/src/i18n/currencies";
 import { MatOption, MatCheckbox } from "@angular/material";
 import { FlattenPipe, TakePipe, OrderByPipe } from "angular-pipes";
+import { SortByPipePipe } from "../../pipes/sort-by-pipe.pipe";
 
 
 @Component({
   selector: "app-crypto-pricer",
   templateUrl: "./crypto-pricer.component.html",
   styleUrls: ["./crypto-pricer.component.css"]
+
+
 })
 export class CryptoPricerComponent implements OnInit {
   timeout: 10000;
@@ -42,6 +45,21 @@ export class CryptoPricerComponent implements OnInit {
   currenciesList: Currency[] = [new Currency("USD", 1, true), new Currency("EUR", 4), new Currency("ETH", 3), new Currency("BTC", 2), new Currency("CZK", 6), new Currency("LTC", 5)];
   priceDetail: PriceDetails[] = [];
   selectedCurrency: string[] = [];
+  cryptoListFilterParameters = [
+    "id",
+    "price_usd",
+    "price_btc",
+    "volume_usd",
+    "market_cap_usd",
+    "available_supply",
+    "total_supply",
+    "max_supply",
+    "percent_change_1h",
+    "percent_change_24h",
+    "percent_change_7d"];
+
+  selectedCryptoListFilter: string = "";
+
 
 
   constructor(service: CryptoPricesService, fb: FormBuilder, msgService: PriceUpdateService) {
@@ -52,36 +70,42 @@ export class CryptoPricerComponent implements OnInit {
 
   }
   selectAll() {
-    let orderbyMktCap: string[] = OrderByPipe.prototype.transform(this.cryptoList.map(x => x.symbol), "MKTCAP");
-    console.log(orderbyMktCap);
-    let s = 0, i = 0;
-    const max = 300;
-    for (let o of orderbyMktCap) {
-      let l = o.length + 1;
-      if (l + s < 300) {
-        s += l;
-        i++;
-        console.log(s, i);
-        continue;
 
-      }
-      console.log("BREAK");
-      break;
+    // let orderbyMktCap: string[] = OrderByPipe.prototype.transform(this.cryptoList.map(x => x.symbol), "MKTCAP");
+    // console.log(orderbyMktCap);
+    // let s = 0, i = 0;
+    // const max = 300;
+    // for (let o of orderbyMktCap) {
+    //   let l = o.length + 1;
+    //   if (l + s < 300) {
+    //     s += l;
+    //     i++;
+    //     console.log(s, i);
+    //     continue;
 
+    //   }
+    //   console.log("BREAK");
+    //   break;
+    // }
 
-
-
-    }
-
-    let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
-    let remaining = orderbyMktCap.length - i;
-    console.log(flat);
-    this.selectedCrypto = flat;
+    // let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
+    // let remaining = orderbyMktCap.length - i;
+    // console.log(flat);
+    this.selectedCrypto = this.cryptoList.map(x => x.symbol);
     this.requestform.patchValue({ "ticker": this.selectedCrypto });
 
 
 
   }
+  onFilterChange($event) {
+
+    this.cryptoList = SortByPipePipe.prototype.sort(this.cryptoList, this.selectedCryptoListFilter, "desc");
+    console.log(this.cryptoList);
+    // this.cryptoList = OrderByPipe.prototype.transform(this.cryptoList, [this.selectedCryptoListFilter, "+"]);
+
+    // this.requestform.patchValue({ "ticker": this.selectedCrypto });
+  }
+
   onChange(newValue) {
 
   }
@@ -96,7 +120,10 @@ export class CryptoPricerComponent implements OnInit {
 
     this.requestform = this.fb.group({
       ticker: [[], Validators.required],
-      currencies: [[], Validators.required]
+      currencies: [[], Validators.required],
+      filter: [[]]
+
+
     });
 
 
@@ -116,12 +143,13 @@ export class CryptoPricerComponent implements OnInit {
   }
 
   getFromLocalStorage() {
-    let tickersFromStorage = localStorage.getItem("selectedTicker").split(",");
+    let tickersFromStorage = localStorage.getItem("selectedTicker");
 
 
-    let currencyFromStorage = localStorage.getItem("selectedCurrency").split(",");
+    let currencyFromStorage = localStorage.getItem("selectedCurrency");
     if (currencyFromStorage.length > 0) {
-      for (let currency of currencyFromStorage) {
+
+      for (let currency of currencyFromStorage.split(",")) {
 
         let cFromStorage = this.currenciesListString.find(x => x === currency);
         this.selectedCurrency.push(cFromStorage);
@@ -134,7 +162,7 @@ export class CryptoPricerComponent implements OnInit {
       }
     }
     if (tickersFromStorage.length > 0) {
-      for (let ticker of tickersFromStorage) {
+      for (let ticker of tickersFromStorage.split(",")) {
 
         let tickerFromStorage = this.cryptoList.find(x => x.symbol === ticker);
         if (tickerFromStorage) {
@@ -158,7 +186,7 @@ export class CryptoPricerComponent implements OnInit {
     let selectedTicker = selectedCrypto.length === 1 ? selectedCrypto[0] : String.Join(",", selectedCrypto);
     localStorage.setItem("selectedCurrency", selected);
     localStorage.setItem("selectedTicker", selectedTicker);
-    this.service.getPriceMultiByTicker(selectedTicker, selected);
+    this.service.getPriceMultiByTicker(selectedCrypto, selectedCurrency);
 
   }
 

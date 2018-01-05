@@ -14,6 +14,7 @@ import { Ticker } from "../models/ticker";
 import { MessageService } from "../models/message-service";
 import { ContinousPriceUpdatesMessageService } from "./price-details-message.service";
 import { request } from "../models/request";
+import { String, StringBuilder } from "typescript-string-operations-ng4";
 
 
 
@@ -82,32 +83,72 @@ export class CryptoPricesService {
     return request;
   }
 
-  getPriceMultiByTicker(ticker: string, pairedCurrency: string, msgService: MessageService<PriceDetails> = this.messageService) {
-    const url = `${this.baseUrl}pricemultifull?fsyms=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
-    console.log(url);
-    let request = this.http.get(url);
-    request.subscribe(result => {
-      let selectedTicker = ticker.split(",");
+  splitToTwoRequests(ticker: string[], pairedCurrency: string[], msgService: MessageService<PriceDetails>) {
+    let s = 0, i = 0;
+    const max = 300;
+    let newTickers: string[] = [];
+    console.log(ticker.length);
+    for (let o of ticker) {
+      let l = o.length + 1;
+      if (l + s > 300) {
 
-      let selectedCurrency = pairedCurrency.split(",");
+        this.getPriceMultiByTicker(newTickers, pairedCurrency, msgService);
+        newTickers = [];
+        s = 0;
 
-      let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
+      }
 
-      let rawList = detailedPrice.RAW;
-      let displayList = detailedPrice.DISPLAY;
 
-      for (let i = 0; i < selectedTicker.length; i++) {
-        let oneRawTicker = rawList[selectedTicker[i]];
-        if (oneRawTicker) {
-          for (let currency of selectedCurrency) {
-            let oneRaw = oneRawTicker[currency];
-            oneRaw.DATEWHENRECEIVED = new Date();
+      s += l;
+      i++;
+      console.log(i);
+      newTickers.push(o);
 
-            msgService.sendMessage(oneRaw);
+
+
+    }
+
+    if (newTickers.length > 0) {
+      this.getPriceMultiByTicker(newTickers, pairedCurrency, msgService);
+    }
+
+    // let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
+    // let remaining = orderbyMktCap.length - i;
+
+  }
+
+  getPriceMultiByTicker(ticker: string[], pairedCurrency: string[], msgService: MessageService<PriceDetails> = this.messageService) {
+    let joinedTickerString = String.Join(",", ticker);
+    if (joinedTickerString.length > 300) {
+      this.splitToTwoRequests(ticker, pairedCurrency, msgService);
+    }
+    else {
+      const url = `${this.baseUrl}pricemultifull?fsyms=${joinedTickerString}&tsyms=${String.Join(",", pairedCurrency)}`;
+      console.log(url);
+      let request = this.http.get(url);
+      request.subscribe(result => {
+        let selectedTicker = ticker;
+
+        let selectedCurrency = pairedCurrency;
+
+        let detailedPrice: PriceDetailed = JSON.parse(JSON.stringify(result));
+
+        let rawList = detailedPrice.RAW;
+        let displayList = detailedPrice.DISPLAY;
+
+        for (let i = 0; i < selectedTicker.length; i++) {
+          let oneRawTicker = rawList[selectedTicker[i]];
+          if (oneRawTicker) {
+            for (let currency of selectedCurrency) {
+              let oneRaw = oneRawTicker[currency];
+              oneRaw.DATEWHENRECEIVED = new Date();
+
+              msgService.sendMessage(oneRaw);
+            }
           }
         }
-      }
-    });
+      });
+    }
   }
 
 
