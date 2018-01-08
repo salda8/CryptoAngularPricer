@@ -22,7 +22,7 @@ export class PricetableComponent implements OnDestroy {
   mktDefault: number = 100000000;
   marketCapFilter: number = 100000000;
 
-  tempRows = [];
+  unfilteredRows = [];
   rows = [
 
   ];
@@ -62,23 +62,24 @@ export class PricetableComponent implements OnDestroy {
 
   clearTable() {
     this.rows = [];
-    this.tempRows = [];
+    this.unfilteredRows = [];
 
   }
 
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
-    let foundRow = this.tempRows.findIndex(x => x.FROMSYMBOL === rowToAdd.FROMSYMBOL);
+    let foundRow = this.unfilteredRows.findIndex(x => x.FROMSYMBOL === rowToAdd.FROMSYMBOL);
     if (foundRow !== -1) {
-      this.rows[foundRow] = row;
-      this.rows = [...this.rows];
+      this.unfilteredRows[foundRow] = rowToAdd;
+      // this.rows[foundRow] = row;
+      this.updateFilter();
     }
     else {
-      rowToAdd.CHANGE24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGE24HOUR, 1);
-      rowToAdd.CHANGEPCT24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGEPCT24HOUR, 2);
-      this.tempRows.push(rowToAdd);
-      this.tempRows = [...this.tempRows];
+      // rowToAdd.CHANGE24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGE24HOUR, 1);
+      // rowToAdd.CHANGEPCT24HOUR = RoundPipe.prototype.transform(rowToAdd.CHANGEPCT24HOUR, 2);
+      this.unfilteredRows.push(rowToAdd);
+      // this.tempRows = [...this.tempRows];
 
 
       setTimeout(() => {
@@ -92,16 +93,15 @@ export class PricetableComponent implements OnDestroy {
   updateMktCapFilter($event) {
     let filteredArray = [];
     let filter = this.marketCapFilter;
-    console.log("filter", filter);
     if (this.filter.length > 0) {
-      for (let row of this.tempRows) {
+      for (let row of this.unfilteredRows) {
         if (row.FROMSYMBOL.indexOf(this.filter) >= 0 && (row.MKTCAP > filter)) {
           filteredArray.push(row);
         }
       }
     }
     else {
-      for (let row of this.tempRows) {
+      for (let row of this.unfilteredRows) {
         if (row.MKTCAP > filter) {
           filteredArray.push(row);
         }
@@ -110,7 +110,8 @@ export class PricetableComponent implements OnDestroy {
     console.log("FA", filteredArray);
     this.rows = [...filteredArray];
   }
-  updateFilter($event) {
+
+  updateFilter() {
     let filteredArray = [];
     if (this.filter.length > this.lastFilterLength) {
       for (let row of this.rows) {
@@ -120,7 +121,7 @@ export class PricetableComponent implements OnDestroy {
       }
     }
     else {
-      for (let row of this.tempRows) {
+      for (let row of this.unfilteredRows) {
         if (row.FROMSYMBOL.indexOf(this.filter) >= 0 && row.MKTCAP > (this.marketCapFilter === this.mktDefault ? 0 : (this.marketCapFilter))) {
           filteredArray.push(row);
         }
@@ -128,12 +129,16 @@ export class PricetableComponent implements OnDestroy {
     }
     this.lastFilterLength = this.filter.length;
     console.log(filteredArray);
-    // update the rows
-    this.rows = [...filteredArray];
-    // Whenever the filter changes, always go back to the first page
-    this.offset = 0;
+    setTimeout(() => {
+      // update the rows
+      this.rows = [...filteredArray];
+
+      // Whenever the filter changes, always go back to the first page
+      this.offset = 0;
+    });
 
   }
+
   getCellClass({ row, column, value }): any {
     if (value > 0) {
       if (value > 10) {

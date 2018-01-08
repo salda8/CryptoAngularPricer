@@ -1,6 +1,6 @@
 <div>
     <h3>Table component</h3>
-    <input type="text" placeholder="Type to filter pair collumn" [(ngModel)]="filter" (keyup)="updateFilter($event)"/>
+    <input type="text" placeholder="Type to filter pair collumn" [(ngModel)]="filter" (keyup)="updateFilter()"/>
     <input type="number" placeholder="Filter market cap collumn" [(ngModel)]="marketCapFilter" (keyup)="updateMktCapFilter($event)"/>
     
   <ngx-datatable
@@ -14,11 +14,17 @@
     <ngx-datatable-column name="PAIR" prop="FROMSYMBOL"></ngx-datatable-column>
     <ngx-datatable-column name="NAME" prop="NAME"></ngx-datatable-column>
     <ngx-datatable-column name="PRICE" prop="PRICE"></ngx-datatable-column>
-    <ngx-datatable-column name="CHANGE 24H (%)" prop="CHANGEPCT24HOUR" [cellClass]="getCellClass"></ngx-datatable-column>
+    <ngx-datatable-column name="CHANGE 24H (%)" prop="CHANGEPCT24HOUR" [cellClass]="getCellClass">
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{ value | round:2 }}
+  </ng-template>
+  </ngx-datatable-column>
+
     <ngx-datatable-column name="OPEN (24h)" prop="OPEN24HOUR"></ngx-datatable-column>
     <ngx-datatable-column name="HIGH (24h)" prop="HIGH24HOUR"></ngx-datatable-column>
     <ngx-datatable-column name="LOW (24h)" prop="LOW24HOUR"></ngx-datatable-column>
     <ngx-datatable-column name="CHANGE (24h)" prop="CHANGE24HOUR"></ngx-datatable-column>
+    
     <!-- <ngx-datatable-column name="LASTVOLUME" prop="LASTVOLUME">
     <ng-template let-value="value" ngx-datatable-cell-template>
       {{ value | round:2 }}

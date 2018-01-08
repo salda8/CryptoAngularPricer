@@ -111,49 +111,20 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   createNewGraphLine(seriesName: string, priceDetails: PriceDetails, value: string): GraphLine {
     let series: GraphSeries[] = [];
     this.yAxisLabel = value;
-    series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, this.getValuToPlot(value, priceDetails)));
+    series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value]));
     return new GraphLine(seriesName, series);
 
   }
 
   pushPointToExistingGraphSeries(graphLine: GraphLine, priceDetails: PriceDetails) {
     for (let value of this.selecetedValuesToPlot) {
-      graphLine.series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, this.getValuToPlot(value, priceDetails)));
+      graphLine.series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value]));
     }
 
     this.multi = [...this.multi];
 
   }
 
-  getValuToPlot(type: string, priceDetails: PriceDetails): number {
-    switch (type) {
-      case "PRICE":
-        return priceDetails.PRICE;
-      case "LASTVOLUME":
-        return priceDetails.LASTVOLUME;
-      case "LASTVOLUMETO":
-        return priceDetails.LASTVOLUMETO;
-      case "VOLUME24HOUR":
-        return priceDetails.VOLUME24HOUR;
-      case "VOLUME24HOURTO":
-        return priceDetails.VOLUME24HOURTO;
-      case "OPEN24HOUR":
-        return priceDetails.OPEN24HOUR;
-      case "HIGH24HOUR":
-        return priceDetails.HIGH24HOUR;
-      case "LOW24HOUR":
-        return priceDetails.LOW24HOUR;
-      case "LASTMARKET":
-        throw RangeError();
-      case "CHANGE24HOUR":
-        return priceDetails.CHANGE24HOUR;
-      case "CHANGEPCT24HOUR":
-        return priceDetails.CHANGEPCT24HOUR;
-      default:
-        throw RangeError();
-
-    }
-  }
 
   ngOnDestroy(): void {
     this.msgService.unsubscribe();
@@ -197,7 +168,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     let series: GraphSeries[] = [];
 
     for (let pd of fileteredPriceDetails) {
-      series.push(new GraphSeries(pd.DATEWHENRECEIVED, this.getValuToPlot(valueToPlot, pd)));
+      series.push(new GraphSeries(pd.DATEWHENRECEIVED, pd[valueToPlot]));
 
     }
 
