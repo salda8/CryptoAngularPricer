@@ -20,7 +20,7 @@ import { PanelModule } from "primeng/primeng";
 import { ButtonModule } from "primeng/primeng";
 import { RadioButtonModule, DropdownModule } from "primeng/primeng";
 import {
-  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule,
+  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatGridListModule, MatCardModule,
   MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule, MatProgressSpinnerModule
 } from "@angular/material";
 
@@ -34,7 +34,8 @@ import { NgPipesModule } from "angular-pipes";
 import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
 import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.component";
 import { CryptoDetailTempStorageService } from "./services/crypto-detail-temp-storage.service";
-import { CoinPricesOnExchangesTableComponent } from './component/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component';
+import { CoinPricesOnExchangesTableComponent } from "./components/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component";
+import { HistoricalPriceGraphComponent } from './components/historical-price-graph/historical-price-graph.component';
 
 
 @NgModule({//
@@ -56,13 +57,15 @@ import { CoinPricesOnExchangesTableComponent } from './component/coin-prices-on-
 
     CryptoDetailComponent,
 
-    CoinPricesOnExchangesTableComponent
+    CoinPricesOnExchangesTableComponent,
+
+    HistoricalPriceGraphComponent
 
 
   ],
   imports: [
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
-    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule,
+    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule,
     PanelModule,
     ButtonModule,
     RadioButtonModule, DropdownModule,

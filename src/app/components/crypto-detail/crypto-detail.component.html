@@ -1,3 +1,19 @@
-<p>
-  crypto-detail works! {{currency}}
-</p>
+
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile rowspan="1" colspan="4">
+      <h2>DETAILS ABOUT {{currency}}</h2>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="2" colspan="2">
+    <h3>EXCHANGE RATES</h3>
+    <app-coin-prices-on-exchanges-table >
+
+    </app-coin-prices-on-exchanges-table>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="2" colspan="2">
+      <h3>PRICE HISTORY</h3>
+    <app-historical-price-graph>
+
+    </app-historical-price-graph>
+  </mat-grid-tile>
+  
+</mat-grid-list>
