@@ -1,3 +1,33 @@
 <p>
   coin-prices-on-exchanges-table works!
 </p>
+<ngx-datatable
+    [rows]="rows"
+    class="material"
+    
+    [offset]="offset"
+    
+    [limit]="maxRows"
+    [scrollbarH]="true">
+    <ngx-datatable-column name="Exchange" prop="exchange">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Pair" prop="pair">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Price" prop="price">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="24H volume" prop="volume_24">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | round:2 }}
+        </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+

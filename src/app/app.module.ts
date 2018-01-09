@@ -36,7 +36,7 @@ import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.
 import { CryptoDetailTempStorageService } from "./services/crypto-detail-temp-storage.service";
 import { CoinPricesOnExchangesTableComponent } from "./components/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component";
 import { HistoricalPriceGraphComponent } from './components/historical-price-graph/historical-price-graph.component';
-
+import { GoogleTrendsService } from "./services/google-trends.service";
 
 @NgModule({//
   declarations: [
@@ -75,7 +75,7 @@ import { HistoricalPriceGraphComponent } from './components/historical-price-gra
 
   ],
   providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService,
-    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
+    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }
