@@ -5,13 +5,16 @@ import { PriceUpdateService } from "../../services/price-update.service";
 import { Subscription } from "rxjs/Subscription";
 import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
 import { NgPipesModule, RoundPipe } from "angular-pipes";
+import { CryptoDetailTempStorageService } from "../../services/crypto-detail-temp-storage.service";
+import { CryptoPricesService } from "../../services/crypto-prices.service";
+import { Ticker } from "../../models/ticker";
 
 @Component({
   selector: "app-pricetable",
   templateUrl: "./pricetable.component.html",
   styleUrls: ["./pricetable.component.css"]
 })
-export class PricetableComponent implements OnDestroy {
+export class PricetableComponent implements OnDestroy, OnInit {
 
   msgService: Subscription;
   loadingIndicator: boolean;
@@ -21,11 +24,14 @@ export class PricetableComponent implements OnDestroy {
   lastFilterLength: number = 1;
   mktDefault: number = 100000000;
   marketCapFilter: number = 100000000;
+  listOfCoinNames: string[] = [];
 
   unfilteredRows = [];
   rows = [
 
   ];
+
+  symbolName: { [key: string]: string } = {};
 
   columns = [
     { prop: "FROMSYMBOL", name: "PAIR" },
@@ -48,14 +54,22 @@ export class PricetableComponent implements OnDestroy {
   ];
 
 
-  constructor(msgService: PriceUpdateService) {
+  constructor(msgService: PriceUpdateService, tempStorage: CryptoDetailTempStorageService, private cryptoPriceService: CryptoPricesService) {
 
     this.msgService = msgService.getMessage().subscribe(message => {
       this.addRow(message);
     });
 
 
+
+
   }
+  async ngOnInit() {
+    let tickers = await this.cryptoPriceService.getAllAvailableTickers();
+    (<Ticker[]>tickers).map(x => { this.symbolName[x.symbol.toUpperCase()] = x.name; });
+    console.log(this.symbolName);
+  }
+
   ngOnDestroy(): void {
     this.msgService.unsubscribe();
   }
@@ -69,6 +83,9 @@ export class PricetableComponent implements OnDestroy {
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
+
+    rowToAdd.NAME = this.symbolName[row.FROMSYMBOL.toUpperCase()];
+    console.log(rowToAdd.NAME);
     let foundRow = this.unfilteredRows.findIndex(x => x.FROMSYMBOL === rowToAdd.FROMSYMBOL);
     if (foundRow !== -1) {
       this.unfilteredRows[foundRow] = rowToAdd;

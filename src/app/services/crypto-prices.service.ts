@@ -49,7 +49,7 @@ export class CryptoPricesService {
   async getContinousPriceUpdateS(ticker: string[], pairedCurrency: string[], timeout?: 50000, startAfter?: 0) {
     while (true) {
       await this.sleep(timeout);
-      const howlong = this.timer();
+
       this.getPriceMultiByTicker(ticker, pairedCurrency, this.contMsgService);
 
 
@@ -87,7 +87,7 @@ export class CryptoPricesService {
     let s = 0, i = 0;
     const max = 300;
     let newTickers: string[] = [];
-    console.log(ticker.length);
+
     for (let o of ticker) {
       let l = o.length + 1;
       if (l + s > 300) {
@@ -101,7 +101,7 @@ export class CryptoPricesService {
 
       s += l;
       i++;
-      console.log(i);
+
       newTickers.push(o);
 
 

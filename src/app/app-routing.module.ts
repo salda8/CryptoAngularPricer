@@ -7,6 +7,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { enableDebugTools } from "@angular/platform-browser/src/browser/tools/tools";
 import { SelectivePreloadingStrategy } from "./selective-preloading-strategy";
+import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.component";
 
 export const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -15,6 +16,7 @@ export const routes: Routes = [
 
   { path: "stream?:currency&:ticker", component: CryptoStreamerComponent },
   { path: "stream", component: CryptoStreamerComponent },
+  { path: "coin/:coin", component: CryptoDetailComponent },
   { path: "*", component: NotFoundComponent }
 
 ];

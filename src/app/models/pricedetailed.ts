@@ -64,6 +64,8 @@ export interface PriceDetails {
     TOTALVOLUME24H: number;
     TOTALVOLUME24HTO: number;
     DATEWHENRECEIVED: Date;
+
+    NAME: string;
 }
 export interface DISPLAY {
     ETH: ETH1;

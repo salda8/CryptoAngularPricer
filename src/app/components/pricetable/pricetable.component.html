@@ -12,7 +12,14 @@
     [limit]="maxRows"
     [scrollbarH]="true">
     <ngx-datatable-column name="PAIR" prop="FROMSYMBOL"></ngx-datatable-column>
-    <ngx-datatable-column name="NAME" prop="NAME"></ngx-datatable-column>
+    <ngx-datatable-column name="NAME" prop="NAME">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <a [routerLink]="['/coin/',value]">{{value}}</a>
+              
+      </ng-template>
+
+    </ngx-datatable-column>
+
     <ngx-datatable-column name="PRICE" prop="PRICE"></ngx-datatable-column>
     <ngx-datatable-column name="CHANGE 24H (%)" prop="CHANGEPCT24HOUR" [cellClass]="getCellClass">
       <ng-template let-value="value" ngx-datatable-cell-template>

@@ -32,6 +32,9 @@ import { CachingInterceptor } from "./caching-interceptor";
 import { HttpCacheBase, HttpCache } from "./models/http-cache";
 import { NgPipesModule } from "angular-pipes";
 import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
+import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.component";
+import { CryptoDetailTempStorageService } from "./services/crypto-detail-temp-storage.service";
+import { CoinPricesOnExchangesTableComponent } from './component/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component';
 
 
 @NgModule({//
@@ -49,7 +52,11 @@ import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
 
     NotFoundComponent,
 
-    SortByPipePipe
+    SortByPipePipe,
+
+    CryptoDetailComponent,
+
+    CoinPricesOnExchangesTableComponent
 
 
   ],
@@ -64,7 +71,8 @@ import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
 
 
   ],
-  providers: [CryptoPricesService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
+  providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService,
+    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }
