@@ -4,6 +4,8 @@ import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { CryptoDetailTempStorageService } from "../../services/crypto-detail-temp-storage.service";
 import { PriceDetails } from "../../models/pricedetailed";
 import { GoogleTrendsService } from "../../services/google-trends.service";
+import { Observable, Subscription } from "rxjs";
+import { TimelineData } from "../../models/google-trends";
 
 
 @Component({
@@ -20,6 +22,7 @@ export class CryptoDetailComponent implements OnInit {
   ];
   currency: string;
   priceDetails: PriceDetails;
+  googleTrendsData: TimelineData[];
 
   constructor(private route: ActivatedRoute, private storage: CryptoDetailTempStorageService, private googleTrends: GoogleTrendsService) {
 
@@ -30,7 +33,10 @@ export class CryptoDetailComponent implements OnInit {
 
     this.currency = this.route.snapshot.params["coin"];
     this.priceDetails = this.storage.load();
-    this.googleTrends.interestByRegionTrendSearch("bitcoin");
+    console.log(this.googleTrends.interestByRegionTrendSearch("bitcoin", "0").subscribe(res => {
+      this.googleTrendsData = JSON.parse(JSON.stringify(res))["default"]["timelineData"];
+      console.log(this.googleTrendsData);
+    }));
   }
 
 }

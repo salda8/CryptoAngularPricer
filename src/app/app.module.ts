@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 // import "hammerjs";
 
-import { HttpModule } from "@angular/http";
+import { HttpModule, JsonpModule } from "@angular/http";
 import { HttpParams, HttpClient, HttpClientModule } from "@angular/common/http";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
@@ -37,6 +37,7 @@ import { CryptoDetailTempStorageService } from "./services/crypto-detail-temp-st
 import { CoinPricesOnExchangesTableComponent } from "./components/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component";
 import { HistoricalPriceGraphComponent } from './components/historical-price-graph/historical-price-graph.component';
 import { GoogleTrendsService } from "./services/google-trends.service";
+import { GoogletrendsComponent } from './components/googletrends/googletrends.component';
 
 @NgModule({//
   declarations: [
@@ -59,7 +60,9 @@ import { GoogleTrendsService } from "./services/google-trends.service";
 
     CoinPricesOnExchangesTableComponent,
 
-    HistoricalPriceGraphComponent
+    HistoricalPriceGraphComponent,
+
+    GoogletrendsComponent
 
 
   ],
@@ -70,7 +73,7 @@ import { GoogleTrendsService } from "./services/google-trends.service";
     ButtonModule,
     RadioButtonModule, DropdownModule,
     NgPipesModule,
-    BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule
+    BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule, JsonpModule
 
 
   ],

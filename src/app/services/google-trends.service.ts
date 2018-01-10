@@ -1,9 +1,18 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpRequest, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpRequest, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import { GoogleTrendsApi } from "../utils/google-trends-api";
 
 import { Subscription } from "rxjs";
+import { Jsonp } from "@angular/http";
+import { Welcome, TimelineData } from "../models/google-trends";
+import { Options } from "selenium-webdriver/firefox";
+import { Observable } from "rxjs/Observable";
+import { PriceDetailed } from "../models/pricedetailed";
+import "rxjs/add/operator/mergeMap";
+
+
+
 
 @Injectable()
 export class GoogleTrendsService {
@@ -23,75 +32,83 @@ export class GoogleTrendsService {
     _id: "RELATED_TOPICS"
   };
   trendsUtil: GoogleTrendsApi = new GoogleTrendsApi();
-  hostName: string = "trends.google.com";
+
+  private hostUrl: string = "http://trends.google.com/";
+  private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
+  private url: string = this.corsAnywhere + this.hostUrl;
 
 
 
 
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private jsonp: Jsonp) {
 
   }
 
-  interestByRegionTrendSearch(keyword: string) {
+  interestByRegionTrendSearch(keyword: string, category?: string) {
     let settings = {
       path: "trends/api/widgetdata/multiline",
       _id: "TIMESERIES"
     };
     console.log(settings);
 
-    let request = new HttpRequest("GET", this.hostName + "/" + settings.path, { params: this.getParams(keyword) });
-    console.log(request);
-    return this.http.request(request).subscribe(res => {
-      console.log(res);
-      const parsedResult = this.trendsUtil.parseResults(res);
-      const resultObj = parsedResult.find(({ id = "", request }) => {
-        return id.indexOf(settings._id) > -1;
-      });
-
-      if (!resultObj) {
-        const errObj = {
-          message: "Available widgets does not contain selected api type",
-          requestBody: res
-        };
-        throw errObj;
+    const mOptions = {
+      method: "GET",
+      host: "https://trends.google.com",
+      path: "trends/api/explore",
+      qs: {
+        hl: "en-US",
+        req: JSON.stringify({
+          comparisonItem: [{ "keyword": keyword, "geo": "", "time": "today+12-m" }],
+          category: category ? category : 0,
+          property: ""
+        }),
+        tz: -60
       }
+    };
 
-      let req = resultObj.request;
-      const token = resultObj.token;
+    let url = this.url + "trends/api/explore";
+    let intiRequest = this.http.get(url, {
+      params: new HttpParams().set("hl", mOptions.qs.hl).set("req", mOptions.qs.req).set("tz", "-60")
 
-      // req.requestOptions.category = obj.category;
-      req.requestOptions.property = "";
-      req = JSON.stringify(req);
-      let params = this.getParams(keyword, token, req);
-      let request = new HttpRequest("GET", this.hostName + "/" + settings.path, params);
-      return this.http.request(request).subscribe(res => {
-        console.log(res);
+    }).flatMap(res => {
+      let result: Welcome = JSON.parse(JSON.stringify(res));
+      let resultObject = result.widgets[0];
+      let appToken = resultObject.token;
+      let req = resultObject.request;
+
+      req.requestOptions.category = +category;
+      url = this.url + settings.path;
+      return this.http.get(url, {
+        params: this.getParams(keyword, appToken, req)
+
       });
-
-
-
-
-
     });
+
+    return intiRequest;
+
+
 
 
 
   }
 
   getParams(keyword: string, token?: string, req?: any): HttpParams {
-    let params = new HttpParams();
-    params.append("hl", keyword);
-    params.append("tz", "300");
-
-    if (token) {
-      params.append("token", token);
+    if (token && req) {
+      return new HttpParams().set("hl", keyword).set("tz", "300").set("token", token).set("req", JSON.stringify(req));
     }
 
-    if (req) {
-      params.append("req", JSON.stringify(req));
-    }
-    console.log(params);
-    return params;
+    return new HttpParams().set("hl", keyword).set("tz", "300");
+
+    // if (token) {
+    //   params.append("token", token);
+    // }
+
+    // if (req) {
+    //   params.append("req", JSON.stringify(req));
+    // }
+    // console.log(params);
+    // return params;
   }
 
   // return new Promise((resolve, reject) => {
