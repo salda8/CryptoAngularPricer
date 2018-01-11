@@ -33,6 +33,8 @@ export class GraphSeries {
 
 }
 
+
+
 export interface PriceDetails {
     TYPE: string;
     MARKET: string;
@@ -63,9 +65,10 @@ export interface PriceDetails {
     MKTCAP: number;
     TOTALVOLUME24H: number;
     TOTALVOLUME24HTO: number;
-    DATEWHENRECEIVED: Date;
 
+    DATEWHENRECEIVED: Date;
     NAME: string;
+    ROUTELINK: { name: string; symbol: string };
 }
 export interface DISPLAY {
     ETH: ETH1;

@@ -1,3 +1,32 @@
-<p>
-  googletrends works!
-</p>
+<div class="outer">
+    <div class="middle">
+      <div class="inner">
+  
+          <h3>Google trends</h3>
+          <!-- <mat-grid-list rows="2" cols="1">
+            <mat-grid-tile rowspan="1" colspan="1">
+              <h3>Google trends for {{coin}}</h3>
+            </mat-grid-tile>
+            <mat-grid-tile rowspan="2" colspan="1"> -->
+              <ngx-charts-line-chart *ngIf="create"
+                [view]="view"
+                [scheme]="colorScheme"
+                [results]="graphData"
+                [gradient]="gradient"
+                [xAxis]="showXAxis"
+                [yAxis]="showYAxis"
+                [legend]="showLegend"
+                [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel"
+                [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel"
+                [autoScale]="autoScale">
+              
+              </ngx-charts-line-chart>
+  
+      </div>
+    </div>
+  </div>
+
+  <!-- </mat-grid-tile>
+</mat-grid-list> -->

@@ -23,12 +23,18 @@ import { String, StringBuilder } from "typescript-string-operations-ng4";
 export class CryptoPricesService {
   contUpdatesService: ContinousPriceUpdatesMessageService;
   baseUrl = "https://min-api.cryptocompare.com/data/";
+  private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
 
 
   constructor(private http: HttpClient, private messageService: PriceUpdateService, private contMsgService: ContinousPriceUpdatesMessageService) {
     this.baseUrl = this.baseUrl;
     this.messageService = messageService;
     this.contUpdatesService = this.contMsgService;
+  }
+
+  getCoinSnapshot(ticker: string, pairedCurrency: string = "USD") {
+    const url = `${this.corsAnywhere}https://www.cryptocompare.com/api/data/coinsnapshot/?fsym=${ticker}&tsym=${pairedCurrency.replace(" ", "")}`;
+    return this.http.get(url);
   }
 
   getAllAvailableTickers(currency = "USD") {

@@ -31,4 +31,18 @@ h3{
     background: darkred
 }
 
+.outer {
+    display: table;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+
+
 

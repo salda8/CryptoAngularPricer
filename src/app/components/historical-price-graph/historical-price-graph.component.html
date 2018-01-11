@@ -1,6 +1,7 @@
-<p>
-  historical-price-graph works!
-</p>
+<div class="outer">
+    <div class="middle">
+      <div class="inner">
+          <h3>PRICE HISTORY</h3>
 
 <ngx-charts-line-chart *ngIf="create"
       [view]="view"
@@ -14,7 +15,10 @@
       [showYAxisLabel]="showYAxisLabel"
       [xAxisLabel]="xAxisLabel"
       [yAxisLabel]="yAxisLabel"
-      [autoScale]="autoScale"
-      (select)="onSelect($event)">
+      [autoScale]="autoScale">
+     
  </ngx-charts-line-chart>
+ </div>
+ </div>
+ </div>
 

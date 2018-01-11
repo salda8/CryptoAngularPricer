@@ -16,7 +16,9 @@ export const routes: Routes = [
 
   { path: "stream?:currency&:ticker", component: CryptoStreamerComponent },
   { path: "stream", component: CryptoStreamerComponent },
-  { path: "coin/:coin", component: CryptoDetailComponent },
+  { path: "coin?*name&*symbol", component: CryptoDetailComponent },
+  { path: "coin", component: CryptoDetailComponent },
+
   { path: "*", component: NotFoundComponent }
 
 ];

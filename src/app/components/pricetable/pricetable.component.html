@@ -8,16 +8,19 @@
     class="material"
     [footerHeight]="50"
     [offset]="offset"
-    
+    [rowHeight]="40"
     [limit]="maxRows"
     [scrollbarH]="true">
+    <ngx-datatable-column name="DETAILS" prop="ROUTELINK">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+       <a [routerLink]="'/coin/'" [queryParams]="value"> <button class="btn btn-info btn-block">DETAILS</button></a>
+          
+  </ng-template>
+</ngx-datatable-column>
+
     <ngx-datatable-column name="PAIR" prop="FROMSYMBOL"></ngx-datatable-column>
     <ngx-datatable-column name="NAME" prop="NAME">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            <a [routerLink]="['/coin/',value]">{{value}}</a>
-              
-      </ng-template>
-
+        
     </ngx-datatable-column>
 
     <ngx-datatable-column name="PRICE" prop="PRICE"></ngx-datatable-column>

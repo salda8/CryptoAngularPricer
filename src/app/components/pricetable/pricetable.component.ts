@@ -83,9 +83,9 @@ export class PricetableComponent implements OnDestroy, OnInit {
   addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
-
     rowToAdd.NAME = this.symbolName[row.FROMSYMBOL.toUpperCase()];
-    console.log(rowToAdd.NAME);
+    rowToAdd.ROUTELINK = { name: rowToAdd.NAME, symbol: row.FROMSYMBOL };//`/coin?name=${rowToAdd.NAME}&symbol=${row.FROMSYMBOL}`;
+
     let foundRow = this.unfilteredRows.findIndex(x => x.FROMSYMBOL === rowToAdd.FROMSYMBOL);
     if (foundRow !== -1) {
       this.unfilteredRows[foundRow] = rowToAdd;

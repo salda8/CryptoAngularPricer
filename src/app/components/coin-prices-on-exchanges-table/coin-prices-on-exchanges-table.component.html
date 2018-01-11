@@ -1,33 +1,37 @@
-<p>
-  coin-prices-on-exchanges-table works!
-</p>
+<div class="outer">
+        <div class="middle">
+          <div class="inner">
+                <h3>EXCHANGE RATES</h3>
 <ngx-datatable
     [rows]="rows"
     class="material"
-    
+    [columnMode]="'flex'"
     [offset]="offset"
-    
+    [footerHeight]="50"
     [limit]="maxRows"
-    [scrollbarH]="true">
-    <ngx-datatable-column name="Exchange" prop="exchange">
+    [scrollbarH]="false">
+    <ngx-datatable-column  name="Exchange" prop="MARKET" [flexGrow]="1">
+        <ng-template  let-value="value" ngx-datatable-cell-template>
+            {{ value}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Pair" prop="FROMSYMBOL" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value}}
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Pair" prop="pair">
+    <ngx-datatable-column name="Price" prop="PRICE" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value}}
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Price" prop="price">
+    <ngx-datatable-column name="24H volume" prop="VOLUME24HOUR" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value}}
-        </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="24H volume" prop="volume_24">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value | round:2 }}
+            {{ value }}
         </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
+  </div>
+  </div>
+  </div>
 

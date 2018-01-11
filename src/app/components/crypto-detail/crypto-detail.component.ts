@@ -6,6 +6,7 @@ import { PriceDetails } from "../../models/pricedetailed";
 import { GoogleTrendsService } from "../../services/google-trends.service";
 import { Observable, Subscription } from "rxjs";
 import { TimelineData } from "../../models/google-trends";
+import { CoinSnapshot } from "../../models/coin-snapshot";
 
 
 @Component({
@@ -14,29 +15,32 @@ import { TimelineData } from "../../models/google-trends";
   styleUrls: ["./crypto-detail.component.css"]
 })
 export class CryptoDetailComponent implements OnInit {
-  tiles = [
-    { text: "One", cols: 3, rows: 1, color: "lightblue" },
-    { text: "Two", cols: 1, rows: 2, color: "lightgreen" },
-    { text: "Three", cols: 1, rows: 1, color: "lightpink" },
-    { text: "Four", cols: 2, rows: 1, color: "#DDBDF1" }
-  ];
-  currency: string;
+  coin: string;
+  coinSymbol: string;
   priceDetails: PriceDetails;
-  googleTrendsData: TimelineData[];
+  timelineData: TimelineData[] = [];
+  coinSnapshot: CoinSnapshot;
 
-  constructor(private route: ActivatedRoute, private storage: CryptoDetailTempStorageService, private googleTrends: GoogleTrendsService) {
+  constructor(private route: ActivatedRoute, private storage: CryptoDetailTempStorageService, private googleTrends: GoogleTrendsService, private priceService: CryptoPricesService) {
 
 
   }
 
   ngOnInit() {
-
-    this.currency = this.route.snapshot.params["coin"];
+    console.log(this.route.snapshot);
+    this.coinSymbol = this.route.snapshot.queryParams["symbol"];
+    this.coin = this.route.snapshot.queryParams["name"];
     this.priceDetails = this.storage.load();
-    console.log(this.googleTrends.interestByRegionTrendSearch("bitcoin", "0").subscribe(res => {
-      this.googleTrendsData = JSON.parse(JSON.stringify(res))["default"]["timelineData"];
-      console.log(this.googleTrendsData);
-    }));
+    this.googleTrends.interestByRegionTrendSearch(this.coin, "0").subscribe(res => {
+      this.timelineData = JSON.parse(JSON.stringify(res))["default"]["timelineData"];
+
+    });
+
+    this.priceService.getCoinSnapshot(this.coinSymbol).subscribe(res => {
+      this.coinSnapshot = JSON.parse(JSON.stringify(res));
+    });
+
+
   }
 
 }

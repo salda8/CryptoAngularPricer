@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { GraphLine, PriceDetails } from '../../models/pricedetailed';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, Input } from "@angular/core";
+import { Subscription } from "rxjs";
+import { GraphLine, PriceDetails } from "../../models/pricedetailed";
+import { FormControl } from "@angular/forms";
 
 @Component({
-  selector: 'app-historical-price-graph',
-  templateUrl: './historical-price-graph.component.html',
-  styleUrls: ['./historical-price-graph.component.css']
+  selector: "app-historical-price-graph",
+  templateUrl: "./historical-price-graph.component.html",
+  styleUrls: ["./historical-price-graph.component.css"]
 })
 export class HistoricalPriceGraphComponent implements OnInit {
+  @Input()
+  coin: string;
+
   msgService: Subscription;
   liveUpdatesMessageService: Subscription;
   selectedCryptoPair: string[] = [];
@@ -31,6 +34,12 @@ export class HistoricalPriceGraphComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = "Price";
   create = false;
+  autoScale = true;
+  graphData: GraphLine[] = [];
+
+  colorScheme = {
+    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
+  };
   constructor() { }
 
   ngOnInit() {

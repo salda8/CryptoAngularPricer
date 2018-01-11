@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
+import { TakePipe } from "angular-pipes";
 
 @Pipe({
   name: "sortByPipe"
@@ -24,17 +25,36 @@ export class SortByPipePipe implements PipeTransform {
       array.push(objectKey);
     }
 
-    console.log(array);
-    console.log(attribute);
 
     array.sort(function (a, b) {
       a = parseInt(a[attribute]);
-      //console.log(a[attribute]);
+      // console.log(a[attribute]);
+      b = parseInt(b[attribute]);
+      console.log("a", a, "b", b);
+      // console.log(b[attribute]);
+      return direction === "desc" ? a - b : b - a;
+    });
+
+    return TakePipe.prototype.transform(array);
+  }
+
+  sortAndTakeTopX(input: Object[], attribute: string, direction: "asc" | "desc", objectsToTake: number) {
+    let array = [];
+    for (let objectKey of input) {
+      array.push(objectKey);
+    }
+
+
+    array.sort(function (a, b) {
+      a = parseInt(a[attribute]);
+      // console.log(a[attribute]);
       b = parseInt(b[attribute]);
       // console.log(b[attribute]);
-      return direction ? a - b : b - a;
+      return direction === "desc" ? a - b : b - a;
     });
-    return array;
+
+    let toReturn = TakePipe.prototype.transform(array, objectsToTake);
+    return toReturn;
   }
 
 }

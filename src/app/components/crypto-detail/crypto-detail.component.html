@@ -1,30 +1,35 @@
 
-<mat-grid-list cols="4" rows="3">
-  <mat-grid-tile rowspan="1" colspan="4">
-      <h2>DETAILS ABOUT {{currency}}</h2>
+<mat-grid-list cols="4" rows="4">
+  <mat-grid-tile rowspan="1" colspan="4" style.background="limegreen">
+      <h2>DETAILS ABOUT {{coin}}</h2>
   </mat-grid-tile>
-  <mat-grid-tile rowspan="2" colspan="2">
-    <h3>EXCHANGE RATES</h3>
-    <app-coin-prices-on-exchanges-table >
+  <mat-grid-tile rowspan="2" colspan="2" style.background="#DDBDF1">
+   
+    <app-coin-prices-on-exchanges-table *ngIf="coin && coinSnapshot" [CoinSnapshot]="coinSnapshot" [coin]="coin">
 
     </app-coin-prices-on-exchanges-table>
   </mat-grid-tile>
-  <mat-grid-tile rowspan="2" colspan="2">
-      <h3>PRICE HISTORY</h3>
-    <app-historical-price-graph>
+  <mat-grid-tile rowspan="2" colspan="2"  style.background="lightpink">
+      
+    <app-historical-price-graph *ngIf="coin" [coin]="coin">
 
     </app-historical-price-graph>
   </mat-grid-tile>
-  <mat-grid-tile rowspan="3" colspan="2">
-    <h3>SOCIAL MEDIA (proly too lazy for that)</h3>
+  <mat-grid-tile rowspan="3" colspan="4" style.background="lightgreen">
+      <h3>SOCIAL MEDIA</h3>
     
    
   </mat-grid-tile>
-  <mat-grid-tile rowspan="3" colspan="2">
-    <h3>Google TRENDS</h3>
-    <app-googletrends>
+  <mat-grid-tile rowspan="4" colspan="4" style.background="lightblue">
+    <!-- <mat-grid-list rows="2" cols="1">
+      <mat-grid-tile rowspan="1" cols="1"><h3>Google Trends</h3></mat-grid-tile>
+      <mat-grid-tile rowspan="2" cols="1"> -->
+   
+    <app-googletrends *ngIf="coin && timelineData?.length>0" [coin]="coin" [TimelineData]="timelineData">
       
     </app-googletrends>
+  <!-- </mat-grid-tile>
+  </mat-grid-list> -->
     
    
   </mat-grid-tile>
