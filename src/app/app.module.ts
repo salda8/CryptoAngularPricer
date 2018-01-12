@@ -35,9 +35,10 @@ import { SortByPipePipe } from "./pipes/sort-by-pipe.pipe";
 import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.component";
 import { CryptoDetailTempStorageService } from "./services/crypto-detail-temp-storage.service";
 import { CoinPricesOnExchangesTableComponent } from "./components/coin-prices-on-exchanges-table/coin-prices-on-exchanges-table.component";
-import { HistoricalPriceGraphComponent } from './components/historical-price-graph/historical-price-graph.component';
+import { HistoricalPriceGraphComponent } from "./components/historical-price-graph/historical-price-graph.component";
 import { GoogleTrendsService } from "./services/google-trends.service";
-import { GoogletrendsComponent } from './components/googletrends/googletrends.component';
+import { GoogletrendsComponent } from "./components/googletrends/googletrends.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({//
   declarations: [
@@ -68,7 +69,7 @@ import { GoogletrendsComponent } from './components/googletrends/googletrends.co
   ],
   imports: [
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
-    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule,
+    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
     PanelModule,
     ButtonModule,
     RadioButtonModule, DropdownModule,
