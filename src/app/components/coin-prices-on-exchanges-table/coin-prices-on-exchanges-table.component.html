@@ -6,8 +6,9 @@
     [rows]="rows"
     class="material"
     [columnMode]="'flex'"
+    [loadingIndicator]="loadingIndicator"
     [offset]="offset"
-    [footerHeight]="50"
+    [footerHeight]="35"
     [limit]="maxRows"
     [scrollbarH]="false">
     <ngx-datatable-column  name="Exchange" prop="MARKET" [flexGrow]="1">
@@ -15,22 +16,29 @@
             {{ value}}
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Pair" prop="FROMSYMBOL" [flexGrow]="1">
+    <ngx-datatable-column name="Pair" prop="PAIR" [flexGrow]="1.2">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value}}
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="Price" prop="PRICE" [flexGrow]="1">
+    <ngx-datatable-column name="Price" prop="PRICE" [flexGrow]="1.2">
         <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value}}
         </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="24H volume" prop="VOLUME24HOUR" [flexGrow]="1">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value }}
+            {{ value}}
         </ng-template>
     </ngx-datatable-column>
+    <ngx-datatable-column name="+/- AVG Price" prop="DIFTOAVERAGEPRICE" [flexGrow]="1">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value}} %
+        </ng-template>
+    </ngx-datatable-column>
+   
   </ngx-datatable>
+  <p class="result">Biggest rate discrepancy is between {{exchangeWithHighestPrice}} and {{exchangeWithLowestPrice}} for total of {{biggestPriceDifference}}</p>
   </div>
   </div>
   </div>

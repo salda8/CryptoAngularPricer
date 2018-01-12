@@ -67,6 +67,37 @@ export interface ExchangeCoinSnapshot {
     LOW24HOUR: number;
 }
 
+// export interface ViewExchangeCoinSnapshot {
+//     MARKET: string;
+//     PAIR: string;
+//     PRICE: number;
+//     VOLUME24HOUR: number;
+//     DIFTOAVERAGEPRICE: number;
+
+
+// }
+
+export class ViewExchangeCoinSnapshot {
+    MARKET: string;
+    PAIR: string;
+    PRICE: number = 0;
+    VOLUME24HOUR: number = 0;
+    DIFTOAVERAGEPRICE: number = 0;
+
+    constructor(snapshot: ExchangeCoinSnapshot) {
+        this.MARKET = snapshot.MARKET;
+        this.PAIR = snapshot.FROMSYMBOL + "/" + snapshot.TOSYMBOL;
+        this.PRICE = snapshot.PRICE;
+        this.VOLUME24HOUR = snapshot.VOLUME24HOUR;
+
+
+    }
+
+
+
+
+}
+
 // Converts JSON numbers to/from your types
 export class Convert {
     toCoinSnapshot(json: string): CoinSnapshot {

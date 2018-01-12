@@ -15,21 +15,28 @@ import { MessageService } from "../models/message-service";
 import { ContinousPriceUpdatesMessageService } from "./price-details-message.service";
 import { request } from "../models/request";
 import { String, StringBuilder } from "typescript-string-operations-ng4";
+import { CoinListResponse } from "../models/coin-list-response";
 
 
 
 
 @Injectable()
 export class CryptoPricesService {
+  private static coinList: Map<string, string>;
+
   contUpdatesService: ContinousPriceUpdatesMessageService;
   baseUrl = "https://min-api.cryptocompare.com/data/";
+  parameters: Map<string, string>;
+
   private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
+
 
 
   constructor(private http: HttpClient, private messageService: PriceUpdateService, private contMsgService: ContinousPriceUpdatesMessageService) {
     this.baseUrl = this.baseUrl;
     this.messageService = messageService;
     this.contUpdatesService = this.contMsgService;
+    this.getAllCoinsOnCryptoCompare();
   }
 
   getCoinSnapshot(ticker: string, pairedCurrency: string = "USD") {
@@ -48,6 +55,26 @@ export class CryptoPricesService {
 
   getAllCoinsOnCryptoCompare() {
     const url = "https://min-api.cryptocompare.com/data/all/coinlist";
+    this.http.get(url).subscribe(res => {
+      let result: CoinListResponse = JSON.parse(JSON.stringify(res));
+      let keys = result.Data;
+      result.DataMap = new Map<string, string>();
+      Object.keys(keys).forEach(key => {
+        result.DataMap.set(keys[key].Symbol, keys[key].Id);
+      });
+
+      CryptoPricesService.coinList = result.DataMap;
+
+    });
+  }
+
+  getSocialStats(symbol: string) {
+    let id = CryptoPricesService.coinList.get(symbol);
+    if (!id) {
+      this.getAllCoinsOnCryptoCompare();
+      this.getSocialStats(symbol);
+    }
+    const url = `${this.corsAnywhere}https://www.cryptocompare.com/api/data/socialstats/?id=${id}`;
     return this.http.get(url);
   }
 

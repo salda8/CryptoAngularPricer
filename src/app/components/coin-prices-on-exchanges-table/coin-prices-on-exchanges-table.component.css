@@ -3,3 +3,10 @@
     margin-right: auto; 
     width:auto; /*whatever width you want*/
 }
+
+.result{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    color: black
+
+}
