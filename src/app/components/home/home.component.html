@@ -1,7 +1,7 @@
-   <div id="navigation">
+   
     <nav class="light-blue lighten-1" role="navigation">
-      <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-        <ul class="right hide-on-med-and-down">
+      <!-- <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a> --> 
+        <ul class="navigation">
           <li> <a routerLink="/">Home</a></li>
           <li> <a routerLink="/price">Price</a></li>
           <li> <a routerLink="/stream">Stream</a></li>
@@ -13,9 +13,9 @@
           <li><a href="#">Navbar Link</a></li>
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-      </div>
+      <!-- </div> -->
     </nav>
-  </div>
+
   <div [hidden]="!loading" class="loader">
     <h2>Loading...</h2>
     <mat-progress-spinner
@@ -24,13 +24,13 @@
         mode="indeterminate">
     </mat-progress-spinner>
   </div>
-         
+       
    <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
-    <div class="section no-pad-bot" id="index-banner">
-       <div class="container" [hidden]="loading">
+   
+       <div class="flex-container"  [hidden]="loading">
             <router-outlet></router-outlet>
       </div>
-    </div>
+    
    
     <!-- <footer class="page-footer orange">
         <h2>Footer</h2>

@@ -19,38 +19,34 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
 
   @Input()
   set CoinSnapshot(value: CoinSnapshot) {
-    // console.log(value.Data);
-
     let orderedTop20: ViewExchangeCoinSnapshot[] = SortByPipePipe.prototype.sortAndTakeTopX(value.Data.Exchanges.map(x => new ViewExchangeCoinSnapshot(x)), "VOLUME24HOUR", "asc", 20);
     let filteredZeroVolume: ViewExchangeCoinSnapshot[] = this.volumeBiggerThanX(orderedTop20);
     let filteredCount = filteredZeroVolume.length;
     filteredZeroVolume.forEach(x => this.countPercentChangeAgainstAveragePrice(x, filteredCount));
-    console.log(filteredZeroVolume);
+    const max = filteredZeroVolume.reduce(function (prev, current) {
+      return (prev.DIFTOAVERAGEPRICE > current.DIFTOAVERAGEPRICE) ? prev : current;
+    }); // returns object
+    console.log(max);
+    const min = filteredZeroVolume.reduce(function (prev, current) {
+      return (prev.DIFTOAVERAGEPRICE < current.DIFTOAVERAGEPRICE) ? prev : current;
+    });
+    console.log(min);
+    this.max = max;
+    this.min = min;
     this.coinSnapshot = value.Data.Exchanges;
     this.aggregatedData = value.Data.AggregatedData;
     this.rows = [...filteredZeroVolume];
     this.loadingIndicator = false;
 
-
-
   }
-
-
-
-
 
   @Input()
   coin: string;
-  exchangeWithHighestPrice: string = "";
-  lowestPrice: number;
-  highestPrice: number;
-  exchangeWithLowestPrice: string = "";
+  max: {};
+  min: {};
   biggestPriceDifference: number = 0;
 
   aggregatedData: AggregatedData;
-
-
-
   msgService: Subscription;
   loadingIndicator: boolean = true;
   offset = 0;
@@ -79,27 +75,14 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   countPercentChangeAgainstAveragePrice(x: ViewExchangeCoinSnapshot, filteredCount: number) {
 
     this.averagePriceInTop = this.totalPriceInTop20 / filteredCount;
-    console.log("AVERAGE", this.averagePriceInTop);
+
     let averageNumberOfDecimals: number = round(this.totalDecimals / filteredCount, 0);
-    console.log(averageNumberOfDecimals);
+
     x.PRICE = round(x.PRICE, averageNumberOfDecimals);
     // console.log(1 - (+this.averagePriceInTop / +x.PRICE));
     let numbertoRound = (1 - (this.averagePriceInTop / x.PRICE));
     x.DIFTOAVERAGEPRICE = round(round(numbertoRound, 3) * 100, 1);
-    if (x.DIFTOAVERAGEPRICE > this.highestPrice) {
-      this.exchangeWithHighestPrice = x.MARKET;
-      this.highestPrice = x.DIFTOAVERAGEPRICE;
-      this.biggestPriceDifference = round((this.highestPrice + -this.lowestPrice), 1);
-    }
-    else if (x.DIFTOAVERAGEPRICE < this.lowestPrice) {
-      this.exchangeWithLowestPrice = x.MARKET;
-      this.lowestPrice = x.DIFTOAVERAGEPRICE;
-      this.biggestPriceDifference = round((this.highestPrice + -this.lowestPrice), 1);
-    }
-    else {
-      this.lowestPrice = x.DIFTOAVERAGEPRICE;
-      this.highestPrice = x.DIFTOAVERAGEPRICE;
-    }
+
   }
 
   volumeBiggerThanX(item: ViewExchangeCoinSnapshot[], x: number = 100): ViewExchangeCoinSnapshot[] {

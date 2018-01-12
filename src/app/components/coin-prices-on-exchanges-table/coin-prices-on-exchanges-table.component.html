@@ -1,6 +1,4 @@
-<div class="outer">
-        <div class="middle">
-          <div class="inner">
+<div class="flex-item">
                 <h3>EXCHANGE RATES</h3>
 <ngx-datatable
     [rows]="rows"
@@ -38,8 +36,7 @@
     </ngx-datatable-column>
    
   </ngx-datatable>
-  <p class="result">Biggest rate discrepancy is between {{exchangeWithHighestPrice}} and {{exchangeWithLowestPrice}} for total of {{biggestPriceDifference}}</p>
+  <p class="result">Biggest rate discrepancy is between <em>{{max.MARKET}} ({{max.DIFTOAVERAGEPRICE}}%)</em> and <em>{{min.MARKET}} ({{min.DIFTOAVERAGEPRICE}}%)</em> for total of <em>{{max.DIFTOAVERAGEPRICE + -min.DIFTOAVERAGEPRICE}}%</em></p>
   </div>
-  </div>
-  </div>
+ 
 
