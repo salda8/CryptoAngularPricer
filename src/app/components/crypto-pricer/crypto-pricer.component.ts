@@ -7,7 +7,7 @@ import { forEach } from "@angular/router/src/utils/collection";
 import { DISPLAY, PriceDetailed, PriceDetails } from "../../models/pricedetailed";
 import { PriceUpdateService } from "../../services/price-update.service";
 import { Ticker } from "../../models/ticker";
-import { CURRENCIES } from "@angular/common/src/i18n/currencies";
+
 import { MatOption, MatCheckbox } from "@angular/material";
 import { FlattenPipe, TakePipe, OrderByPipe } from "angular-pipes";
 import { SortByPipePipe } from "../../pipes/sort-by-pipe.pipe";
