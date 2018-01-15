@@ -1,5 +1,11 @@
 <div class="flex-item">
                 <h3>EXCHANGE RATES</h3>
+<mat-form-field>
+    <mat-select placeholder="Filter by volume" [formControl]="volumeFilterControl"  [(ngModel)]="selectedVolume" [disabled]="filterableVolumeValue.length===0" (selectionChange)="onVolumeFilterSelectionChange()" false>
+        <mat-option *ngFor="let volume of filterableVolumeValue" [value]="volume.value" ng-selected="">{{volume.display}}</mat-option>
+                     
+    </mat-select>
+ </mat-form-field>
 <ngx-datatable
     [rows]="rows"
     class="material"

@@ -5,7 +5,11 @@ import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { CoinSnapshot, AggregatedData, ExchangeCoinSnapshot, ViewExchangeCoinSnapshot } from "../../models/coin-snapshot";
 import { NgPipesModule, RoundPipe, WherePipe } from "angular-pipes";
 import { SortByPipePipe } from "../../pipes/sort-by-pipe.pipe";
-import { countDecimals, round } from "../../utils/dataOperations";
+import { countDecimals, round, median } from "../../utils/dataOperations";
+import { FormControl } from "@angular/forms";
+import { VolumeFilter } from "../../models/volume-filter";
+
+
 
 @Component({
   selector: "app-coin-prices-on-exchanges-table",
@@ -16,34 +20,25 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   totalPriceInTop20: number = 0;
   averagePriceInTop: number = 0;
   totalDecimals: number = 0;
+  volumeFilterControl: FormControl = new FormControl();
+  selectedVolume: string;
+  filterableVolumeValue: VolumeFilter[] = [];
 
   @Input()
   set CoinSnapshot(value: CoinSnapshot) {
-    let orderedTop20: ViewExchangeCoinSnapshot[] = SortByPipePipe.prototype.sortAndTakeTopX(value.Data.Exchanges.map(x => new ViewExchangeCoinSnapshot(x)), "VOLUME24HOUR", "asc", 20);
-    let filteredZeroVolume: ViewExchangeCoinSnapshot[] = this.volumeBiggerThanX(orderedTop20);
-    let filteredCount = filteredZeroVolume.length;
-    filteredZeroVolume.forEach(x => this.countPercentChangeAgainstAveragePrice(x, filteredCount));
-    const max = filteredZeroVolume.reduce(function (prev, current) {
-      return (prev.DIFTOAVERAGEPRICE > current.DIFTOAVERAGEPRICE) ? prev : current;
-    }); // returns object
-    console.log(max);
-    const min = filteredZeroVolume.reduce(function (prev, current) {
-      return (prev.DIFTOAVERAGEPRICE < current.DIFTOAVERAGEPRICE) ? prev : current;
-    });
-    console.log(min);
-    this.max = max;
-    this.min = min;
     this.coinSnapshot = value.Data.Exchanges;
     this.aggregatedData = value.Data.AggregatedData;
-    this.rows = [...filteredZeroVolume];
-    this.loadingIndicator = false;
+    this.filterAndUpdateRows();
+    this.getValuesForVolumeFilter();
+
+
 
   }
 
   @Input()
   coin: string;
-  max: {};
-  min: {};
+  max: ViewExchangeCoinSnapshot;
+  min: ViewExchangeCoinSnapshot;
   biggestPriceDifference: number = 0;
 
   aggregatedData: AggregatedData;
@@ -63,13 +58,63 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   ];
 
   symbolName: { [key: string]: string } = {};
-
   coinSnapshot: ExchangeCoinSnapshot[] = [];
+
+  private partsOfMedianVolume: number = 10;
+
   constructor() {
 
   }
 
   ngOnInit() {
+  }
+
+  filterAndUpdateRows() {
+    this.loadingIndicator = true;
+    this.totalDecimals = 0, this.totalPriceInTop20 = 0, this.averagePriceInTop = 0;
+
+    let orderedTop20: ViewExchangeCoinSnapshot[] = SortByPipePipe.prototype.sortAndTakeTopX(this.coinSnapshot.map(x => new ViewExchangeCoinSnapshot(x)), "VOLUME24HOUR", "asc", 20);
+    let filteredZeroVolume: ViewExchangeCoinSnapshot[] = this.volumeBiggerThanX(orderedTop20, this.selectedVolume ? +this.selectedVolume : 100);
+    console.log(filteredZeroVolume);
+    let filteredCount = filteredZeroVolume.length;
+
+    filteredZeroVolume.forEach(x => this.countPercentChangeAgainstAveragePrice(x, filteredCount));
+    const max = filteredZeroVolume.reduce((prev, current) => {
+      return (prev.DIFTOAVERAGEPRICE > current.DIFTOAVERAGEPRICE) ? prev : current;
+    });
+
+    const min = filteredZeroVolume.reduce((prev, current) => {
+      return (prev.DIFTOAVERAGEPRICE < current.DIFTOAVERAGEPRICE) ? prev : current;
+    });
+    this.offset = 0;
+    this.rows = [...filteredZeroVolume];
+    this.max = max;
+    this.min = min;
+
+    this.loadingIndicator = false;
+
+
+
+  }
+
+  getValuesForVolumeFilter() {
+    let medianValue = median(this.rows.map(x => x.VOLUME24HOUR));
+    console.log("MEDIAN", medianValue);
+
+    let partOfMaxVolumeValue = (medianValue / this.partsOfMedianVolume);
+
+    let oneXofMaxVolume = Array.from(Array(this.partsOfMedianVolume), (x, index) => index + 1);
+    console.log(partOfMaxVolumeValue, oneXofMaxVolume);
+    this.filterableVolumeValue = [];
+    for (let value of oneXofMaxVolume) {
+      let volumeValue = Math.floor(value * partOfMaxVolumeValue);
+      let volumeFilter = new VolumeFilter(volumeValue, `over ${value * this.partsOfMedianVolume}% of median (${volumeValue})`);
+      console.log(volumeFilter);
+      this.filterableVolumeValue.push(volumeFilter);
+
+    }
+
+    console.log(this.filterableVolumeValue);
   }
 
   countPercentChangeAgainstAveragePrice(x: ViewExchangeCoinSnapshot, filteredCount: number) {
@@ -87,6 +132,7 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
 
   volumeBiggerThanX(item: ViewExchangeCoinSnapshot[], x: number = 100): ViewExchangeCoinSnapshot[] {
     let arrayToReturn: ViewExchangeCoinSnapshot[] = [];
+
     for (let snap of item) {
       if (snap.VOLUME24HOUR > x) {
         snap.VOLUME24HOUR = Math.round(+snap.VOLUME24HOUR);
@@ -98,6 +144,11 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
     }
 
     return arrayToReturn;
+  }
+
+  onVolumeFilterSelectionChange() {
+    this.filterAndUpdateRows();
+
   }
 
 }
