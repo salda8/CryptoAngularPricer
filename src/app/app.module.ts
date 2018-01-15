@@ -39,6 +39,7 @@ import { HistoricalPriceGraphComponent } from "./components/historical-price-gra
 import { GoogleTrendsService } from "./services/google-trends.service";
 import { GoogletrendsComponent } from "./components/googletrends/googletrends.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { SocialStatsComponent } from './components/social-stats/social-stats.component';
 
 @NgModule({//
   declarations: [
@@ -63,7 +64,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
     HistoricalPriceGraphComponent,
 
-    GoogletrendsComponent
+    GoogletrendsComponent,
+
+    SocialStatsComponent
 
 
   ],
