@@ -1,7 +1,7 @@
 <div class="flex-item">
       <h2>DETAILS ABOUT {{coin}}</h2>
  
-    <app-coin-prices-on-exchanges-table *ngIf="coin && coinSnapshot" [CoinSnapshot]="coinSnapshot" [coin]="coin">
+    <app-coin-prices-on-exchanges-table *ngIf="coin && coinSnapshot" [coin]="coin" [CoinSnapshot]="coinSnapshot" >
 
     </app-coin-prices-on-exchanges-table>
  
@@ -10,12 +10,12 @@
     </app-historical-price-graph>
  
       
-      <app-social-stats>
+      <app-social-stats *ngIf="coinSymbol!==undefined" [coin]="coinSymbol">
 
       </app-social-stats>
     
  
-    <app-googletrends *ngIf="coin && timelineData?.length>0" [coin]="coin" [TimelineData]="timelineData">
+    <app-googletrends *ngIf="coin!==undefined && timelineData?.length>0" [coin]="coin" [TimelineData]="timelineData">
       
     </app-googletrends>
   </div>

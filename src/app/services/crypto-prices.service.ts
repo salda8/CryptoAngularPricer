@@ -16,13 +16,14 @@ import { ContinousPriceUpdatesMessageService } from "./price-details-message.ser
 import { request } from "../models/request";
 import { String, StringBuilder } from "typescript-string-operations-ng4";
 import { CoinListResponse } from "../models/coin-list-response";
+import { Console } from "@angular/core/src/console";
 
 
 
 
 @Injectable()
 export class CryptoPricesService {
-  private static coinList: Map<string, string>;
+  private static coinList: Map<string, string> = new Map<string, string>();
 
   contUpdatesService: ContinousPriceUpdatesMessageService;
   baseUrl = "https://min-api.cryptocompare.com/data/";
@@ -64,13 +65,17 @@ export class CryptoPricesService {
       });
 
       CryptoPricesService.coinList = result.DataMap;
+      console.log(CryptoPricesService.coinList);
 
     });
   }
 
   getSocialStats(symbol: string) {
+    console.log(symbol);
     let id = CryptoPricesService.coinList.get(symbol);
+    console.log(id);
     if (!id) {
+      console.log(id);
       this.getAllCoinsOnCryptoCompare();
       this.getSocialStats(symbol);
     }

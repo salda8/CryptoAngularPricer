@@ -1,5 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
+import postscribe from "postscribe";
+import { CryptoPricesService } from "../../services/crypto-prices.service";
+import { SocialStatsResponse } from "../../models/social-stat";
 
 @Component({
   selector: "app-social-stats",
@@ -7,12 +10,26 @@ import { Router, NavigationEnd } from "@angular/router";
   styleUrls: ["./social-stats.component.css"]
 })
 export class SocialStatsComponent implements OnInit {
+  @Input()
+  coin: string;
   private twitter: any;
-  constructor(private router: Router) {
-    this.initTwitterWidget();
+  constructor(private router: Router, private service: CryptoPricesService) {
+
+
   }
 
   ngOnInit() {
+    // postscribe("#redditWidget", "<script type=javascript src=https://www.reddit.com/.embed?limit=5</script>");
+    if (this.coin) {
+      this.service.getSocialStats(this.coin).subscribe(res => {
+        let result: SocialStatsResponse = JSON.parse(JSON.stringify(res));
+        console.log(result);
+
+      });
+    }
+    else {
+
+    }
   }
 
   initTwitterWidget() {

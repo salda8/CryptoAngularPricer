@@ -22,14 +22,13 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   totalDecimals: number = 0;
   volumeFilterControl: FormControl = new FormControl();
   selectedVolume: string;
-  filterableVolumeValue: VolumeFilter[] = [];
+  filterableVolumeValue: VolumeFilter[];
 
   @Input()
   set CoinSnapshot(value: CoinSnapshot) {
     this.coinSnapshot = value.Data.Exchanges;
     this.aggregatedData = value.Data.AggregatedData;
-    this.filterAndUpdateRows();
-    this.getValuesForVolumeFilter();
+
 
 
 
@@ -58,7 +57,7 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   ];
 
   symbolName: { [key: string]: string } = {};
-  coinSnapshot: ExchangeCoinSnapshot[] = [];
+  coinSnapshot: ExchangeCoinSnapshot[];
 
   private partsOfMedianVolume: number = 10;
 
@@ -67,6 +66,10 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.coinSnapshot) {
+      this.filterAndUpdateRows();
+      this.getValuesForVolumeFilter();
+    }
   }
 
   filterAndUpdateRows() {
@@ -107,7 +110,7 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
     console.log(partOfMaxVolumeValue, oneXofMaxVolume);
     this.filterableVolumeValue = [];
     for (let value of oneXofMaxVolume) {
-      let volumeValue = Math.floor(value * partOfMaxVolumeValue);
+      let volumeValue = Math.round(value * partOfMaxVolumeValue);
       let volumeFilter = new VolumeFilter(volumeValue, `over ${value * this.partsOfMedianVolume}% of median (${volumeValue})`);
       console.log(volumeFilter);
       this.filterableVolumeValue.push(volumeFilter);

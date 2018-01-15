@@ -27,9 +27,10 @@ export class CryptoDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot);
+
     this.coinSymbol = this.route.snapshot.queryParams["symbol"];
     this.coin = this.route.snapshot.queryParams["name"];
+    console.log(this.coinSymbol);
     this.priceDetails = this.storage.load();
     this.googleTrends.interestByRegionTrendSearch(this.coin, "0").subscribe(res => {
       this.timelineData = JSON.parse(JSON.stringify(res))["default"]["timelineData"];

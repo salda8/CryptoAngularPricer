@@ -39,7 +39,8 @@ import { HistoricalPriceGraphComponent } from "./components/historical-price-gra
 import { GoogleTrendsService } from "./services/google-trends.service";
 import { GoogletrendsComponent } from "./components/googletrends/googletrends.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
-import { SocialStatsComponent } from './components/social-stats/social-stats.component';
+import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
+import { RedditapiService } from "./services/redditapi.service";
 
 @NgModule({//
   declarations: [
@@ -82,7 +83,7 @@ import { SocialStatsComponent } from './components/social-stats/social-stats.com
 
   ],
   providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService,
-    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService],
+    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

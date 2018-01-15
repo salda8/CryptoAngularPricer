@@ -13,13 +13,13 @@ export class GoogletrendsComponent implements OnInit {
   @Input()
   set TimelineData(value: TimelineData[]) {
     this.timelineData = value;
-    this.createGraph(value);
+
   }
 
   get TimelineData(): TimelineData[] { return this.timelineData; }
 
   @Input()
-  coin: string = "";
+  coin: string;
 
   view: any[] = [700, 400];
   pairsToPlotControl: FormControl = new FormControl();
@@ -47,6 +47,9 @@ export class GoogletrendsComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.createGraph(this.timelineData);
+
   }
 
   createGraph(data: TimelineData[]) {
