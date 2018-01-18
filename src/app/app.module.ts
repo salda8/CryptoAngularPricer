@@ -41,7 +41,7 @@ import { GoogletrendsComponent } from "./components/googletrends/googletrends.co
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
 import { RedditapiService } from "./services/redditapi.service";
-import { RedditWidgetDirective } from "./reddit-widget.directive";
+
 import { ConsoleLoggerService } from "./services/logger.service";
 import { ApplicationHttpClient } from "./http-interceptor";
 import { AlertComponent } from "./components/alert/alert.component";
@@ -75,7 +75,6 @@ import { GlobalErrorHandler } from "./global-error-handler";
 
     SocialStatsComponent,
 
-    RedditWidgetDirective,
     AlertComponent
   ],
 
