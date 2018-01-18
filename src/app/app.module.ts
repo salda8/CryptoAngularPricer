@@ -41,9 +41,14 @@ import { GoogletrendsComponent } from "./components/googletrends/googletrends.co
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
 import { RedditapiService } from "./services/redditapi.service";
-import { RedditWidgetDirective } from './reddit-widget.directive';
+import { RedditWidgetDirective } from "./reddit-widget.directive";
+import { ConsoleLoggerService } from "./services/logger.service";
+import { ApplicationHttpClient } from "./http-interceptor";
+import { AlertComponent } from "./components/alert/alert.component";
+import { AlertService } from "./services/alert.service";
+import { GlobalErrorHandler } from "./global-error-handler";
 
-@NgModule({//
+@NgModule({
   declarations: [
 
     HomeComponent,
@@ -70,23 +75,24 @@ import { RedditWidgetDirective } from './reddit-widget.directive';
 
     SocialStatsComponent,
 
-    RedditWidgetDirective
-
-
+    RedditWidgetDirective,
+    AlertComponent
   ],
+
   imports: [
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
     MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
     PanelModule,
+
     ButtonModule,
     RadioButtonModule, DropdownModule,
     NgPipesModule,
     BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule, JsonpModule
-
-
   ],
-  providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService,
-    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService],
+
+  providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, ApplicationHttpClient,
+    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService, ConsoleLoggerService, GlobalErrorHandler,
+    ApplicationHttpClient, AlertService],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

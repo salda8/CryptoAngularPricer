@@ -24,17 +24,15 @@ export class SocialStatsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.coin) {
-      this.service.getSocialStats(this.coin).subscribe(res => {
+      this.service.getSocialStats(this.coin).then(res => {
         let result: SocialStatsResponse = JSON.parse(JSON.stringify(res));
         console.log(result);
 
       });
       this.redditApi.getRedditWidget("ethereum", 5)
         .subscribe(res => {
-          console.log("REDDIT WIDGET RES", res);
           // let result: string = res;
           let toWrite = res.substring(19, res.length - 2);
-          console.log("BODY TO WRITE", toWrite);
           this.redditWidget = toWrite;
 
 

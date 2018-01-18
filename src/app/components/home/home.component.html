@@ -1,7 +1,7 @@
-   
+<div class="flex-container">
     <nav class="light-blue lighten-1" role="navigation">
       <!-- <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a> --> 
-        <ul class="navigation">
+        <ul class="navigation" fxLayout="row">
           <li> <a routerLink="/">Home</a></li>
           <li> <a routerLink="/price">Price</a></li>
           <li> <a routerLink="/stream">Stream</a></li>
@@ -27,10 +27,12 @@
  
        
    <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
-   
-       <div class="flex-container"  [hidden]="loading">
+   <div [hidden]="loading">
+            <app-alert></app-alert>
             <router-outlet></router-outlet>
-      </div>
+          </div>
+</div>
+    
     
    
     <!-- <footer class="page-footer orange">

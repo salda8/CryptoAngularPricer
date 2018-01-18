@@ -9,6 +9,7 @@ const autoprefixer = require('autoprefixer');
 const postcssUrl = require('postcss-url');
 const cssnano = require('cssnano');
 const customProperties = require('postcss-custom-properties');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const { NoEmitOnErrorsPlugin, SourceMapDevToolPlugin, NamedModulesPlugin } = require('webpack');
 const { NamedLazyChunksWebpackPlugin, BaseHrefWebpackPlugin } = require('@angular/cli/plugins/webpack');
@@ -373,6 +374,7 @@ module.exports = {
       }
     ]
   },
+  // "devTools":'inline-source-map',
   "plugins": [
     new NoEmitOnErrorsPlugin(),
     new CopyWebpackPlugin([
@@ -481,7 +483,8 @@ module.exports = {
       "tsConfigPath": "src\\tsconfig.app.json",
       "skipCodeGeneration": true,
       "compilerOptions": {}
-    })
+    }),
+    //new CleanWebpackPlugin(["dist"])
   ],
   "node": {
     "fs": "empty",

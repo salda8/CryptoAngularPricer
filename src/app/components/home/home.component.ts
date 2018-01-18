@@ -34,10 +34,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
-    let s = document.createElement("script");
-    s.type = "text/javascript";
-    s.src = "https://www.reddit.com/r/ethereum.embed?limit=5";
-    this.elementRef.nativeElement.appendChild(s);
     this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationStart) {

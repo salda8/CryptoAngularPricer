@@ -36,6 +36,8 @@ export class HistoricalPriceGraphComponent implements OnInit {
   create = false;
   autoScale = true;
   graphData: GraphLine[] = [];
+  months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 
   colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]

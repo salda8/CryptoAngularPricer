@@ -3,8 +3,14 @@
   margin:0;
 }
 .navigation {
+  
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: column;
+
+
+    
+    
     /* This aligns items to the end line on main-axis */
-    justify-content: flex-end;
+    justify-content: center;
+    
   }

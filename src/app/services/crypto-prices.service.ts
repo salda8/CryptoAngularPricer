@@ -1,9 +1,10 @@
-import { Injectable, PLATFORM_ID, Optional, RendererFactory2, ViewEncapsulation, Inject } from "@angular/core";
+import { Injectable, Inject } from "@angular/core";
 import { DOCUMENT } from "@angular/platform-browser";
 import { isPlatformServer } from "@angular/common";
 import { APP_BASE_HREF } from "@angular/common";
 import { Observable } from "rxjs/Observable";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { Response } from "@angular/http";
 import { Icurrency } from "../models/icurrency";
 
 import { TimerObservable } from "rxjs/observable/TimerObservable";
@@ -17,6 +18,8 @@ import { request } from "../models/request";
 import { String, StringBuilder } from "typescript-string-operations-ng4";
 import { CoinListResponse } from "../models/coin-list-response";
 import { Console } from "@angular/core/src/console";
+import { ApplicationHttpClient } from "../http-interceptor";
+import { GlobalErrorHandler } from "../global-error-handler";
 
 
 
@@ -33,11 +36,13 @@ export class CryptoPricesService {
 
 
 
-  constructor(private http: HttpClient, private messageService: PriceUpdateService, private contMsgService: ContinousPriceUpdatesMessageService) {
+  constructor(private applicationHttpClient: ApplicationHttpClient, private messageService: PriceUpdateService, private contMsgService: ContinousPriceUpdatesMessageService,
+    private http: HttpClient, private errorHandler: GlobalErrorHandler) {
     this.baseUrl = this.baseUrl;
     this.messageService = messageService;
     this.contUpdatesService = this.contMsgService;
     this.getAllCoinsOnCryptoCompare();
+
   }
 
   getCoinSnapshot(ticker: string, pairedCurrency: string = "USD") {
@@ -70,18 +75,57 @@ export class CryptoPricesService {
     });
   }
 
-  getSocialStats(symbol: string) {
+  public getAllCoinsOnCryptoCompareAsPromise() {
+
+    let promise = new Promise<any>((resolve, reject) => {
+      const url = "https://min-api.cryptocompare.com/data/all/coinlist";
+      this.http.get(url)
+        .toPromise()
+        .then(
+        res => { // Success
+          let result: CoinListResponse = JSON.parse(JSON.stringify(res));
+          let keys = result.Data;
+          result.DataMap = new Map<string, string>();
+          Object.keys(keys).forEach(key => {
+            result.DataMap.set(keys[key].Symbol, keys[key].Id);
+          });
+
+
+          // console.log("CryptoPricesService.coinList was asssigned", CryptoPricesService.coinList);
+          resolve({ "asdsa": "sdsda" });
+        },
+        msg => { // Error
+          reject(msg);
+        }
+        );
+    });
+    return promise;
+  }
+
+
+
+  async getSocialStats(symbol: string) {
     console.log(symbol);
     if (symbol) {
       let id = CryptoPricesService.coinList.get(symbol);
       console.log(id);
       if (!id) {
-        console.log(id);
-        this.getAllCoinsOnCryptoCompare();
-        this.getSocialStats(symbol);
+        console.log("query new coin list");
+        await this.getAllCoinsOnCryptoCompareAsPromise().then(res => {
+          console.log("checking type", res instanceof Map);
+          if (res instanceof Map) {
+            CryptoPricesService.coinList = res;
+            console.log("promise fulfilled", CryptoPricesService.coinList);
+          }
+          else {
+            this.errorHandler.handleAndAlert(new Error("Returned wrong result"));
+            // throw new Error("Wrong type.");
+          }
+        });
+
       }
       const url = `${this.corsAnywhere}https://www.cryptocompare.com/api/data/socialstats/?id=${id}`;
-      return this.http.get(url);
+      return this.http.get(url).toPromise();
     }
   }
 
