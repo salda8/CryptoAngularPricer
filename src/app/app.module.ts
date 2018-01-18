@@ -47,6 +47,7 @@ import { ApplicationHttpClient } from "./http-interceptor";
 import { AlertComponent } from "./components/alert/alert.component";
 import { AlertService } from "./services/alert.service";
 import { GlobalErrorHandler } from "./global-error-handler";
+import { WelcomeComponent } from "./components/welcome/welcome.component";
 
 @NgModule({
   declarations: [
@@ -75,7 +76,9 @@ import { GlobalErrorHandler } from "./global-error-handler";
 
     SocialStatsComponent,
 
-    AlertComponent
+    AlertComponent,
+
+    WelcomeComponent
   ],
 
   imports: [

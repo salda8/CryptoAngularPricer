@@ -1,12 +1,15 @@
 <div class="flex-container">
+
+    
+ 
     <nav class="light-blue lighten-1" role="navigation">
       <!-- <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a> --> 
         <ul class="navigation" fxLayout="row">
-          <li> <a routerLink="/">Home</a></li>
-          <li> <a routerLink="/price">Price</a></li>
-          <li> <a routerLink="/stream">Stream</a></li>
-          <li><input [(ngModel)]="name" type="text" /></li>
-            <li><button class="btn btn-sm" (click)="setNameBtnClick()">SET NAME</button></li>
+          <li> <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+          <li> <a routerLink="/price" routerLinkActive="active-link">Price</a></li>
+          <li> <a routerLink="/stream" routerLinkActive="active-link">Stream</a></li>
+          <!-- <li><input [(ngModel)]="name" type="text" /></li>
+            <li><button class="btn btn-sm" (click)="setNameBtnClick()">SET NAME</button></li> -->
         </ul>
   
         <ul id="nav-mobile" class="side-nav">
@@ -15,6 +18,7 @@
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
       <!-- </div> -->
     </nav>
+ 
     
   <div [hidden]="!loading" class="loader">
     <h2>Loading...</h2>
@@ -25,16 +29,11 @@
     </mat-progress-spinner>
   </div>
  
-       
-   <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
-   <div [hidden]="loading">
+  <div [hidden]="loading">
             <app-alert></app-alert>
             <router-outlet></router-outlet>
           </div>
 </div>
-    
-    
-   
-    <!-- <footer class="page-footer orange">
+       <!-- <footer class="page-footer orange">
         <h2>Footer</h2>
     </footer> -->

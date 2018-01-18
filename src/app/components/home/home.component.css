@@ -2,15 +2,12 @@
 .loader{
   margin:0;
 }
-.navigation {
+
+.navigation{
+  display: flex;
   
-    display: flex;
-    flex-direction: column;
+}
 
-
-    
-    
-    /* This aligns items to the end line on main-axis */
-    justify-content: center;
-    
-  }
+.active-link {
+	background-color: pink;
+}

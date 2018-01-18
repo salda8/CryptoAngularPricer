@@ -89,10 +89,8 @@ export class CryptoPricesService {
           Object.keys(keys).forEach(key => {
             result.DataMap.set(keys[key].Symbol, keys[key].Id);
           });
-
-
           // console.log("CryptoPricesService.coinList was asssigned", CryptoPricesService.coinList);
-          resolve({ "asdsa": "sdsda" });
+          resolve(result.DataMap);
         },
         msg => { // Error
           reject(msg);
@@ -102,24 +100,22 @@ export class CryptoPricesService {
     return promise;
   }
 
-
-
   async getSocialStats(symbol: string) {
     console.log(symbol);
     if (symbol) {
       let id = CryptoPricesService.coinList.get(symbol);
       console.log(id);
       if (!id) {
-        console.log("query new coin list");
+
         await this.getAllCoinsOnCryptoCompareAsPromise().then(res => {
-          console.log("checking type", res instanceof Map);
+
           if (res instanceof Map) {
             CryptoPricesService.coinList = res;
-            console.log("promise fulfilled", CryptoPricesService.coinList);
+
           }
           else {
-            this.errorHandler.handleAndAlert(new Error("Returned wrong result"));
-            // throw new Error("Wrong type.");
+            this.errorHandler.handleAndAlert(new Error("Error. Please retry later."));
+
           }
         });
 
@@ -129,7 +125,6 @@ export class CryptoPricesService {
     }
   }
 
-
   async getContinousPriceUpdateS(ticker: string[], pairedCurrency: string[], timeout?: 50000, startAfter?: 0) {
     while (true) {
       await this.sleep(timeout);
@@ -138,22 +133,6 @@ export class CryptoPricesService {
 
 
     }
-  }
-
-  timer() {
-    const timeStart = new Date().getTime();
-    return {
-      /** <integer>s e.g 2s etc. */
-      get seconds() {
-        const seconds = Math.ceil((new Date().getTime() - timeStart) / 1000) + "s";
-        return seconds;
-      },
-      /** Milliseconds e.g. 2000ms etc. */
-      get ms() {
-        const ms = (new Date().getTime() - timeStart) + "ms";
-        return ms;
-      }
-    };
   }
 
   sleep(ms) {
@@ -179,26 +158,16 @@ export class CryptoPricesService {
         this.getPriceMultiByTicker(newTickers, pairedCurrency, msgService);
         newTickers = [];
         s = 0;
-
       }
-
-
       s += l;
       i++;
 
       newTickers.push(o);
-
-
-
     }
 
     if (newTickers.length > 0) {
       this.getPriceMultiByTicker(newTickers, pairedCurrency, msgService);
     }
-
-    // let flat = FlattenPipe.prototype.transform(TakePipe.prototype.transform(orderbyMktCap, i));
-    // let remaining = orderbyMktCap.length - i;
-
   }
 
   getPriceMultiByTicker(ticker: string[], pairedCurrency: string[], msgService: MessageService<PriceDetails> = this.messageService) {

@@ -11,7 +11,7 @@ import { AfterViewInit } from "@angular/core/src/metadata/lifecycle_hooks";
   templateUrl: "./social-stats.component.html",
   styleUrls: ["./social-stats.component.css"]
 })
-export class SocialStatsComponent implements OnInit, AfterViewInit {
+export class SocialStatsComponent implements OnInit {
   @Input()
   coin: string;
   redditWidget: string;
@@ -32,8 +32,8 @@ export class SocialStatsComponent implements OnInit, AfterViewInit {
       this.redditApi.getRedditWidget("ethereum", 5)
         .subscribe(res => {
           // let result: string = res;
-          let toWrite = res.substring(19, res.length - 2);
-          this.redditWidget = toWrite;
+          this.redditWidget = res.substring(19, res.length - 2);
+
 
 
         });
@@ -43,35 +43,5 @@ export class SocialStatsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() {
-    this.initTwitterWidget();
-  }
 
-  initTwitterWidget() {
-    this.twitter = this.router.events.subscribe(val => {
-      if (val instanceof NavigationEnd) {
-        (<any>window).twttr = (function (d, s, id) {
-          let js: any, fjs = d.getElementsByTagName(s)[0],
-            t = (<any>window).twttr || {};
-          if (d.getElementById(id)) return t;
-          js = d.createElement(s);
-          js.id = id;
-          js.src = "https://www.reddit.com/.embed?limit=5";
-          fjs.parentNode.insertBefore(js, fjs);
-
-          t._e = [];
-          t.ready = function (f: any) {
-            t._e.push(f);
-          };
-
-          return t;
-        }(document, "script", "twitter-wjs"));
-
-        if ((<any>window).twttr.ready())
-          (<any>window).twttr.widgets.load();
-
-      }
-    });
-
-  }
 }
