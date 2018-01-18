@@ -102,8 +102,6 @@ export class CoinPricesOnExchangesTableComponent implements OnInit {
 
   getValuesForVolumeFilter() {
     let medianValue = median(this.rows.map(x => x.VOLUME24HOUR));
-    console.log("MEDIAN", medianValue);
-
     let partOfMaxVolumeValue = (medianValue / this.partsOfMedianVolume);
 
     let oneXofMaxVolume = Array.from(Array(this.partsOfMedianVolume), (x, index) => index + 1);

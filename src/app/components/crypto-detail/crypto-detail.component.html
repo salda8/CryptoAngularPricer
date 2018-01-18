@@ -1,4 +1,5 @@
 <div class="flex-item">
+  <div fxLayout="column" fxLayoutAlign="center center">
       <h2>DETAILS ABOUT {{coin}}</h2>
  
     <app-coin-prices-on-exchanges-table *ngIf="coin && coinSnapshot" [coin]="coin" [CoinSnapshot]="coinSnapshot" >
@@ -8,8 +9,8 @@
     <app-historical-price-graph *ngIf="coin" [coin]="coin">
 
     </app-historical-price-graph>
- 
-      
+  </div>
+    <div fxLayout="row">     
       <app-social-stats *ngIf="coinSymbol!==undefined" [coin]="coinSymbol">
 
       </app-social-stats>
@@ -18,5 +19,6 @@
     <app-googletrends *ngIf="coin!==undefined && timelineData?.length>0" [coin]="coin" [TimelineData]="timelineData">
       
     </app-googletrends>
+    </div>
   </div>
  

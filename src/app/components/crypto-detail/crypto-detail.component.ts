@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { CryptoDetailTempStorageService } from "../../services/crypto-detail-temp-storage.service";
 import { PriceDetails } from "../../models/pricedetailed";
@@ -7,6 +7,8 @@ import { GoogleTrendsService } from "../../services/google-trends.service";
 import { Observable, Subscription } from "rxjs";
 import { TimelineData } from "../../models/google-trends";
 import { CoinSnapshot } from "../../models/coin-snapshot";
+import { AfterViewInit } from "@angular/core/src/metadata/lifecycle_hooks";
+
 
 
 @Component({
@@ -18,10 +20,12 @@ export class CryptoDetailComponent implements OnInit {
   coin: string;
   coinSymbol: string;
   priceDetails: PriceDetails;
+  loading = true;
   timelineData: TimelineData[] = [];
   coinSnapshot: CoinSnapshot;
 
-  constructor(private route: ActivatedRoute, private storage: CryptoDetailTempStorageService, private googleTrends: GoogleTrendsService, private priceService: CryptoPricesService) {
+  constructor(private route: ActivatedRoute, private router: Router, private storage: CryptoDetailTempStorageService,
+    private googleTrends: GoogleTrendsService, private priceService: CryptoPricesService) {
 
 
   }
@@ -43,5 +47,7 @@ export class CryptoDetailComponent implements OnInit {
 
 
   }
+
+
 
 }

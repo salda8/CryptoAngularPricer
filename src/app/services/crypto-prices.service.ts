@@ -72,15 +72,17 @@ export class CryptoPricesService {
 
   getSocialStats(symbol: string) {
     console.log(symbol);
-    let id = CryptoPricesService.coinList.get(symbol);
-    console.log(id);
-    if (!id) {
+    if (symbol) {
+      let id = CryptoPricesService.coinList.get(symbol);
       console.log(id);
-      this.getAllCoinsOnCryptoCompare();
-      this.getSocialStats(symbol);
+      if (!id) {
+        console.log(id);
+        this.getAllCoinsOnCryptoCompare();
+        this.getSocialStats(symbol);
+      }
+      const url = `${this.corsAnywhere}https://www.cryptocompare.com/api/data/socialstats/?id=${id}`;
+      return this.http.get(url);
     }
-    const url = `${this.corsAnywhere}https://www.cryptocompare.com/api/data/socialstats/?id=${id}`;
-    return this.http.get(url);
   }
 
 

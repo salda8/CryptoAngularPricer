@@ -41,6 +41,7 @@ import { GoogletrendsComponent } from "./components/googletrends/googletrends.co
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
 import { RedditapiService } from "./services/redditapi.service";
+import { RedditWidgetDirective } from './reddit-widget.directive';
 
 @NgModule({//
   declarations: [
@@ -67,7 +68,9 @@ import { RedditapiService } from "./services/redditapi.service";
 
     GoogletrendsComponent,
 
-    SocialStatsComponent
+    SocialStatsComponent,
+
+    RedditWidgetDirective
 
 
   ],

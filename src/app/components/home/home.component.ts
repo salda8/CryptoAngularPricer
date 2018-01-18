@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from "@angular/core";
+import { Component, AfterViewInit, OnInit, ElementRef } from "@angular/core";
 import {
   Router, NavigationStart, NavigationCancel, NavigationEnd
 } from "@angular/router";
@@ -19,7 +19,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   name: string = "";
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private elementRef: ElementRef) {
     this.title = "app";
     this.loading = true;
     this.name = !localStorage.getItem("name") ? "" : "Hello, Welcome back:" + localStorage.getItem("name");
@@ -34,20 +34,26 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    let s = document.createElement("script");
+    s.type = "text/javascript";
+    s.src = "https://www.reddit.com/r/ethereum.embed?limit=5";
+    this.elementRef.nativeElement.appendChild(s);
     this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
           this.loading = true;
-          console.log("NAVIGATION START");
+          console.log("NAVIGATION START", event);
         }
         else if (
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel
         ) {
           this.loading = false;
-          console.log("NAVIGATION END");
+          console.log("NAVIGATION END", event);
         }
       });
+
+
   }
 
 

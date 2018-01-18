@@ -46,46 +46,49 @@ export class GoogleTrendsService {
   }
 
   interestByRegionTrendSearch(keyword: string, category?: string) {
-    let settings = {
-      path: "trends/api/widgetdata/multiline",
-      _id: "TIMESERIES"
-    };
-    console.log(settings);
+    if (keyword) {
+      let settings = {
+        path: "trends/api/widgetdata/multiline",
+        _id: "TIMESERIES"
+      };
+      console.log(settings);
 
-    const mOptions = {
-      method: "GET",
-      host: "https://trends.google.com",
-      path: "trends/api/explore",
-      qs: {
-        hl: "en-US",
-        req: JSON.stringify({
-          comparisonItem: [{ "keyword": keyword, "geo": "", "time": "today+12-m" }],
-          category: category ? category : 0,
-          property: ""
-        }),
-        tz: -60
-      }
-    };
+      const mOptions = {
+        method: "GET",
+        host: "https://trends.google.com",
+        path: "trends/api/explore",
+        qs: {
+          hl: "en-US",
+          req: JSON.stringify({
+            comparisonItem: [{ "keyword": keyword, "geo": "", "time": "today+12-m" }],
+            category: category ? category : 0,
+            property: ""
+          }),
+          tz: -60
+        }
+      };
 
-    let url = this.url + "trends/api/explore";
-    let intiRequest = this.http.get(url, {
-      params: new HttpParams().set("hl", mOptions.qs.hl).set("req", mOptions.qs.req).set("tz", "-60")
+      let url = this.url + "trends/api/explore";
+      let intiRequest = this.http.get(url, {
+        params: new HttpParams().set("hl", mOptions.qs.hl).set("req", mOptions.qs.req).set("tz", "-60")
 
-    }).flatMap(res => {
-      let result: Welcome = JSON.parse(JSON.stringify(res));
-      let resultObject = result.widgets[0];
-      let appToken = resultObject.token;
-      let req = resultObject.request;
+      }).flatMap(res => {
+        let result: Welcome = JSON.parse(JSON.stringify(res));
+        let resultObject = result.widgets[0];
+        let appToken = resultObject.token;
+        let req = resultObject.request;
 
-      req.requestOptions.category = +category;
-      url = this.url + settings.path;
-      return this.http.get(url, {
-        params: this.getParams(keyword, appToken, req)
+        req.requestOptions.category = +category;
+        url = this.url + settings.path;
+        return this.http.get(url, {
+          params: this.getParams(keyword, appToken, req)
 
+        });
       });
-    });
+      return intiRequest;
+    }
 
-    return intiRequest;
+    return undefined;
 
 
 
