@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import * as io from "socket.io-client";
 import { subscribeOn } from "rxjs/operator/subscribeOn";
-import { TYPE, StreamerUtils } from "../../ccc-streamer-utilities";
+import { TYPE, StreamerUtils } from "../../utils/ccc-streamer-utilities";
 import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { Trade } from "../../models/trade";
 
