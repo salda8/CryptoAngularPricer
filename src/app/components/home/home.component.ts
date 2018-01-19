@@ -4,6 +4,8 @@ import {
 } from "@angular/router";
 import { routes } from "../../app-routing.module";
 import { RouterModule, Route } from "@angular/router";
+import { User } from "../../models/user";
+import { AuthenticationService } from "../../services/authentication.service";
 
 @Component({
   selector: "app-home",
@@ -16,22 +18,31 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   title: string;
   loading: boolean;
-  name: string = "";
+  currentUser: User;
+  logged: boolean;
 
-
-  constructor(private router: Router, private elementRef: ElementRef) {
+  constructor(private router: Router, private elementRef: ElementRef, private authenticationService: AuthenticationService) {
     this.title = "app";
     this.loading = true;
-    this.name = !localStorage.getItem("name") ? "" : "Hello, Welcome back:" + localStorage.getItem("name");
-
-
 
   }
 
-  setNameBtnClick() {
-    localStorage.setItem("name", this.name);
-    console.log(localStorage);
+  logout() {
+    this.authenticationService.logout();
+    this.logged = !this.logged;
+
   }
+
+  checkIfUserIsLogedAndGetUser() {
+    this.currentUser = localStorage.getItem("currentUser") ? JSON.parse(localStorage.getItem("currentUser")) : undefined;
+    if (this.currentUser) {
+      this.logged = true;
+    }
+    else {
+      this.logged = false;
+    }
+  }
+
 
   ngAfterViewInit() {
     this.router.events
@@ -39,6 +50,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
         if (event instanceof NavigationStart) {
           this.loading = true;
           console.log("NAVIGATION START", event);
+          this.checkIfUserIsLogedAndGetUser();
         }
         else if (
           event instanceof NavigationEnd ||

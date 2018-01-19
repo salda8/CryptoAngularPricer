@@ -20,8 +20,9 @@ import { PanelModule } from "primeng/primeng";
 import { ButtonModule } from "primeng/primeng";
 import { RadioButtonModule, DropdownModule } from "primeng/primeng";
 import {
-  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatGridListModule, MatCardModule,
-  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule, MatProgressSpinnerModule
+
+  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatGridListModule, MatCardModule, MatIconModule,
+  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule, MatProgressSpinnerModule, MAT_LABEL_GLOBAL_OPTIONS, MatInputModule
 } from "@angular/material";
 
 import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
@@ -94,8 +95,8 @@ import { UserService } from "./services/user.service";
 
   imports: [
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
-    MatChipsModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
-    PanelModule,
+    MatChipsModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
+    PanelModule, MatInputModule,
 
     ButtonModule,
     RadioButtonModule, DropdownModule,
@@ -105,7 +106,8 @@ import { UserService } from "./services/user.service";
 
   providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, ApplicationHttpClient,
     PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService, ConsoleLoggerService, GlobalErrorHandler,
-    ApplicationHttpClient, AlertService, FakeBackendInterceptor, AuthGuard, JwtInterceptor, AuthenticationService, UserService, fakeBackendProvider],
+    ApplicationHttpClient, AlertService, FakeBackendInterceptor, AuthGuard, JwtInterceptor, AuthenticationService, UserService,
+    fakeBackendProvider, { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: "always" } }],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }

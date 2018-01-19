@@ -484,7 +484,7 @@ module.exports = {
       "skipCodeGeneration": true,
       "compilerOptions": {}
     }),
-    //new CleanWebpackPlugin(["dist"])
+    new CleanWebpackPlugin(["dist"])
   ],
   "node": {
     "fs": "empty",

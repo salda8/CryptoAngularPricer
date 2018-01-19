@@ -1,13 +1,28 @@
 <div class="flex-container">
-  <nav class="light-blue lighten-1" role="navigation">
+  <nav class="light-blue lighten-1" role="navigation" fxLayout="row" fxFlexAlign="start">
       <!-- <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a> --> 
-        <ul class="navigation" fxLayout="row">
+        <ul class="navigation" fxLayoutAlign="start start">
           <li> <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
           <li> <a routerLink="/price" routerLinkActive="active-link">Price</a></li>
           <li> <a routerLink="/stream" routerLinkActive="active-link">Stream</a></li>
           <!-- <li><input [(ngModel)]="name" type="text" /></li>
             <li><button class="btn btn-sm" (click)="setNameBtnClick()">SET NAME</button></li> -->
         </ul>
+        <div class="navigation-end">
+                   
+        
+        <ul [hidden]="logged">
+            <li> <a routerLink="/register" routerLinkActive="active-link">Register</a></li>
+            <li> <a routerLink="/login" routerLinkActive="active-link">Login</a></li>
+            
+        </ul>
+        <ul [hidden]="!logged">
+            <li> <a routerLink="/login" routerLinkActive="active-link">You are logged as {{currentUser?.username}}</a></li>
+                        
+            <li> <a (click)="logout()" routerLinkActive="active-link">Logout</a></li>
+        </ul>
+      </div>
+
   
         <ul id="nav-mobile" class="side-nav">
           <li><a href="#">Navbar Link</a></li>

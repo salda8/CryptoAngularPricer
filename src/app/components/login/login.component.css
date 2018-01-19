@@ -1,0 +1,17 @@
+.flex-login{
+    flex-flow: column;
+}
+::ng-deep .mat-input-underline { margin-bottom: 2px; }
+/* .mat-input-container.app-input-no-underline .mat-input-underline {
+    display: none;
+  } */
+
+  .mat-select-placeholder.mat-floating-placeholder {transform: scale(.75) translateY(7px) !important;}
+
+  .mat-select-trigger { height: 48px; }
+
+  .mat-input-underline.mat-form-field-underline.mat-disabled {
+    background-image: linear-gradient(90deg,rgba(0, 0, 0, 0.66) 0,rgba(0, 0, 0, 0.66) 0,rgb(0, 0, 0));
+    height: 2px;
+    background-size:  4px 2px;
+    }

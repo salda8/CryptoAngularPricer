@@ -11,3 +11,13 @@
 .active-link {
 	background-color: pink;
 }
+
+.navigation-end{
+  display: flex;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  flex: 100%;
+  direction: rtl;
+
+  
+}
