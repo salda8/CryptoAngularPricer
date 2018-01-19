@@ -1,8 +1,5 @@
 <div class="flex-container">
-
-    
- 
-    <nav class="light-blue lighten-1" role="navigation">
+  <nav class="light-blue lighten-1" role="navigation">
       <!-- <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a> --> 
         <ul class="navigation" fxLayout="row">
           <li> <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
@@ -17,7 +14,7 @@
         </ul>
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
       <!-- </div> -->
-    </nav>
+  </nav>
  
     
   <div [hidden]="!loading" class="loader">
@@ -30,9 +27,9 @@
   </div>
  
   <div [hidden]="loading">
-            <app-alert></app-alert>
-            <router-outlet></router-outlet>
-          </div>
+    <app-alert></app-alert>
+    <router-outlet></router-outlet>
+  </div>
 </div>
        <!-- <footer class="page-footer orange">
         <h2>Footer</h2>

@@ -48,6 +48,13 @@ import { AlertComponent } from "./components/alert/alert.component";
 import { AlertService } from "./services/alert.service";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { WelcomeComponent } from "./components/welcome/welcome.component";
+import { LoginComponent } from "./components/login/login.component";
+import { RegistrationComponent } from "./components/registration/registration.component";
+import { FakeBackendInterceptor, fakeBackendProvider } from "./fake-backend-interceptor";
+import { AuthGuard } from "./auth-guard";
+import { JwtInterceptor } from "./jwt-interceptor";
+import { AuthenticationService } from "./services/authentication.service";
+import { UserService } from "./services/user.service";
 
 @NgModule({
   declarations: [
@@ -78,7 +85,11 @@ import { WelcomeComponent } from "./components/welcome/welcome.component";
 
     AlertComponent,
 
-    WelcomeComponent
+    WelcomeComponent,
+
+    LoginComponent,
+
+    RegistrationComponent
   ],
 
   imports: [
@@ -94,7 +105,7 @@ import { WelcomeComponent } from "./components/welcome/welcome.component";
 
   providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, ApplicationHttpClient,
     PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService, ConsoleLoggerService, GlobalErrorHandler,
-    ApplicationHttpClient, AlertService],
+    ApplicationHttpClient, AlertService, FakeBackendInterceptor, AuthGuard, JwtInterceptor, AuthenticationService, UserService, fakeBackendProvider],
   bootstrap: [HomeComponent]
 })
 export class AppModule { }
