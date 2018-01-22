@@ -42,6 +42,7 @@ import { GoogletrendsComponent } from "./components/googletrends/googletrends.co
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
 import { RedditapiService } from "./services/redditapi.service";
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 import { ConsoleLoggerService } from "./services/logger.service";
 import { ApplicationHttpClient } from "./http-interceptor";
@@ -97,7 +98,7 @@ import { UserService } from "./services/user.service";
     ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
     MatChipsModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
     PanelModule, MatInputModule,
-
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryHeroServiceService, { delay: 1000 }),
     ButtonModule,
     RadioButtonModule, DropdownModule,
     NgPipesModule,
