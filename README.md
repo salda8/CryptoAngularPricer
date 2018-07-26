@@ -1,8 +1,8 @@
 # AngularCliProject
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/salda8/CryptoAngularPricer.svg)](https://greenkeeper.io/)
-[![Build status](https://ci.appveyor.com/api/projects/status/wb1jr3to1ouy51g3/branch/develop?svg=true)](https://ci.appveyor.com/project/salda8/cryptoangularpricer/branch/develop)
-[![Build status](https://ci.appveyor.com/api/projects/status/wb1jr3to1ouy51g3/branch/develop?svg=true)](https://ci.appveyor.com/project/salda8/cryptoangularpricer/branch/develop)
+[![Build status](https://ci.appveyor.com/api/projects/status/wb1jr3to1ouy51g3/branch/master?svg=true)](https://ci.appveyor.com/project/salda8/cryptoangularpricer/branch/master)
+
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
