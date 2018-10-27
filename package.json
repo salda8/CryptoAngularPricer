@@ -38,7 +38,7 @@
     "@types/socket.io": "^1.4.31",
     "@types/socket.io-client": "^1.4.32",
     "angular-bootstrap-md": "^6.2.0",
-    "angular-datatables": "^6.0.0",
+    "angular-datatables": "^7.0.0",
     "angular-in-memory-web-api": "^0.6.1",
     "angular-pipes": "^8.0.0",
     "chart.js": "^2.5.0",
