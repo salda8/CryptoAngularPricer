@@ -67,7 +67,7 @@
     "@angular/language-service": "^6.1.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.2",
-    "@types/node": "~10.9.0",
+    "@types/node": "~10.12.1",
     "autoprefixer": "^9.0.1",
     "circular-dependency-plugin": "^5.0.2",
     "codelyzer": "^4.0.1",
