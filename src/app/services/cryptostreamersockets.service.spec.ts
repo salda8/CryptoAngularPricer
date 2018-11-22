@@ -1,15 +1,18 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { CryptostreamersocketsService } from './cryptostreamersockets.service';
+import { CryptostreamersocketsService } from "./cryptostreamersockets.service";
 
-describe('CryptostreamersocketsService', () => {
+describe("CryptostreamersocketsService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [CryptostreamersocketsService]
     });
   });
 
-  it('should be created', inject([CryptostreamersocketsService], (service: CryptostreamersocketsService) => {
-    expect(service).toBeTruthy();
-  }));
+  it("should be created", inject(
+    [CryptostreamersocketsService],
+    (service: CryptostreamersocketsService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

@@ -1,35 +1,28 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpRequest, HttpParams, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { GoogleTrendsApi } from "../utils/google-trends-api";
 
-import { Subscription } from "rxjs";
+import { flatMap, mergeMap } from "rxjs/operators";
+
 import { Jsonp } from "@angular/http";
-import { Welcome, TimelineData } from "../models/google-trends";
-import { Options } from "selenium-webdriver/firefox";
-import { Observable } from "rxjs/Observable";
-import { PriceDetailed } from "../models/pricedetailed";
-import "rxjs/add/operator/mergeMap";
-
-
-
+import { Welcome } from "../models/google-trends";
 
 @Injectable()
 export class GoogleTrendsService {
-
   autoComplete: "Auto complete";
   interestByRegion: {
-    path: "trends/api/widgetdata/relatedsearches",
-    _id: "RELATED_QUERIES"
+    path: "trends/api/widgetdata/relatedsearches";
+    _id: "RELATED_QUERIES";
   };
   interestOverTime: {
-    path: "trends/api/widgetdata/multiline",
-    _id: "TIMESERIES"
+    path: "trends/api/widgetdata/multiline";
+    _id: "TIMESERIES";
   };
   relatedQueries: "Related queries";
   relatedTopics: {
-    path: "trends/api/widgetdata/relatedsearches",
-    _id: "RELATED_TOPICS"
+    path: "trends/api/widgetdata/relatedsearches";
+    _id: "RELATED_TOPICS";
   };
   trendsUtil: GoogleTrendsApi = new GoogleTrendsApi();
 
@@ -37,13 +30,7 @@ export class GoogleTrendsService {
   private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
   private url: string = this.corsAnywhere + this.hostUrl;
 
-
-
-
-
-  constructor(private http: HttpClient, private jsonp: Jsonp) {
-
-  }
+  constructor(private http: HttpClient, private jsonp: Jsonp) {}
 
   interestByRegionTrendSearch(keyword: string, category?: string) {
     if (keyword) {
@@ -60,7 +47,7 @@ export class GoogleTrendsService {
         qs: {
           hl: "en-US",
           req: JSON.stringify({
-            comparisonItem: [{ "keyword": keyword, "geo": "", "time": "today+12-m" }],
+            comparisonItem: [{ keyword: keyword, geo: "", time: "today+12-m" }],
             category: category ? category : 0,
             property: ""
           }),
@@ -69,36 +56,40 @@ export class GoogleTrendsService {
       };
 
       let url = this.url + "trends/api/explore";
-      let intiRequest = this.http.get(url, {
-        params: new HttpParams().set("hl", mOptions.qs.hl).set("req", mOptions.qs.req).set("tz", "-60")
+      let intiRequest = this.http
+        .get(url, {
+          params: new HttpParams()
+            .set("hl", mOptions.qs.hl)
+            .set("req", mOptions.qs.req)
+            .set("tz", "-60")
+        })
+        .pipe(
+          flatMap(res => {
+            let result: Welcome = JSON.parse(JSON.stringify(res));
+            let resultObject = result.widgets[0];
+            let appToken = resultObject.token;
+            let req = resultObject.request;
 
-      }).flatMap(res => {
-        let result: Welcome = JSON.parse(JSON.stringify(res));
-        let resultObject = result.widgets[0];
-        let appToken = resultObject.token;
-        let req = resultObject.request;
-
-        req.requestOptions.category = +category;
-        url = this.url + settings.path;
-        return this.http.get(url, {
-          params: this.getParams(keyword, appToken, req)
-
-        });
-      });
+            req.requestOptions.category = +category;
+            url = this.url + settings.path;
+            return this.http.get(url, {
+              params: this.getParams(keyword, appToken, req)
+            });
+          })
+        );
       return intiRequest;
     }
 
     return undefined;
-
-
-
-
-
   }
 
   getParams(keyword: string, token?: string, req?: any): HttpParams {
     if (token && req) {
-      return new HttpParams().set("hl", keyword).set("tz", "300").set("token", token).set("req", JSON.stringify(req));
+      return new HttpParams()
+        .set("hl", keyword)
+        .set("tz", "300")
+        .set("token", token)
+        .set("req", JSON.stringify(req));
     }
 
     return new HttpParams().set("hl", keyword).set("tz", "300");
@@ -133,7 +124,4 @@ export class GoogleTrendsService {
 
   //   req.end();
   // });
-
 }
-
-

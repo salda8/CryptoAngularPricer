@@ -1,18 +1,19 @@
 import { Component, OnInit } from "@angular/core";
-import { NgxChartsModule } from "@swimlane/ngx-charts";
-import { Subscription } from "rxjs/Subscription";
-import { GraphLine, PriceDetails, GraphSeries } from "../../models/pricedetailed";
+
+import { Subscription } from "rxjs";
+import {
+  GraphLine,
+  PriceDetails,
+  GraphSeries
+} from "../../models/pricedetailed";
 import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
-import { String, StringBuilder } from "typescript-string-operations-ng4";
-import { SelectItem } from "primeng/primeng";
-import { MatChip, MatChipSelectionChange, MatSelectChange, MatOption } from "@angular/material";
+import { String } from "typescript-string-operations-ng4";
+
+import { MatSelectChange } from "@angular/material";
 import { FormControl } from "@angular/forms";
-import { query } from "@angular/core/src/animation/dsl";
-import { forEach } from "@angular/router/src/utils/collection";
+
 import { PriceUpdateService } from "../../services/price-update.service";
 import { ContinousPriceUpdatesMessageService } from "../../services/price-details-message.service";
-
-
 
 @Component({
   selector: "app-pricegraph",
@@ -20,8 +21,6 @@ import { ContinousPriceUpdatesMessageService } from "../../services/price-detail
   styleUrls: ["./pricegraph.component.css"]
 })
 export class PricegraphComponent implements OnInit, OnDestroy {
-
-
   msgService: Subscription;
   liveUpdatesMessageService: Subscription;
   selectedCryptoPair: string[] = [];
@@ -60,20 +59,24 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     "LOW24HOUR",
     "LASTMARKET",
     "CHANGE24HOUR",
-    "CHANGEPCT24HOUR"];
+    "CHANGEPCT24HOUR"
+  ];
 
   selecetedValuesToPlot: string[] = [this.possibleValuesToPlot[0]];
   // line, area
   autoScale = true;
-  constructor(msgService: PriceUpdateService, liveUpdatesService: ContinousPriceUpdatesMessageService) {
-    this.liveUpdatesMessageService = liveUpdatesService.getMessage().subscribe(message => {
-      this.proccessReceivedMessage(message);
-    });
+  constructor(
+    msgService: PriceUpdateService,
+    liveUpdatesService: ContinousPriceUpdatesMessageService
+  ) {
+    this.liveUpdatesMessageService = liveUpdatesService
+      .getMessage()
+      .subscribe(message => {
+        this.proccessReceivedMessage(message);
+      });
     this.msgService = msgService.getMessage().subscribe(message => {
       this.proccessReceivedMessage(message);
     });
-
-
   }
 
   proccessReceivedMessage(message: PriceDetails) {
@@ -90,10 +93,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
         this.pushAndLogGraphLine(graphLine);
         this.create = true;
       }
-
-    }
-    else {
-
+    } else {
       let multiFound = this.multi.find(x => x.name === seriesName);
       if (multiFound !== undefined) {
         this.pushPointToExistingGraphSeries(multiFound, message);
@@ -101,30 +101,35 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     }
   }
 
-
   pushAndLogGraphLine(graphLine: GraphLine) {
     this.multi.push(graphLine);
-
-
   }
 
-  createNewGraphLine(seriesName: string, priceDetails: PriceDetails, value: string): GraphLine {
+  createNewGraphLine(
+    seriesName: string,
+    priceDetails: PriceDetails,
+    value: string
+  ): GraphLine {
     let series: GraphSeries[] = [];
     this.yAxisLabel = value;
-    series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value]));
+    series.push(
+      new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value])
+    );
     return new GraphLine(seriesName, series);
-
   }
 
-  pushPointToExistingGraphSeries(graphLine: GraphLine, priceDetails: PriceDetails) {
+  pushPointToExistingGraphSeries(
+    graphLine: GraphLine,
+    priceDetails: PriceDetails
+  ) {
     for (let value of this.selecetedValuesToPlot) {
-      graphLine.series.push(new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value]));
+      graphLine.series.push(
+        new GraphSeries(priceDetails.DATEWHENRECEIVED, priceDetails[value])
+      );
     }
 
     this.multi = [...this.multi];
-
   }
-
 
   ngOnDestroy(): void {
     this.msgService.unsubscribe();
@@ -137,12 +142,9 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     // this.multi = multi;
     // Object.assign(this, { single, multi });
     this.create = true;
-
   }
   onValuesToPlotSelectionChange(event: MatSelectChange) {
-
     this.changeGraph();
-
   }
 
   onPairsToPlotSelectionChange(event: MatSelectChange) {
@@ -152,10 +154,10 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   changeGraph() {
     this.multi = [];
     for (let pair of this.selectedCryptoPair) {
-
       for (let value of this.selecetedValuesToPlot) {
-        this.pushAndLogGraphLine(this.filterAllReceivedPriceDetails(pair, value));
-
+        this.pushAndLogGraphLine(
+          this.filterAllReceivedPriceDetails(pair, value)
+        );
       }
     }
   }
@@ -163,31 +165,25 @@ export class PricegraphComponent implements OnInit, OnDestroy {
   filterAllReceivedPriceDetails(pair: string, valueToPlot: string): GraphLine {
     // let seriesName = String.Join("/", message.FROMSYMBOL, message.TOSYMBOL);
     let currenciesInPair = pair.split("/");
-    let fileteredPriceDetails = this.allReceivedPriceDetails.filter(x => x.FROMSYMBOL === currenciesInPair[0] && x.TOSYMBOL === currenciesInPair[1]);
+    let fileteredPriceDetails = this.allReceivedPriceDetails.filter(
+      x =>
+        x.FROMSYMBOL === currenciesInPair[0] &&
+        x.TOSYMBOL === currenciesInPair[1]
+    );
     console.log("Filtered price Details:", fileteredPriceDetails);
     let series: GraphSeries[] = [];
 
     for (let pd of fileteredPriceDetails) {
       series.push(new GraphSeries(pd.DATEWHENRECEIVED, pd[valueToPlot]));
-
     }
-
 
     let graphLine = new GraphLine(pair, series);
     return graphLine;
   }
 
-
-
-
-
-
-
   onSelect(event) {
     console.log(event);
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

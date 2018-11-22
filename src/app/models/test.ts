@@ -6,14 +6,14 @@ export class CryptoDetailsProxy {
   public static Parse(d: string): CryptoDetailsProxy {
     return CryptoDetailsProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): CryptoDetailsProxy {
+  public static Create(d: any, field: string = "root"): CryptoDetailsProxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -33,14 +33,14 @@ export class RAWProxy {
   public static Parse(d: string): RAWProxy {
     return RAWProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): RAWProxy {
+  public static Create(d: any, field: string = "root"): RAWProxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -58,14 +58,14 @@ export class ETHProxy {
   public static Parse(d: string): ETHProxy {
     return ETHProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): ETHProxy {
+  public static Create(d: any, field: string = "root"): ETHProxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -111,14 +111,14 @@ export class USDProxy {
   public static Parse(d: string): USDProxy {
     return USDProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): USDProxy {
+  public static Create(d: any, field: string = "root"): USDProxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -192,14 +192,14 @@ export class DISPLAYProxy {
   public static Parse(d: string): DISPLAYProxy {
     return DISPLAYProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): DISPLAYProxy {
+  public static Create(d: any, field: string = "root"): DISPLAYProxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -217,14 +217,14 @@ export class ETH1Proxy {
   public static Parse(d: string): ETH1Proxy {
     return ETH1Proxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): ETH1Proxy {
+  public static Create(d: any, field: string = "root"): ETH1Proxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -268,14 +268,14 @@ export class USD1Proxy {
   public static Parse(d: string): USD1Proxy {
     return USD1Proxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = 'root'): USD1Proxy {
+  public static Create(d: any, field: string = "root"): USD1Proxy {
     if (!field) {
       obj = d;
       field = "root";
     }
     if (d === null || d === undefined) {
       throwNull2NonNull(field, d);
-    } else if (typeof(d) !== 'object') {
+    } else if (typeof d !== "object") {
       throwNotObject(field, d, false);
     } else if (Array.isArray(d)) {
       throwIsArray(field, d, false);
@@ -350,18 +350,38 @@ function throwIsArray(field: string, d: any, nullable: boolean): never {
   return errorHelper(field, d, "object", nullable);
 }
 function checkNumber(d: any, nullable: boolean, field: string): void {
-  if (typeof(d) !== 'number' && (!nullable || (nullable && d !== null && d !== undefined))) {
+  if (
+    typeof d !== "number" &&
+    (!nullable || (nullable && d !== null && d !== undefined))
+  ) {
     errorHelper(field, d, "number", nullable);
   }
 }
 function checkString(d: any, nullable: boolean, field: string): void {
-  if (typeof(d) !== 'string' && (!nullable || (nullable && d !== null && d !== undefined))) {
+  if (
+    typeof d !== "string" &&
+    (!nullable || (nullable && d !== null && d !== undefined))
+  ) {
     errorHelper(field, d, "string", nullable);
   }
 }
-function errorHelper(field: string, d: any, type: string, nullable: boolean): never {
+function errorHelper(
+  field: string,
+  d: any,
+  type: string,
+  nullable: boolean
+): never {
   if (nullable) {
     type += ", null, or undefined";
   }
-  throw new TypeError('Expected ' + type + " at " + field + " but found:\n" + JSON.stringify(d) + "\n\nFull object:\n" + JSON.stringify(obj));
+  throw new TypeError(
+    "Expected " +
+      type +
+      " at " +
+      field +
+      " but found:\n" +
+      JSON.stringify(d) +
+      "\n\nFull object:\n" +
+      JSON.stringify(obj)
+  );
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import * as io from "socket.io-client";
-import { subscribeOn } from "rxjs/operator/subscribeOn";
 import { TYPE, StreamerUtils } from "../../utils/ccc-streamer-utilities";
 import { CryptoPricesService } from "../../services/crypto-prices.service";
 import { Trade } from "../../models/trade";
@@ -17,31 +16,22 @@ export class CryptoStreamerComponent implements OnInit {
   streamingSources: string = "";
   fsym: string = "BTC";
   tsym: string = "USD";
-  columnNames = ["Market",
-    "Type",
-    "ID",
-    "Price",
-    "Quantity",
-    "Total"];
+  columnNames = ["Market", "Type", "ID", "Price", "Quantity", "Total"];
   trades: Trade[] = [];
   currentSubs;
   private socket: SocketIOClient.Socket;
   private streamerUtils: StreamerUtils = StreamerUtils.prototype;
 
-
   constructor(service: CryptoPricesService, private route: ActivatedRoute) {
     this.socket = io.connect("https://streamer.cryptocompare.com/");
     this.service = service;
     this.route = route;
-
-
   }
 
   ngOnInit() {
     console.log(this.route.snapshot);
     this.tsym = this.route.snapshot.queryParams["currency"];
     this.fsym = this.route.snapshot.queryParams["ticker"];
-
   }
   displayData(trade: any) {
     let maxTableSize = 30;
@@ -52,13 +42,7 @@ export class CryptoStreamerComponent implements OnInit {
   }
   subscribe() {
     this.getSubs();
-
-
-
   }
-
-
-
 
   private getSubs() {
     this.service.getData(this.fsym, this.tsym).subscribe(msg => {
@@ -68,11 +52,9 @@ export class CryptoStreamerComponent implements OnInit {
       // console.log(this.currentSubs);
       this.subscribeandproceess();
       // return possibleSubs;
-
     });
-
   }
-  private transformReceivedData = function (data: string) {
+  private transformReceivedData = function(data: string) {
     if (data.length === 1) return;
     // console.log("Transforming data:", data);
     let coinfsym = this.streamerUtils.getSymbol(this.fsym);
@@ -83,24 +65,30 @@ export class CryptoStreamerComponent implements OnInit {
       Market: incomingTrade["M"],
       Type: incomingTrade["T"],
       ID: incomingTrade["ID"],
-      Price: this.streamerUtils.current_convertValueToDisplay(cointsym, incomingTrade["P"]),
-      Quantity: this.streamerUtils.current_convertValueToDisplay(coinfsym, incomingTrade["Q"]),
-      Total: this.streamerUtils.current_convertValueToDisplay(cointsym, incomingTrade["TOTAL"])
+      Price: this.streamerUtils.current_convertValueToDisplay(
+        cointsym,
+        incomingTrade["P"]
+      ),
+      Quantity: this.streamerUtils.current_convertValueToDisplay(
+        coinfsym,
+        incomingTrade["Q"]
+      ),
+      Total: this.streamerUtils.current_convertValueToDisplay(
+        cointsym,
+        incomingTrade["TOTAL"]
+      )
     };
 
     if (incomingTrade["F"] & 1) {
       newTrade["Type"] = "SELL";
-    }
-    else if (incomingTrade["F"] & 2) {
+    } else if (incomingTrade["F"] & 2) {
       newTrade["Type"] = "BUY";
-    }
-    else {
+    } else {
       newTrade["Type"] = "UNKNOWN";
     }
 
     this.trades.push(newTrade);
     // console.log("NEW TRADE: ", newTrade);
-
   };
   private Process(message: string) {
     let messageType = message.substring(0, message.indexOf("~"));
@@ -118,8 +106,3 @@ export class CryptoStreamerComponent implements OnInit {
     this.socket.on("m", message => this.Process(message));
   }
 }
-
-
-
-
-

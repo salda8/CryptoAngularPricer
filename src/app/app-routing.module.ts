@@ -1,11 +1,9 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
 import { CryptoPricerComponent } from "./components/crypto-pricer/crypto-pricer.component";
 import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
-import { HomeComponent } from "./components/home/home.component";
+
 import { NotFoundComponent } from "./components/not-found/not-found.component";
-import { enableDebugTools } from "@angular/platform-browser/src/browser/tools/tools";
 import { SelectivePreloadingStrategy } from "./selective-preloading-strategy";
 import { CryptoDetailComponent } from "./components/crypto-detail/crypto-detail.component";
 import { WelcomeComponent } from "./components/welcome/welcome.component";
@@ -26,18 +24,16 @@ export const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegistrationComponent },
   { path: "*", component: NotFoundComponent }
-
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    enableTracing: false, // <-- debugging purposes only
-    preloadingStrategy: SelectivePreloadingStrategy
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      enableTracing: false, // <-- debugging purposes only
+      preloadingStrategy: SelectivePreloadingStrategy
+    })
+  ],
   exports: [RouterModule],
   providers: [SelectivePreloadingStrategy]
-
 })
-export class AppRoutingModule {
-
-}
+export class AppRoutingModule {}

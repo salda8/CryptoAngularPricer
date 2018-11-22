@@ -1,10 +1,9 @@
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 export interface MessageService<T> {
-    sendMessage(message: T);
+  sendMessage(message: T);
 
-    clearMessage();
+  clearMessage();
 
-    getMessage(): Observable<T>;
+  getMessage(): Observable<T>;
 }
-

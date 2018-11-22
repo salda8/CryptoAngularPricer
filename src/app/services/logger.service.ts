@@ -1,12 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
-
-import { Logger } from '../models/logger';
-import { AlertService } from './alert.service';
-import { logLevelToAlertType } from '../models/alert';
+import { Logger } from "../models/logger";
+import { AlertService } from "./alert.service";
 
 export let isDebugMode = true;
-
 
 const noop = (): any => undefined;
 
@@ -15,11 +12,7 @@ export class ConsoleLoggerService implements Logger {
   /**
    *
    */
-  constructor(private alertService: AlertService) {
-
-
-  }
-
+  constructor(private alertService: AlertService) {}
 
   log(arg0: any) {
     this.invokeConsoleMethod("error", arg0);
@@ -31,7 +24,6 @@ export class ConsoleLoggerService implements Logger {
     } else {
       return noop;
     }
-
   }
 
   get warn() {
@@ -44,7 +36,6 @@ export class ConsoleLoggerService implements Logger {
 
   get error() {
     if (isDebugMode) {
-
       return console.error.bind(console);
     } else {
       return noop;
@@ -52,8 +43,7 @@ export class ConsoleLoggerService implements Logger {
   }
 
   invokeConsoleMethod(type: string, args?: any): void {
-    const logFn: Function = (console)[type] || console.log || noop;
+    const logFn: Function = console[type] || console.log || noop;
     logFn.apply(console, [args]);
-
   }
 }

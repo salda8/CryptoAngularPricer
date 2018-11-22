@@ -1,15 +1,18 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject } from "@angular/core/testing";
 
-import { ContinousPriceUpdatesMessageService } from './price-details-message.service';
+import { ContinousPriceUpdatesMessageService } from "./price-details-message.service";
 
-describe('PriceDetailsMessageService', () => {
+describe("PriceDetailsMessageService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ContinousPriceUpdatesMessageService]
     });
   });
 
-  it('should be created', inject([ContinousPriceUpdatesMessageService], (service: ContinousPriceUpdatesMessageService) => {
-    expect(service).toBeTruthy();
-  }));
+  it("should be created", inject(
+    [ContinousPriceUpdatesMessageService],
+    (service: ContinousPriceUpdatesMessageService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
 });

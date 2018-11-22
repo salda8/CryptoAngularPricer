@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
+import { Injectable } from "@angular/core";
+import { Router, NavigationStart } from "@angular/router";
+import { Observable, Subject } from "rxjs";
 
-import { Alert, AlertType } from '../models/alert';
+import { Alert, AlertType } from "../models/alert";
 
 @Injectable()
 export class AlertService {
@@ -46,14 +45,11 @@ export class AlertService {
   }
 
   alert(type: AlertType, message: string, keepAfterRouteChange = false) {
-
     if (type !== AlertType.NoAlert) {
       this.keepAfterRouteChange = keepAfterRouteChange;
       this.subject.next(<Alert>{ type: type, message: message });
     }
   }
-
-
 
   clear() {
     // clear alerts

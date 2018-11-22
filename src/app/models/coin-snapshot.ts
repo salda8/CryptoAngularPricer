@@ -1,5 +1,3 @@
-import { PriceDetails } from "./pricedetailed";
-
 // To parse this data:
 //
 //   import { Convert, CoinSnapshot } from "./file";
@@ -7,64 +5,64 @@ import { PriceDetails } from "./pricedetailed";
 //   const coinSnapshot = Convert.toCoinSnapshot(json);
 
 export interface CoinSnapshot {
-    Response: string;
-    Message: string;
-    Data: Data;
-    Type: number;
+  Response: string;
+  Message: string;
+  Data: Data;
+  Type: number;
 }
 
 export interface Data {
-    Algorithm: string;
-    ProofType: string;
-    BlockNumber: number;
-    NetHashesPerSecond: number;
-    TotalCoinsMined: number;
-    BlockReward: number;
-    AggregatedData: AggregatedData;
-    Exchanges: ExchangeCoinSnapshot[];
+  Algorithm: string;
+  ProofType: string;
+  BlockNumber: number;
+  NetHashesPerSecond: number;
+  TotalCoinsMined: number;
+  BlockReward: number;
+  AggregatedData: AggregatedData;
+  Exchanges: ExchangeCoinSnapshot[];
 }
 
 export interface AggregatedData {
-    TYPE: string;
-    MARKET: string;
-    FROMSYMBOL: string;
-    TOSYMBOL: string;
-    FLAGS: string;
-    PRICE: number;
-    LASTUPDATE: string;
-    LASTVOLUME: string;
-    LASTVOLUMETO: string;
-    LASTTRADEID: string;
-    VOLUMEDAY: number;
-    VOLUMEDAYTO: number;
-    VOLUME24HOUR: number;
-    VOLUME24HOURTO: number;
-    OPENDAY: number;
-    HIGHDAY: number;
-    LOWDAY: number;
-    OPEN24HOUR: number;
-    HIGH24HOUR: number;
-    LOW24HOUR: number;
-    LASTMARKET: string;
+  TYPE: string;
+  MARKET: string;
+  FROMSYMBOL: string;
+  TOSYMBOL: string;
+  FLAGS: string;
+  PRICE: number;
+  LASTUPDATE: string;
+  LASTVOLUME: string;
+  LASTVOLUMETO: string;
+  LASTTRADEID: string;
+  VOLUMEDAY: number;
+  VOLUMEDAYTO: number;
+  VOLUME24HOUR: number;
+  VOLUME24HOURTO: number;
+  OPENDAY: number;
+  HIGHDAY: number;
+  LOWDAY: number;
+  OPEN24HOUR: number;
+  HIGH24HOUR: number;
+  LOW24HOUR: number;
+  LASTMARKET: string;
 }
 
 export interface ExchangeCoinSnapshot {
-    TYPE: string;
-    MARKET: string;
-    FROMSYMBOL: string;
-    TOSYMBOL: string;
-    FLAGS: string;
-    LASTTRADEID: string;
-    LASTUPDATE: string;
-    PRICE: number;
-    LASTVOLUME: number;
-    LASTVOLUMETO: number;
+  TYPE: string;
+  MARKET: string;
+  FROMSYMBOL: string;
+  TOSYMBOL: string;
+  FLAGS: string;
+  LASTTRADEID: string;
+  LASTUPDATE: string;
+  PRICE: number;
+  LASTVOLUME: number;
+  LASTVOLUMETO: number;
 
-    VOLUME24HOUR: number;
-    VOLUME24HOURTO: number;
-    OPEN24HOUR: number;
-    HIGH24HOUR: number;
-    LOW24HOUR: number;
+  VOLUME24HOUR: number;
+  VOLUME24HOURTO: number;
+  OPEN24HOUR: number;
+  HIGH24HOUR: number;
+  LOW24HOUR: number;
 }
 
 // export interface ViewExchangeCoinSnapshot {
@@ -74,37 +72,30 @@ export interface ExchangeCoinSnapshot {
 //     VOLUME24HOUR: number;
 //     DIFTOAVERAGEPRICE: number;
 
-
 // }
 
 export class ViewExchangeCoinSnapshot {
-    MARKET: string;
-    PAIR: string;
-    PRICE: number = 0;
-    VOLUME24HOUR: number = 0;
-    DIFTOAVERAGEPRICE: number = 0;
+  MARKET: string;
+  PAIR: string;
+  PRICE: number = 0;
+  VOLUME24HOUR: number = 0;
+  DIFTOAVERAGEPRICE: number = 0;
 
-    constructor(snapshot: ExchangeCoinSnapshot) {
-        this.MARKET = snapshot.MARKET;
-        this.PAIR = snapshot.FROMSYMBOL + "/" + snapshot.TOSYMBOL;
-        this.PRICE = snapshot.PRICE;
-        this.VOLUME24HOUR = snapshot.VOLUME24HOUR;
-
-
-    }
-
-
-
-
+  constructor(snapshot: ExchangeCoinSnapshot) {
+    this.MARKET = snapshot.MARKET;
+    this.PAIR = snapshot.FROMSYMBOL + "/" + snapshot.TOSYMBOL;
+    this.PRICE = snapshot.PRICE;
+    this.VOLUME24HOUR = snapshot.VOLUME24HOUR;
+  }
 }
 
 // Converts JSON numbers to/from your types
 export class Convert {
-    toCoinSnapshot(json: string): CoinSnapshot {
-        return JSON.parse(json);
-    }
+  toCoinSnapshot(json: string): CoinSnapshot {
+    return JSON.parse(json);
+  }
 
-    coinSnapshotToJson(value: CoinSnapshot): string {
-        return JSON.stringify(value, undefined, 2);
-    }
+  coinSnapshotToJson(value: CoinSnapshot): string {
+    return JSON.stringify(value, undefined, 2);
+  }
 }

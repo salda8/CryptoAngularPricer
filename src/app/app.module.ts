@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 // import "hammerjs";
 
-import { HttpModule, JsonpModule } from "@angular/http";
+import { JsonpModule } from "@angular/http";
 import { HttpParams, HttpClient, HttpClientModule } from "@angular/common/http";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
@@ -15,14 +15,32 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { PricetableComponent } from "./components/pricetable/pricetable.component";
 import { MessageService } from "./services/message.service";
 import { ContinousPriceUpdatesMessageService } from "./services/price-details-message.service";
-import { AccordionModule } from "primeng/primeng";
-import { PanelModule } from "primeng/primeng";
-import { ButtonModule } from "primeng/primeng";
-import { RadioButtonModule, DropdownModule } from "primeng/primeng";
-import {
 
-  MatButtonModule, MatCheckboxModule, MatChipsModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatGridListModule, MatCardModule, MatIconModule,
-  MatSidenavContainer, MatSidenav, MatSidenavModule, MatToolbarModule, MatList, MatNavList, MatListModule, MatMenuModule, MatProgressSpinnerModule, MAT_LABEL_GLOBAL_OPTIONS, MatInputModule
+import { PanelModule } from "primeng/panel";
+import { ButtonModule } from "primeng/button";
+import { RadioButtonModule } from "primeng/radiobutton";
+import { DropdownModule } from "primeng/dropdown";
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatGridListModule,
+  MatCardModule,
+  MatIconModule,
+  MatSidenavContainer,
+  MatSidenav,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatList,
+  MatNavList,
+  MatListModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MAT_LABEL_GLOBAL_OPTIONS,
+  MatInputModule
 } from "@angular/material";
 
 import { CryptoStreamerComponent } from "./components/crypto-streamer/crypto-streamer.component";
@@ -42,7 +60,6 @@ import { GoogletrendsComponent } from "./components/googletrends/googletrends.co
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SocialStatsComponent } from "./components/social-stats/social-stats.component";
 import { RedditapiService } from "./services/redditapi.service";
-import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 
 import { ConsoleLoggerService } from "./services/logger.service";
 import { ApplicationHttpClient } from "./http-interceptor";
@@ -52,7 +69,10 @@ import { GlobalErrorHandler } from "./global-error-handler";
 import { WelcomeComponent } from "./components/welcome/welcome.component";
 import { LoginComponent } from "./components/login/login.component";
 import { RegistrationComponent } from "./components/registration/registration.component";
-import { FakeBackendInterceptor, fakeBackendProvider } from "./fake-backend-interceptor";
+import {
+  FakeBackendInterceptor,
+  fakeBackendProvider
+} from "./fake-backend-interceptor";
 import { AuthGuard } from "./auth-guard";
 import { JwtInterceptor } from "./jwt-interceptor";
 import { AuthenticationService } from "./services/authentication.service";
@@ -60,7 +80,6 @@ import { UserService } from "./services/user.service";
 
 @NgModule({
   declarations: [
-
     HomeComponent,
 
     CryptoPricerComponent,
@@ -95,20 +114,61 @@ import { UserService } from "./services/user.service";
   ],
 
   imports: [
-    ReactiveFormsModule, HttpModule, HttpClientModule, FormsModule, NgxDatatableModule, AccordionModule,
-    MatChipsModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatToolbarModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatGridListModule, FlexLayoutModule,
-    PanelModule, MatInputModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryHeroServiceService, { delay: 1000 }),
+    ReactiveFormsModule,
+    HttpClientModule,
+    FormsModule,
+    NgxDatatableModule,
+
+    MatChipsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatMenuModule,
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    FlexLayoutModule,
+    PanelModule,
+    MatInputModule,
+
     ButtonModule,
-    RadioButtonModule, DropdownModule,
+    RadioButtonModule,
+    DropdownModule,
     NgPipesModule,
-    BrowserModule, NgxChartsModule, BrowserAnimationsModule, DropdownModule, AppRoutingModule, JsonpModule
+    BrowserModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
+    DropdownModule,
+    AppRoutingModule,
+    JsonpModule
   ],
 
-  providers: [CryptoPricesService, CryptoDetailTempStorageService, HttpClient, MessageService, ContinousPriceUpdatesMessageService, ApplicationHttpClient,
-    PriceUpdateService, CachingInterceptor, { provide: HttpCacheBase, useClass: HttpCache }, GoogleTrendsService, RedditapiService, ConsoleLoggerService, GlobalErrorHandler,
-    ApplicationHttpClient, AlertService, FakeBackendInterceptor, AuthGuard, JwtInterceptor, AuthenticationService, UserService,
-    fakeBackendProvider, { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: "always" } }],
+  providers: [
+    CryptoPricesService,
+    CryptoDetailTempStorageService,
+    HttpClient,
+    MessageService,
+    ContinousPriceUpdatesMessageService,
+    ApplicationHttpClient,
+    PriceUpdateService,
+    CachingInterceptor,
+    { provide: HttpCacheBase, useClass: HttpCache },
+    GoogleTrendsService,
+    RedditapiService,
+    ConsoleLoggerService,
+    GlobalErrorHandler,
+    ApplicationHttpClient,
+    AlertService,
+    FakeBackendInterceptor,
+    AuthGuard,
+    JwtInterceptor,
+    AuthenticationService,
+    UserService,
+    fakeBackendProvider,
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: "always" } }
+  ],
   bootstrap: [HomeComponent]
 })
-export class AppModule { }
+export class AppModule {}
