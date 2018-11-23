@@ -10,7 +10,9 @@ import {
 import { Observable, of } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() {}
 

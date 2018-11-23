@@ -7,7 +7,9 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class JwtInterceptor implements HttpInterceptor {
   intercept(
     request: HttpRequest<any>,

@@ -64,7 +64,6 @@ import { RedditapiService } from "./services/redditapi.service";
 import { ConsoleLoggerService } from "./services/logger.service";
 import { ApplicationHttpClient } from "./http-interceptor";
 import { AlertComponent } from "./components/alert/alert.component";
-import { AlertService } from "./services/alert.service";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { WelcomeComponent } from "./components/welcome/welcome.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -149,23 +148,9 @@ import { UserService } from "./services/user.service";
     CryptoPricesService,
     CryptoDetailTempStorageService,
     HttpClient,
-    MessageService,
-    ContinousPriceUpdatesMessageService,
-    ApplicationHttpClient,
     PriceUpdateService,
-    CachingInterceptor,
-    { provide: HttpCacheBase, useClass: HttpCache },
     GoogleTrendsService,
     RedditapiService,
-    ConsoleLoggerService,
-    GlobalErrorHandler,
-    ApplicationHttpClient,
-    AlertService,
-    FakeBackendInterceptor,
-    AuthGuard,
-    JwtInterceptor,
-    AuthenticationService,
-    UserService,
     fakeBackendProvider,
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: "always" } }
   ],

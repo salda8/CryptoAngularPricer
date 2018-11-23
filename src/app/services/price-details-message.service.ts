@@ -3,7 +3,9 @@ import { Observable, Subject } from "rxjs";
 import { PriceDetails } from "../models/pricedetailed";
 import { MessageService } from "../models/message-service";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ContinousPriceUpdatesMessageService
   implements MessageService<PriceDetails> {
   private subject = new Subject<PriceDetails>();

@@ -4,7 +4,9 @@ import { ConsoleLoggerService } from "./services/logger.service";
 import * as StackTrace from "stacktrace-js";
 import { AlertService } from "./services/alert.service";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(private injector: Injector) {}
   handleError(error) {

@@ -7,7 +7,9 @@ export let isDebugMode = true;
 
 const noop = (): any => undefined;
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ConsoleLoggerService implements Logger {
   /**
    *

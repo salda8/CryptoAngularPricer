@@ -4,7 +4,9 @@ import { Observable, Subject } from "rxjs";
 
 import { Alert, AlertType } from "../models/alert";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class AlertService {
   private subject = new Subject<Alert>();
   private keepAfterRouteChange = false;

@@ -21,7 +21,9 @@ export function applicationHttpClientCreator(
   return new ApplicationHttpClient(http, errorHandler);
 }
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ApplicationHttpClient {
   proxy: string = "https://cors-anywhere.herokuapp.com/";
   baseUrl: string = "";

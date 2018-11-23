@@ -10,7 +10,9 @@ import { Observable, of } from "rxjs";
 import { HttpCacheBase } from "./models/http-cache";
 import { tap } from "rxjs/operators";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class CachingInterceptor implements HttpInterceptor {
   constructor(private cache: HttpCacheBase) {}
 
