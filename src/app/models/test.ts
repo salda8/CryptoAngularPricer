@@ -1,5 +1,5 @@
 // Stores the currently-being-typechecked object for error messages.
-let obj: any = null;
+let obj: any;
 export class CryptoDetailsProxy {
   public readonly RAW: RAWProxy;
   public readonly DISPLAY: DISPLAYProxy;
@@ -111,7 +111,7 @@ export class USDProxy {
   public static Parse(d: string): USDProxy {
     return USDProxy.Create(JSON.parse(d));
   }
-  public static Create(d: any, field: string = "root"): USDProxy {
+  public static Create(d: USDProxy, field: string = "root"): USDProxy {
     if (!field) {
       obj = d;
       field = "root";
@@ -154,7 +154,7 @@ export class USDProxy {
     checkNumber(d.TOTALVOLUME24HTO, false, field + ".TOTALVOLUME24HTO");
     return new USDProxy(d);
   }
-  private constructor(d: any) {
+  private constructor(d: USDProxy) {
     this.TYPE = d.TYPE;
     this.MARKET = d.MARKET;
     this.FROMSYMBOL = d.FROMSYMBOL;
@@ -346,10 +346,10 @@ function throwNull2NonNull(field: string, d: any): never {
 function throwNotObject(field: string, d: any, nullable: boolean): never {
   return errorHelper(field, d, "object", nullable);
 }
-function throwIsArray(field: string, d: any, nullable: boolean): never {
+function throwIsArray(field: string, d: [], nullable: boolean): never {
   return errorHelper(field, d, "object", nullable);
 }
-function checkNumber(d: any, nullable: boolean, field: string): void {
+function checkNumber(d: number, nullable: boolean, field: string): void {
   if (
     typeof d !== "number" &&
     (!nullable || (nullable && d !== null && d !== undefined))
@@ -357,7 +357,7 @@ function checkNumber(d: any, nullable: boolean, field: string): void {
     errorHelper(field, d, "number", nullable);
   }
 }
-function checkString(d: any, nullable: boolean, field: string): void {
+function checkString(d: string, nullable: boolean, field: string): void {
   if (
     typeof d !== "string" &&
     (!nullable || (nullable && d !== null && d !== undefined))

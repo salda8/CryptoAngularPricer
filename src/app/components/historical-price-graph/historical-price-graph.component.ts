@@ -10,41 +10,40 @@ import { FormControl } from "@angular/forms";
 })
 export class HistoricalPriceGraphComponent implements OnInit {
   @Input()
-  coin: string;
+  public coin: string;
 
-  msgService: Subscription;
-  liveUpdatesMessageService: Subscription;
-  selectedCryptoPair: string[] = [];
-  single: any[];
-  multi: GraphLine[] = [];
-  allReceivedPriceDetails: PriceDetails[] = [];
-  multipleSelectedMultiSeries: string[] = [];
-  allReceivedPairs: string[] = [];
+  public msgService: Subscription;
+  public liveUpdatesMessageService: Subscription;
+  public selectedCryptoPair: string[] = [];
+  public single: any[];
+  public multi: GraphLine[] = [];
+  public allReceivedPriceDetails: PriceDetails[] = [];
+  public multipleSelectedMultiSeries: string[] = [];
+  public allReceivedPairs: string[] = [];
 
-  view: any[] = [700, 400];
-  pairsToPlotControl: FormControl = new FormControl();
-  valuesToPlotControl: FormControl = new FormControl();
+  public view: any[] = [700, 400];
+  public pairsToPlotControl: FormControl = new FormControl();
+  public valuesToPlotControl: FormControl = new FormControl();
   // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = "Date";
-  showYAxisLabel = true;
-  yAxisLabel = "Price";
-  create = false;
-  autoScale = true;
-  graphData: GraphLine[] = [];
-  months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = false;
+  public showLegend = true;
+  public showXAxisLabel = true;
+  public xAxisLabel = "Date";
+  public showYAxisLabel = true;
+  public yAxisLabel = "Price";
+  public create = false;
+  public autoScale = true;
+  public graphData: GraphLine[] = [];
+  public months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-
-  colorScheme = {
+  public colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
   };
-  constructor() { }
+  public constructor() { }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
 }

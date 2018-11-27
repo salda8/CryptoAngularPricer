@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { GlobalErrorHandler } from "./global-error-handler";
 import { catchError } from "rxjs/operators";
+import { throwError } from "rxjs";
 
 export interface IRequestOptions {
   headers?: HttpHeaders;
@@ -14,29 +15,22 @@ export interface IRequestOptions {
   body?: any;
 }
 
-export function applicationHttpClientCreator(
-  http: HttpClient,
-  errorHandler: GlobalErrorHandler
-) {
-  return new ApplicationHttpClient(http, errorHandler);
-}
-
 @Injectable({
   providedIn: "root"
 })
 export class ApplicationHttpClient {
-  proxy: string = "https://cors-anywhere.herokuapp.com/";
-  baseUrl: string = "";
-  useProxy = false;
+  public proxy: string = "https://cors-anywhere.herokuapp.com/";
+  public baseUrl: string = "";
+  public useProxy = false;
 
   private api = this.useProxy ? `${this.proxy}${this.baseUrl}` : this.baseUrl;
 
-  // Extending the HttpClient through the Angular DI.
+  // extending the HttpClient through the Angular DI.
   public constructor(
     public http: HttpClient,
     private errorHandler: GlobalErrorHandler
   ) {
-    // If you don't want to use the extended versions in some cases you can access the public property and use the original one.
+    // if you don't want to use the extended versions in some cases you can access the public property and use the original one.
     // for ex. this.httpClient.http.get(...)
   }
 
@@ -61,7 +55,7 @@ export class ApplicationHttpClient {
    */
   public post<T>(
     endPoint: string,
-    params: Object,
+    params: object,
     options?: IRequestOptions
   ): Observable<T> {
     return this.http
@@ -78,7 +72,7 @@ export class ApplicationHttpClient {
    */
   public put<T>(
     endPoint: string,
-    params: Object,
+    params: object,
     options?: IRequestOptions
   ): Observable<T> {
     return this.http
@@ -99,8 +93,15 @@ export class ApplicationHttpClient {
   }
 
   private handleError = (error: Response) => {
-    // Do messaging and error handling here
+    // do messaging and error handling here
     this.errorHandler.handleError(error);
     return Observable.throw(error);
   }
+}
+
+export function applicationHttpClientCreator(
+  http: HttpClient,
+  errorHandler: GlobalErrorHandler
+): ApplicationHttpClient {
+  return new ApplicationHttpClient(http, errorHandler);
 }

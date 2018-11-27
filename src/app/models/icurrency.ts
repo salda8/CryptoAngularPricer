@@ -1,5 +1,5 @@
 export interface Icurrency {
-    name: string;
-    selected: boolean;
-    id: number;
+  name: string;
+  selected: boolean;
+  id: number;
 }

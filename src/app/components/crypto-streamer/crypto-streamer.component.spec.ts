@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CryptoStreamerComponent } from './crypto-streamer.component';
+import { CryptoStreamerComponent } from "./crypto-streamer.component";
 
-describe('CryptoStreamerComponent', () => {
+describe("CryptoStreamerComponent", () => {
   let component: CryptoStreamerComponent;
   let fixture: ComponentFixture<CryptoStreamerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CryptoStreamerComponent ]
+      declarations: [CryptoStreamerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('CryptoStreamerComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

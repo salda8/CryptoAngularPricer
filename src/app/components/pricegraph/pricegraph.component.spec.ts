@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { PricegraphComponent } from './pricegraph.component';
+import { PricegraphComponent } from "./pricegraph.component";
 
-describe('PricegraphComponent', () => {
+describe("PricegraphComponent", () => {
   let component: PricegraphComponent;
   let fixture: ComponentFixture<PricegraphComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PricegraphComponent ]
+      declarations: [PricegraphComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('PricegraphComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

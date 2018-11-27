@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CoinPricesOnExchangesTableComponent } from './coin-prices-on-exchanges-table.component';
+import { CoinPricesOnExchangesTableComponent } from "./coin-prices-on-exchanges-table.component";
 
-describe('CoinPricesOnExchangesTableComponent', () => {
+describe("CoinPricesOnExchangesTableComponent", () => {
   let component: CoinPricesOnExchangesTableComponent;
   let fixture: ComponentFixture<CoinPricesOnExchangesTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoinPricesOnExchangesTableComponent ]
-    })
-    .compileComponents();
+      declarations: [CoinPricesOnExchangesTableComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('CoinPricesOnExchangesTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

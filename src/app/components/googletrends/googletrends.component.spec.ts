@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { GoogletrendsComponent } from './googletrends.component';
+import { GoogletrendsComponent } from "./googletrends.component";
 
-describe('GoogletrendsComponent', () => {
+describe("GoogletrendsComponent", () => {
   let component: GoogletrendsComponent;
   let fixture: ComponentFixture<GoogletrendsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoogletrendsComponent ]
+      declarations: [GoogletrendsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('GoogletrendsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

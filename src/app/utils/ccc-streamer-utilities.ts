@@ -82,73 +82,70 @@ export enum TRADE_FIELDS {
 }
 export class StreamerUtils {
 
-
   // CCC.STATIC = this.CCC.STATIC || {};
 
-
-
   // CCC.STATIC.CURRENCY = CCC.STATIC.CURRENCY || {};
-  static TRADE_DISPLAY_FIELDS = {
-    "T": { "Show": false }
-    , "M": { "Show": true, "Filter": "Market" }
-    , "FSYM": { "Show": true, "Filter": "CurrencySymbol" }
-    , "TSYM": { "Show": true, "Filter": "CurrencySymbol" }
-    , "F": { "Show": true, "Filter": "TradeFlag" }
-    , "ID": { "Show": true, "Filter": "Text" }
-    , "TS": { "Show": true, "Filter": "Date", "Format": "yyyy MMMM dd HH:mm:ss" }
-    , "Q": { "Show": true, "Filter": "Number", "Symbol": "FSYM" }
-    , "P": { "Show": true, "Filter": "Number", "Symbol": "TSYM" }
-    , "TOTAL": { "Show": true, "Filter": "Number", "Symbol": "TSYM" }
+  public static TRADE_DISPLAY_FIELDS = {
+    T: { Show: false }
+    , M: { Show: true, Filter: "Market" }
+    , FSYM: { Show: true, Filter: "CurrencySymbol" }
+    , TSYM: { Show: true, Filter: "CurrencySymbol" }
+    , F: { Show: true, Filter: "TradeFlag" }
+    , ID: { Show: true, Filter: "Text" }
+    , TS: { Show: true, Filter: "Date", Format: "yyyy MMMM dd HH:mm:ss" }
+    , Q: { Show: true, Filter: "Number", Symbol: "FSYM" }
+    , P: { Show: true, Filter: "Number", Symbol: "TSYM" }
+    , TOTAL: { Show: true, Filter: "Number", Symbol: "TSYM" }
 
   };
-  static CURRENCY_SYMBOL = {
-    "BTC": "Ƀ"
-    , "LTC": "Ł"
-    , "DAO": "Ð"
-    , "USD": "$"
-    , "CNY": "¥"
-    , "EUR": "€"
-    , "GBP": "£"
-    , "JPY": "¥"
-    , "PLN": "zł"
-    , "RUB": "₽"
-    , "ETH": "Ξ"
-    , "GOLD": "Gold g"
-    , "INR": "₹"
-    , "BRL": "R$"
+  public static CURRENCY_SYMBOL = {
+    BTC: "Ƀ"
+    , LTC: "Ł"
+    , DAO: "Ð"
+    , USD: "$"
+    , CNY: "¥"
+    , EUR: "€"
+    , GBP: "£"
+    , JPY: "¥"
+    , PLN: "zł"
+    , RUB: "₽"
+    , ETH: "Ξ"
+    , GOLD: "Gold g"
+    , INR: "₹"
+    , BRL: "R$"
   };
 
-  static DISPLAY_FIELDS = {
-    "TYPE": { "Show": false }
-    , "MARKET": { "Show": true, "Filter": "Market" }
-    , "FROMSYMBOL": { "Show": false }
-    , "TOSYMBOL": { "Show": false }
-    , "FLAGS": { "Show": false }
-    , "PRICE": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "BID": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "OFFER": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LASTUPDATE": { "Show": true, "Filter": "Date", "Format": "yyyy MMMM dd HH:mm:ss" }
-    , "AVG": { "Show": true, " Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LASTVOLUME": { "Show": true, "Filter": "Number", "Symbol": "FROMSYMBOL" }
-    , "LASTVOLUMETO": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LASTTRADEID": { "Show": true, "Filter": "String" }
-    , "VOLUMEHOUR": { "Show": true, "Filter": "Number", "Symbol": "FROMSYMBOL" }
-    , "VOLUMEHOURTO": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "VOLUME24HOUR": { "Show": true, "Filter": "Number", "Symbol": "FROMSYMBOL" }
-    , "VOLUME24HOURTO": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "OPENHOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "HIGHHOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LOWHOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "OPEN24HOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "HIGH24HOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LOW24HOUR": { "Show": true, "Filter": "Number", "Symbol": "TOSYMBOL" }
-    , "LASTMARKET": { "Show": true, "Filter": "String" }
+  public static DISPLAY_FIELDS = {
+    TYPE: { Show: false }
+    , MARKET: { Show: true, Filter: "Market" }
+    , FROMSYMBOL: { Show: false }
+    , TOSYMBOL: { Show: false }
+    , FLAGS: { Show: false }
+    , PRICE: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , BID: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , OFFER: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , LASTUPDATE: { Show: true, Filter: "Date", Format: "yyyy MMMM dd HH:mm:ss" }
+    , AVG: { "Show": true, " Filter": "Number", "Symbol": "TOSYMBOL" }
+    , LASTVOLUME: { Show: true, Filter: "Number", Symbol: "FROMSYMBOL" }
+    , LASTVOLUMETO: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , LASTTRADEID: { Show: true, Filter: "String" }
+    , VOLUMEHOUR: { Show: true, Filter: "Number", Symbol: "FROMSYMBOL" }
+    , VOLUMEHOURTO: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , VOLUME24HOUR: { Show: true, Filter: "Number", Symbol: "FROMSYMBOL" }
+    , VOLUME24HOURTO: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , OPENHOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , HIGHHOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , LOWHOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , OPEN24HOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , HIGH24HOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , LOW24HOUR: { Show: true, Filter: "Number", Symbol: "TOSYMBOL" }
+    , LASTMARKET: { Show: true, Filter: "String" }
   };
 
-  UTIL = {
+  public UTIL = {
     exchangeNameMapping: {
-      "CCCAGG": "CryptoCompare Index",
-      "BTCChina": "BTCC"
+      CCCAGG: "CryptoCompare Index",
+      BTCChina: "BTCC"
     },
     isMobile(userAgent) {
       // tslint:disable-next-line:curly
@@ -210,13 +207,13 @@ export class StreamerUtils {
     },
     convertCurrentKeyToAll(key) {
       const valuesArray = key.split("~");
-      valuesArray[0] = this.TYPE["CURRENTAGG"];
+      valuesArray[0] = this.TYPE.CURRENTAGG;
       valuesArray[1] = "CCCAGG";
       return valuesArray.join("~");
     },
     convertCurrentKeyToTrade(key) {
       const valuesArray = key.split("~");
-      valuesArray[0] = this.TYPE["TRADE"];
+      valuesArray[0] = this.TYPE.TRADE;
       return valuesArray.join("~");
     },
     convertValueToDisplay(symbol, value, filterNumberFunctionAngularJS, type, fullNumbers) {
@@ -285,18 +282,14 @@ export class StreamerUtils {
     }
   };
 
-
   // CCC.TRADE = CCC.TRADE || {};
   /*
   trade fields binary values always in the last ~
   */
 
-
-
   // CCC.TRADE.DISPLAY = CCC.TRADE.DISPLAY || {};
 
-
-  pack(tradeObject) {
+  public pack(tradeObject) {
     const mask = 0;
     let packedTrade = "";
     for (const field of tradeObject) {
@@ -306,11 +299,11 @@ export class StreamerUtils {
     return packedTrade.substr(1) + "~" + mask.toString(16);
   }
 
-  getSymbol(symbol) {
+  public getSymbol(symbol) {
     return StreamerUtils.CURRENCY_SYMBOL[symbol] || symbol;
   }
 
-  getTradeFieldEnumFromString(property: string): TRADE_FIELDS {
+  public getTradeFieldEnumFromString(property: string): TRADE_FIELDS {
     switch (property) {
       case "T":
         return TRADE_FIELDS.T;
@@ -337,7 +330,7 @@ export class StreamerUtils {
     }
   }
 
-  getFlagEnumFromString(property: string): FLAGS {
+  public getFlagEnumFromString(property: string): FLAGS {
     switch (property) {
       case "PRICEUP":
         return FLAGS.PRICEUP;
@@ -365,11 +358,10 @@ export class StreamerUtils {
         return FLAGS.AVGUNCHANGED;
       default:
 
-
     }
   }
 
-  getFieldEnumFromString(property: string): FIELDS {
+  public getFieldEnumFromString(property: string): FIELDS {
     switch (property) {
       case "TYPE":
         return FIELDS.TYPE;
@@ -424,7 +416,7 @@ export class StreamerUtils {
     }
   }
 
-  unpack(tradeString) {
+  public unpack(tradeString) {
     const valuesArray = tradeString.split("~");
     const valuesArrayLenght = valuesArray.length;
     const mask = valuesArray[valuesArrayLenght - 1];
@@ -441,8 +433,7 @@ export class StreamerUtils {
         currentField++;
         // console.log("1:", unpackedTrade[property]);
 
-      }
-      else if (maskInt & tradeField) {
+      } else if (maskInt & tradeField) {
         unpackedTrade[property] = valuesArray[currentField];
         currentField++;
         // console.log("2:", unpackedTrade[property]);
@@ -452,8 +443,8 @@ export class StreamerUtils {
     return unpackedTrade;
   }
 
-  getKey(tradeObject) {
-    return tradeObject["T"] + "~" + tradeObject["M"] + "~" + tradeObject["FSYM"] + "~" + tradeObject["TSYM"];
+  public getKey(tradeObject) {
+    return tradeObject.T + "~" + tradeObject.M + "~" + tradeObject.FSYM + "~" + tradeObject.TSYM;
   }
 
   // CCC; .CURRENT = CCC.CURRENT || {};
@@ -463,8 +454,7 @@ export class StreamerUtils {
 
   // CCC; .CURRENT; .DISPLAY = CCC.CURRENT.DISPLAY || {};
 
-
-  current_pack(currentObject) {
+  public current_pack(currentObject) {
     let mask = 0;
     let packedCurrent = "";
     for (const property in FIELDS) {
@@ -477,7 +467,7 @@ export class StreamerUtils {
     return packedCurrent.substr(1) + "~" + mask.toString(16);
   }
 
-  current_unpack(value) {
+  public current_unpack(value) {
     const valuesArray = value.split("~");
     const valuesArrayLenght = valuesArray.length;
     const mask = valuesArray[valuesArrayLenght - 1];
@@ -490,8 +480,7 @@ export class StreamerUtils {
       if (field === 0) {
         unpackedCurrent[property] = valuesArray[currentField];
         currentField++;
-      }
-      else if (maskInt & field) {
+      } else if (maskInt & field) {
         // i know this is a hack, for cccagg, future code please don't hate me:(, i did this to avoid
         // subscribing to trades as well in order to show the last market
         if (property === "LASTMARKET") {
@@ -505,16 +494,16 @@ export class StreamerUtils {
 
     return unpackedCurrent;
   }
-  current_getKey(currentObject) {
-    return currentObject["TYPE"] + "~" + currentObject["MARKET"] + "~"
-      + currentObject["FROMSYMBOL"] + "~" + currentObject["TOSYMBOL"];
+  public current_getKey(currentObject) {
+    return currentObject.TYPE + "~" + currentObject.MARKET + "~"
+      + currentObject.FROMSYMBOL + "~" + currentObject.TOSYMBOL;
   }
-  current_getKeyFromStreamerData(streamerData) {
+  public current_getKeyFromStreamerData(streamerData) {
     const valuesArray = streamerData.split("~");
     return valuesArray[0] + "~" + valuesArray[1] + "~" + valuesArray[2] + "~" + valuesArray[3];
   }
 
-  current_noExponents(value) {
+  public current_noExponents(value) {
     const data = String(value).split(/[eE]/);
     if (data.length === 1) { return data[0]; }
 
@@ -533,7 +522,7 @@ export class StreamerUtils {
     return str + z;
   }
 
-  current_filterNumberFunctionPolyfill(value, decimals) {
+  public current_filterNumberFunctionPolyfill(value, decimals) {
     const decimalsDenominator = Math.pow(10, decimals);
     const numberWithCorrectDecimals = Math.round(value * decimalsDenominator) / decimalsDenominator;
     const parts = numberWithCorrectDecimals.toString().split(".");
@@ -541,7 +530,7 @@ export class StreamerUtils {
     return parts.join(".");
   }
 
-  current_convertValueToDisplay(symbol, value, type?, fullNumbers?) {
+  public current_convertValueToDisplay(symbol, value, type?, fullNumbers?) {
     let prefix = "";
     let valueSign = 1;
     value = parseFloat(value);
@@ -602,6 +591,4 @@ export class StreamerUtils {
   }
 
 }
-
-
-
+

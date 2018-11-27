@@ -9,13 +9,4 @@ hr {
     border-top: 1px solid #ccc;
     margin: 1em 0;
     padding: 0;
-}
-.mat-form-field{
-    width: 800px;
-}
-.custom-control {
-    position: relative;
-    display: block;
-    min-height: 1.5rem;
-    padding-left: 1.5rem;
-}
+}

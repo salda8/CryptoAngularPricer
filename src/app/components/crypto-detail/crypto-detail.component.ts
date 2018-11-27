@@ -9,35 +9,32 @@ import { TimelineData } from "../../models/google-trends";
 import { CoinSnapshot } from "../../models/coin-snapshot";
 import { AfterViewInit } from "@angular/core/src/metadata/lifecycle_hooks";
 
-
-
 @Component({
   selector: "app-crypto-detail",
   templateUrl: "./crypto-detail.component.html",
   styleUrls: ["./crypto-detail.component.css"]
 })
 export class CryptoDetailComponent implements OnInit {
-  coin: string;
-  coinSymbol: string;
-  priceDetails: PriceDetails;
-  loading = true;
-  timelineData: TimelineData[] = [];
-  coinSnapshot: CoinSnapshot;
+  public coin: string;
+  public coinSymbol: string;
+  public priceDetails: PriceDetails;
+  public loading = true;
+  public timelineData: TimelineData[] = [];
+  public coinSnapshot: CoinSnapshot;
 
-  constructor(private route: ActivatedRoute, private router: Router, private storage: CryptoDetailTempStorageService,
+  public constructor(private route: ActivatedRoute, private router: Router, private storage: CryptoDetailTempStorageService,
     private googleTrends: GoogleTrendsService, private priceService: CryptoPricesService) {
-
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
-    this.coinSymbol = this.route.snapshot.queryParams["symbol"];
-    this.coin = this.route.snapshot.queryParams["name"];
+    this.coinSymbol = this.route.snapshot.queryParams.symbol;
+    this.coin = this.route.snapshot.queryParams.name;
     console.log(this.coinSymbol);
     this.priceDetails = this.storage.load();
     this.googleTrends.interestByRegionTrendSearch(this.coin, "0").subscribe(res => {
-      this.timelineData = JSON.parse(JSON.stringify(res))["default"]["timelineData"];
+      this.timelineData = JSON.parse(JSON.stringify(res)).default.timelineData;
 
     });
 
@@ -45,9 +42,6 @@ export class CryptoDetailComponent implements OnInit {
       this.coinSnapshot = JSON.parse(JSON.stringify(res));
     });
 
-
   }
-
-
 
 }

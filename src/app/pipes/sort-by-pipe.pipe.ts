@@ -5,7 +5,7 @@ import { TakePipe } from "angular-pipes";
   name: "app-sortByPipe"
 })
 export class SortByPipePipe implements PipeTransform {
-  transform(array: Array<string>, args: string): Array<string> {
+  public transform(array: string[], args: string): string[] {
     array.sort((a: any, b: any) => {
       if (a < b) {
         return -1;
@@ -18,7 +18,7 @@ export class SortByPipePipe implements PipeTransform {
     return array;
   }
 
-  sort(input: Object[], attribute: string, direction: "asc" | "desc") {
+  public sort(input: Object[], attribute: string, direction: "asc" | "desc") {
     let array = [];
     for (let objectKey of input) {
       array.push(objectKey);
@@ -33,7 +33,7 @@ export class SortByPipePipe implements PipeTransform {
     return TakePipe.prototype.transform(array);
   }
 
-  sortAndTakeTopX(
+  public sortAndTakeTopX(
     input: Object[],
     attribute: string,
     direction: "asc" | "desc",

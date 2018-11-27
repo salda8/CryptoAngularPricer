@@ -11,48 +11,48 @@ import { GraphLine, GraphSeries } from "../../models/pricedetailed";
 export class GoogletrendsComponent implements OnInit {
 
   @Input()
-  set TimelineData(value: TimelineData[]) {
+  public set TimelineData(value: TimelineData[]) {
     this.timelineData = value;
 
   }
 
-  get TimelineData(): TimelineData[] { return this.timelineData; }
+  public get TimelineData(): TimelineData[] { return this.timelineData; }
 
   @Input()
-  coin: string;
+  public coin: string;
 
-  view: any[] = [700, 400];
-  pairsToPlotControl: FormControl = new FormControl();
-  valuesToPlotControl: FormControl = new FormControl();
+  public view: any[] = [700, 400];
+  public pairsToPlotControl: FormControl = new FormControl();
+  public valuesToPlotControl: FormControl = new FormControl();
   // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = false;
-  showXAxisLabel = true;
-  xAxisLabel = "Date";
-  showYAxisLabel = true;
-  yAxisLabel = "Mentions";
-  create = false;
-  autoScale = true;
-  graphData: GraphLine[] = [];
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = false;
+  public showLegend = false;
+  public showXAxisLabel = true;
+  public xAxisLabel = "Date";
+  public showYAxisLabel = true;
+  public yAxisLabel = "Mentions";
+  public create = false;
+  public autoScale = true;
+  public graphData: GraphLine[] = [];
 
-  colorScheme = {
+  public colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
   };
 
   private timelineData: TimelineData[] = [];
-  constructor() {
+  public constructor() {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     this.createGraph(this.timelineData);
 
   }
 
-  createGraph(data: TimelineData[]) {
+  public createGraph(data: TimelineData[]) {
     let series: GraphSeries[] = [];
     for (let d of data) {
       let graphSeries = new GraphSeries(new Date(+d.time * 1000), d.value[0]);

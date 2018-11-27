@@ -10,15 +10,15 @@ export class ContinousPriceUpdatesMessageService
   implements MessageService<PriceDetails> {
   private subject = new Subject<PriceDetails>();
 
-  sendMessage(message: PriceDetails) {
+  public sendMessage(message: PriceDetails) {
     this.subject.next(message);
   }
 
-  clearMessage() {
+  public clearMessage() {
     this.subject.next();
   }
 
-  getMessage(): Observable<PriceDetails> {
+  public getMessage(): Observable<PriceDetails> {
     return this.subject.asObservable();
   }
 }

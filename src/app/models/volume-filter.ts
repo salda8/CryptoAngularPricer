@@ -1,8 +1,8 @@
 export class VolumeFilter {
-  value: number;
-  display: string;
+  public value: number;
+  public display: string;
 
-  constructor(value: number, display: string) {
+  public constructor(value: number, display: string) {
     this.value = value;
     this.display = display;
   }

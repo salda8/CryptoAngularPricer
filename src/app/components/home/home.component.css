@@ -1,16 +1,10 @@
-/* Large */
-.loader{
-  margin:0;
-}
+/* Large *
 
 .navigation{
   display: flex;
   
 }
-
-.active-link {
-	background-color: pink;
-}
+
 
 .navigation-end{
   display: flex;

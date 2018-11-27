@@ -75,13 +75,13 @@ export interface ExchangeCoinSnapshot {
 // }
 
 export class ViewExchangeCoinSnapshot {
-  MARKET: string;
-  PAIR: string;
-  PRICE: number = 0;
-  VOLUME24HOUR: number = 0;
-  DIFTOAVERAGEPRICE: number = 0;
+  public MARKET: string;
+  public PAIR: string;
+  public PRICE: number = 0;
+  public VOLUME24HOUR: number = 0;
+  public DIFTOAVERAGEPRICE: number = 0;
 
-  constructor(snapshot: ExchangeCoinSnapshot) {
+  public constructor(snapshot: ExchangeCoinSnapshot) {
     this.MARKET = snapshot.MARKET;
     this.PAIR = snapshot.FROMSYMBOL + "/" + snapshot.TOSYMBOL;
     this.PRICE = snapshot.PRICE;
@@ -91,11 +91,11 @@ export class ViewExchangeCoinSnapshot {
 
 // Converts JSON numbers to/from your types
 export class Convert {
-  toCoinSnapshot(json: string): CoinSnapshot {
+  public toCoinSnapshot(json: string): CoinSnapshot {
     return JSON.parse(json);
   }
 
-  coinSnapshotToJson(value: CoinSnapshot): string {
+  public coinSnapshotToJson(value: CoinSnapshot): string {
     return JSON.stringify(value, undefined, 2);
   }
 }

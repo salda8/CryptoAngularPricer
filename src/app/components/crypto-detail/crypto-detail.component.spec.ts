@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CryptoDetailComponent } from './crypto-detail.component';
+import { CryptoDetailComponent } from "./crypto-detail.component";
 
-describe('CryptoDetailComponent', () => {
+describe("CryptoDetailComponent", () => {
   let component: CryptoDetailComponent;
   let fixture: ComponentFixture<CryptoDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CryptoDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [CryptoDetailComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('CryptoDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

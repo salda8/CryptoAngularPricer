@@ -5,13 +5,11 @@ import { PriceDetails } from "../models/pricedetailed";
 export class CryptoDetailTempStorageService {
   private priceDetails: PriceDetails;
 
-  constructor() {}
-
-  save(pd: PriceDetails) {
+  public save(pd: PriceDetails) {
     this.priceDetails = pd;
   }
 
-  load(): PriceDetails {
+  public load(): PriceDetails {
     return this.priceDetails;
   }
 }

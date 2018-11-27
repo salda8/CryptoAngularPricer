@@ -8,11 +8,11 @@ import { Alert, AlertType } from "../../models/alert";
   styleUrls: ["./alert.component.css"]
 })
 export class AlertComponent implements OnInit {
-  alerts: Alert[] = [];
+  public alerts: Alert[] = [];
 
-  constructor(private alertService: AlertService) { }
+  public constructor(private alertService: AlertService) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.alertService.getAlert().subscribe((alert: Alert) => {
       if (!alert) {
         // clear alerts when an empty alert is received
@@ -25,11 +25,11 @@ export class AlertComponent implements OnInit {
     });
   }
 
-  removeAlert(alert: Alert) {
+  public removeAlert(alert: Alert) {
     this.alerts = this.alerts.filter(x => x !== alert);
   }
 
-  cssClass(alert: Alert) {
+  public cssClass(alert: Alert) {
     if (!alert) {
       return;
     }
@@ -45,7 +45,6 @@ export class AlertComponent implements OnInit {
         return "alert alert-info";
       case AlertType.Warning:
         return "alert alert-warning";
-
     }
   }
 }

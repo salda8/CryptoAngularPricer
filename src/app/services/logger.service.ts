@@ -14,13 +14,13 @@ export class ConsoleLoggerService implements Logger {
   /**
    *
    */
-  constructor(private alertService: AlertService) {}
+  public constructor(private alertService: AlertService) {}
 
-  log(arg0: any) {
+  public log(arg0: any) {
     this.invokeConsoleMethod("error", arg0);
   }
 
-  get info() {
+  public get info() {
     if (isDebugMode) {
       return console.info.bind(console);
     } else {
@@ -28,7 +28,7 @@ export class ConsoleLoggerService implements Logger {
     }
   }
 
-  get warn() {
+  public get warn() {
     if (isDebugMode) {
       return console.warn.bind(console);
     } else {
@@ -36,7 +36,7 @@ export class ConsoleLoggerService implements Logger {
     }
   }
 
-  get error() {
+  public get error() {
     if (isDebugMode) {
       return console.error.bind(console);
     } else {
@@ -44,7 +44,7 @@ export class ConsoleLoggerService implements Logger {
     }
   }
 
-  invokeConsoleMethod(type: string, args?: any): void {
+  public invokeConsoleMethod(type: string, args?: any): void {
     const logFn: Function = console[type] || console.log || noop;
     logFn.apply(console, [args]);
   }

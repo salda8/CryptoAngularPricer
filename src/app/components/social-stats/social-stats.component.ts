@@ -13,16 +13,15 @@ import { AfterViewInit } from "@angular/core/src/metadata/lifecycle_hooks";
 })
 export class SocialStatsComponent implements OnInit {
   @Input()
-  coin: string;
-  redditWidget: string;
+  public coin: string;
+  public redditWidget: string;
   private twitter: any;
 
-  constructor(private router: Router, private service: CryptoPricesService, private redditApi: RedditapiService) {
-
+  public constructor(private router: Router, private service: CryptoPricesService, private redditApi: RedditapiService) {
 
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (this.coin) {
       this.service.getSocialStats(this.coin).then(res => {
         let result: SocialStatsResponse = JSON.parse(JSON.stringify(res));
@@ -34,14 +33,10 @@ export class SocialStatsComponent implements OnInit {
           // let result: string = res;
           this.redditWidget = res.substring(19, res.length - 2);
 
-
-
         });
-    }
-    else {
+    } else {
 
     }
   }
-
 
 }

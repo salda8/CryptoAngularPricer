@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
   providedIn: "root"
 })
 export class JwtInterceptor implements HttpInterceptor {
-  intercept(
+  public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {

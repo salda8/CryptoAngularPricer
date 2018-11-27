@@ -4,9 +4,9 @@ import { HttpClient, HttpParams, HttpRequest } from "@angular/common/http";
 @Injectable()
 export class RedditapiService {
   private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
-  constructor(private client: HttpClient) {}
+  public constructor(private client: HttpClient) {}
 
-  getRedditWidget(subreddit: string, limit: number) {
+  public getRedditWidget(subreddit: string, limit: number) {
     const url = `${
       this.corsAnywhere
     }https://www.reddit.com/r/${subreddit}.embed`;

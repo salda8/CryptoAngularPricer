@@ -7,16 +7,16 @@ import {
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { HttpCacheBase } from "./models/http-cache";
+import { HttpCacheBase } from "./models/HttpCacheBase";
 import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
 })
 export class CachingInterceptor implements HttpInterceptor {
-  constructor(private cache: HttpCacheBase) {}
+  public constructor(private cache: HttpCacheBase) {}
 
-  intercept(
+  public intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {

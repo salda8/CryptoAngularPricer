@@ -15,22 +15,22 @@ import { Ticker } from "../../models/ticker";
   styleUrls: ["./pricetable.component.css"]
 })
 export class PricetableComponent implements OnDestroy, OnInit {
-  msgService: Subscription;
-  loadingIndicator: boolean;
-  offset = 0;
-  maxRows = 20;
-  filter: string = "";
-  lastFilterLength: number = 1;
-  mktDefault: number = 100000000;
-  marketCapFilter: number = 100000000;
-  listOfCoinNames: string[] = [];
+  public msgService: Subscription;
+  public loadingIndicator: boolean;
+  public offset = 0;
+  public maxRows = 20;
+  public filter: string = "";
+  public lastFilterLength: number = 1;
+  public mktDefault: number = 100000000;
+  public marketCapFilter: number = 100000000;
+  public listOfCoinNames: string[] = [];
 
-  unfilteredRows = [];
-  rows = [];
+  public unfilteredRows = [];
+  public rows = [];
 
-  symbolName: { [key: string]: string } = {};
+  public symbolName: { [key: string]: string } = {};
 
-  columns = [
+  public columns = [
     { prop: "FROMSYMBOL", name: "PAIR" },
 
     { prop: "PRICE" },
@@ -49,7 +49,7 @@ export class PricetableComponent implements OnDestroy, OnInit {
     { prop: "LASTMARKET" }
   ];
 
-  constructor(
+  public constructor(
     msgService: PriceUpdateService,
     tempStorage: CryptoDetailTempStorageService,
     private cryptoPriceService: CryptoPricesService
@@ -58,24 +58,24 @@ export class PricetableComponent implements OnDestroy, OnInit {
       this.addRow(message);
     });
   }
-  async ngOnInit() {
+  public async ngOnInit() {
     let tickers = await this.cryptoPriceService.getAllAvailableTickers();
-    (<Ticker[]>tickers).map(x => {
+    (tickers as Ticker[]).map(x => {
       this.symbolName[x.symbol.toUpperCase()] = x.name;
     });
     console.log(this.symbolName);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.msgService.unsubscribe();
   }
 
-  clearTable() {
+  public clearTable() {
     this.rows = [];
     this.unfilteredRows = [];
   }
 
-  addRow(row: PriceDetails) {
+  public addRow(row: PriceDetails) {
     let rowToAdd = { ...row };
     rowToAdd.FROMSYMBOL = rowToAdd.FROMSYMBOL + "/" + rowToAdd.TOSYMBOL;
     rowToAdd.NAME = this.symbolName[row.FROMSYMBOL.toUpperCase()];
@@ -102,7 +102,7 @@ export class PricetableComponent implements OnDestroy, OnInit {
       }, 0);
     }
   }
-  updateMktCapFilter($event) {
+  public updateMktCapFilter($event) {
     let filteredArray = [];
     let filter = this.marketCapFilter;
     if (this.filter.length > 0) {
@@ -122,7 +122,7 @@ export class PricetableComponent implements OnDestroy, OnInit {
     this.rows = [...filteredArray];
   }
 
-  updateFilter() {
+  public updateFilter() {
     let filteredArray = [];
     if (this.filter.length > this.lastFilterLength) {
       for (let row of this.rows) {
@@ -157,7 +157,7 @@ export class PricetableComponent implements OnDestroy, OnInit {
     });
   }
 
-  getCellClass({ row, column, value }): any {
+  public getCellClass({ row, column, value }): any {
     if (value > 0) {
       if (value > 10) {
         return " is-big-plus";

@@ -1,17 +1,17 @@
 export class Alert {
-    type: AlertType;
-    message: string;
+  public type: AlertType;
+  public message: string;
 
 }
 
 export function logLevelToAlertType(type: string): AlertType {
-    switch (type) {
-        case "want":
-            return AlertType.Warning;
-        case "error":
-            return AlertType.Error;
-        default:
-            return AlertType.NoAlert;
+  switch (type) {
+      case "want":
+        return AlertType.Warning;
+      case "error":
+        return AlertType.Error;
+      default:
+        return AlertType.NoAlert;
 
     }
 }
@@ -25,8 +25,5 @@ export enum AlertType {
     Info,
 
     Warning
-
-
-
 
 }

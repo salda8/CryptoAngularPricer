@@ -1,2 +1,9 @@
 {
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "typescript.implementationsCodeLens.enabled": true,
+    "typescript.preferences.quoteStyle": "double",
+    "typescript.referencesCodeLens.enabled": true,
+    "typescript.suggest.completeFunctionCalls": true,
+    "cSpell.language": "en,en-GB,en-US"
 }

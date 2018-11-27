@@ -26,7 +26,7 @@
     <ngx-datatable-column name="PRICE" prop="PRICE"></ngx-datatable-column>
     <ngx-datatable-column name="CHANGE 24H (%)" prop="CHANGEPCT24HOUR" [cellClass]="getCellClass">
       <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value | round:2 }}
+        {{ value   | round:2 }}
   </ng-template>
   </ngx-datatable-column>
 
@@ -47,17 +47,17 @@
 </ngx-datatable-column> -->
     <ngx-datatable-column name="VOLUME (24h)" prop="VOLUME24HOUR">
       <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value | round:0 }}
+            {{ value   | round:0 }}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="VOLUME TO (24h)" prop="VOLUME24HOURTO">
       <ng-template let-value="value" ngx-datatable-cell-template>
-      {{ value | round:0 }}
+      {{ value   | round:0 }}
 </ng-template>
 </ngx-datatable-column>
     <ngx-datatable-column name="MARKET CAP" prop="MKTCAP">
       <ng-template let-value="value" ngx-datatable-cell-template>
-        {{ value | round:0 }}
+        {{ value   | round:0 }}
   </ng-template>
   </ngx-datatable-column>
     <ngx-datatable-column name="MARKET" prop="MARKET"></ngx-datatable-column>

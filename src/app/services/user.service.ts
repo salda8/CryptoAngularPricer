@@ -6,25 +6,25 @@ import { User } from "../models/user";
   providedIn: "root"
 })
 export class UserService {
-  constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) {}
 
-  getAll() {
+  public getAll() {
     return this.http.get<User[]>("/api/users");
   }
 
-  getById(id: number) {
+  public getById(id: number) {
     return this.http.get("/api/users/" + id);
   }
 
-  create(user: User) {
+  public create(user: User) {
     return this.http.post("/api/users", user);
   }
 
-  update(user: User) {
+  public update(user: User) {
     return this.http.put("/api/users/" + user.id, user);
   }
 
-  delete(id: number) {
+  public delete(id: number) {
     return this.http.delete("/api/users/" + id);
   }
 }

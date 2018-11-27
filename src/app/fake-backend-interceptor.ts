@@ -14,9 +14,9 @@ import { mergeMap } from "rxjs/operators";
   providedIn: "root"
 })
 export class FakeBackendInterceptor implements HttpInterceptor {
-  constructor() {}
+  public constructor() {}
 
-  intercept(
+  public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
@@ -50,7 +50,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
               token: "fake-jwt-token"
             };
 
-            return of(new HttpResponse({ status: 200, body: body }));
+            return of(new HttpResponse({ status: 200, body }));
           } else {
             // else return 400 bad request
             return Observable.throw("Username or password is incorrect");

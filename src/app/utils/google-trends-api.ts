@@ -1,9 +1,9 @@
 export class GoogleTrendsApi {
-  isLessThan7Days(date1, date2) {
+  public isLessThan7Days(date1, date2) {
     return Math.abs(date2 - date1) / (24 * 60 * 60 * 1000) < 7;
   }
 
-  convertDateToString(d, shouldIncludeTime) {
+  public convertDateToString(d, shouldIncludeTime) {
     let month = (d.getUTCMonth() + 1).toString();
 
     month = month.length < 2 ? "0" + month : month;
@@ -19,7 +19,7 @@ export class GoogleTrendsApi {
     return `${year}-${month}-${day}`;
   }
 
-  formatTime(obj) {
+  public formatTime(obj) {
     if (obj.startTime && !(obj.startTime instanceof Date)) {
       return new Error("startTime must be a Date object");
     }
@@ -52,7 +52,7 @@ export class GoogleTrendsApi {
     return obj;
   }
 
-  constructObj(obj, cbFunc) {
+  public constructObj(obj, cbFunc) {
     // if (typeof obj === "") { cbFunc = obj; }
 
     if (!obj || (!!obj && typeof obj !== "object") || Array.isArray(obj)) {
@@ -83,7 +83,7 @@ export class GoogleTrendsApi {
     };
   }
 
-  formatResolution(resolution = "") {
+  public formatResolution(resolution = "") {
     const resolutions = ["COUNTRY", "REGION", "CITY", "DMA"];
     const isResValid = resolutions.some(res => {
       return res === resolution.toUpperCase();
@@ -99,7 +99,7 @@ export class GoogleTrendsApi {
    * @param  {String} results
    * @return {Object}
    */
-  parseResults(results) {
+  public parseResults(results) {
     // If this fails, you've hit the rate limit or Google has changed something
     try {
       return JSON.parse(results.slice(4)).widgets;
@@ -117,7 +117,7 @@ export class GoogleTrendsApi {
    * @param  {Object} obj The query obj with .keyword property
    * @return {Array}     Returns an array of comparisonItems
    */
-  formatKeywords(obj) {
+  public formatKeywords(obj) {
     // If we are requesting an array of keywords for comparison
     if (Array.isArray(obj.keyword)) {
       // Map the keywords to the items array

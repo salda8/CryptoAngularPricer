@@ -14,13 +14,13 @@ import { GlobalErrorHandler } from "../global-error-handler";
 export class CryptoPricesService {
   private static coinList: Map<string, string> = new Map<string, string>();
 
-  contUpdatesService: ContinousPriceUpdatesMessageService;
-  baseUrl = "https://min-api.cryptocompare.com/data/";
-  parameters: Map<string, string>;
+  public contUpdatesService: ContinousPriceUpdatesMessageService;
+  public baseUrl = "https://min-api.cryptocompare.com/data/";
+  public parameters: Map<string, string>;
 
   private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
 
-  constructor(
+  public constructor(
     private messageService: PriceUpdateService,
     private contMsgService: ContinousPriceUpdatesMessageService,
     private http: HttpClient,
@@ -32,7 +32,7 @@ export class CryptoPricesService {
     this.getAllCoinsOnCryptoCompare();
   }
 
-  getCoinSnapshot(ticker: string, pairedCurrency: string = "USD") {
+  public getCoinSnapshot(ticker: string, pairedCurrency: string = "USD") {
     const url = `${
       this.corsAnywhere
     }https://www.cryptocompare.com/api/data/coinsnapshot/?fsym=${ticker}&tsym=${pairedCurrency.replace(
@@ -42,13 +42,13 @@ export class CryptoPricesService {
     return this.http.get(url);
   }
 
-  getAllAvailableTickers(currency = "USD") {
+  public getAllAvailableTickers(currency = "USD") {
     const url = `https://api.coinmarketcap.com/v1/ticker/?convert=${currency}`;
     let cryptoList: Ticker[] = [];
     return this.http.get(url).toPromise();
   }
 
-  getAllCoinsOnCryptoCompare() {
+  public getAllCoinsOnCryptoCompare() {
     const url = "https://min-api.cryptocompare.com/data/all/coinlist";
     this.http.get(url).subscribe(res => {
       let result: CoinListResponse = JSON.parse(JSON.stringify(res));
@@ -90,7 +90,7 @@ export class CryptoPricesService {
     return promise;
   }
 
-  async getSocialStats(symbol: string) {
+  public async getSocialStats(symbol: string) {
     console.log(symbol);
     if (symbol) {
       let id = CryptoPricesService.coinList.get(symbol);
@@ -113,7 +113,7 @@ export class CryptoPricesService {
     }
   }
 
-  async getContinousPriceUpdateS(
+  public async getContinousPriceUpdateS(
     ticker: string[],
     pairedCurrency: string[],
     timeout?: 50000,
@@ -126,11 +126,11 @@ export class CryptoPricesService {
     }
   }
 
-  sleep(ms) {
+  public sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  getPriceByTicker(ticker: string, pairedCurrency: string) {
+  public getPriceByTicker(ticker: string, pairedCurrency: string) {
     const url = `${
       this.baseUrl
     }price?fsym=${ticker}&tsyms=${pairedCurrency.replace(" ", "")}`;
@@ -139,13 +139,13 @@ export class CryptoPricesService {
     return request;
   }
 
-  splitToTwoRequests(
+  public splitToTwoRequests(
     ticker: string[],
     pairedCurrency: string[],
     msgService: MessageService<PriceDetails>
   ) {
-    let s = 0,
-      i = 0;
+    let s = 0;
+    let i = 0;
     const max = 300;
     let newTickers: string[] = [];
 
@@ -167,7 +167,7 @@ export class CryptoPricesService {
     }
   }
 
-  getPriceMultiByTicker(
+  public getPriceMultiByTicker(
     ticker: string[],
     pairedCurrency: string[],
     msgService: MessageService<PriceDetails> = this.messageService
@@ -209,7 +209,7 @@ export class CryptoPricesService {
     }
   }
 
-  getData(ticker: string, pairedCurrency: string) {
+  public getData(ticker: string, pairedCurrency: string) {
     const url = `${this.baseUrl}subs?fsym=${ticker}&tsyms=${pairedCurrency}`;
     let request = this.http.get(url);
     return request;

@@ -21,34 +21,34 @@ import { ContinousPriceUpdatesMessageService } from "../../services/price-detail
   styleUrls: ["./pricegraph.component.css"]
 })
 export class PricegraphComponent implements OnInit, OnDestroy {
-  msgService: Subscription;
-  liveUpdatesMessageService: Subscription;
-  selectedCryptoPair: string[] = [];
-  single: any[];
-  multi: GraphLine[] = [];
-  allReceivedPriceDetails: PriceDetails[] = [];
-  multipleSelectedMultiSeries: string[] = [];
-  allReceivedPairs: string[] = [];
+  public msgService: Subscription;
+  public liveUpdatesMessageService: Subscription;
+  public selectedCryptoPair: string[] = [];
+  public single: any[];
+  public multi: GraphLine[] = [];
+  public allReceivedPriceDetails: PriceDetails[] = [];
+  public multipleSelectedMultiSeries: string[] = [];
+  public allReceivedPairs: string[] = [];
 
-  view: any[] = [700, 400];
-  pairsToPlotControl: FormControl = new FormControl();
-  valuesToPlotControl: FormControl = new FormControl();
+  public view: any[] = [700, 400];
+  public pairsToPlotControl: FormControl = new FormControl();
+  public valuesToPlotControl: FormControl = new FormControl();
   // options
-  showXAxis = true;
-  showYAxis = true;
-  gradient = false;
-  showLegend = true;
-  showXAxisLabel = true;
-  xAxisLabel = "Date";
-  showYAxisLabel = true;
-  yAxisLabel = "Price";
-  create = false;
+  public showXAxis = true;
+  public showYAxis = true;
+  public gradient = false;
+  public showLegend = true;
+  public showXAxisLabel = true;
+  public xAxisLabel = "Date";
+  public showYAxisLabel = true;
+  public yAxisLabel = "Price";
+  public create = false;
 
-  colorScheme = {
+  public colorScheme = {
     domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
   };
 
-  possibleValuesToPlot = [
+  public possibleValuesToPlot = [
     "PRICE",
     "LASTVOLUME",
     "LASTVOLUMETO",
@@ -62,10 +62,10 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     "CHANGEPCT24HOUR"
   ];
 
-  selecetedValuesToPlot: string[] = [this.possibleValuesToPlot[0]];
+  public selecetedValuesToPlot: string[] = [this.possibleValuesToPlot[0]];
   // line, area
-  autoScale = true;
-  constructor(
+  public autoScale = true;
+  public constructor(
     msgService: PriceUpdateService,
     liveUpdatesService: ContinousPriceUpdatesMessageService
   ) {
@@ -79,7 +79,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     });
   }
 
-  proccessReceivedMessage(message: PriceDetails) {
+  public proccessReceivedMessage(message: PriceDetails) {
     // console.log("RECEIVED MESSAGE: " + JSON.stringify(message));
     this.allReceivedPriceDetails.push(message);
     let seriesName = String.Join("/", message.FROMSYMBOL, message.TOSYMBOL);
@@ -101,11 +101,11 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     }
   }
 
-  pushAndLogGraphLine(graphLine: GraphLine) {
+  public pushAndLogGraphLine(graphLine: GraphLine) {
     this.multi.push(graphLine);
   }
 
-  createNewGraphLine(
+  public createNewGraphLine(
     seriesName: string,
     priceDetails: PriceDetails,
     value: string
@@ -118,7 +118,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     return new GraphLine(seriesName, series);
   }
 
-  pushPointToExistingGraphSeries(
+  public pushPointToExistingGraphSeries(
     graphLine: GraphLine,
     priceDetails: PriceDetails
   ) {
@@ -131,11 +131,11 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     this.multi = [...this.multi];
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.msgService.unsubscribe();
   }
 
-  onBtnClick() {
+  public onBtnClick() {
     /// this.multi.push(new PriceChange("21", 777.90, "CryptoCompare Index"));
     // this.multi.push(new PriceChange("22", 800.90, "CryptoCompare Index"));
     // this.single = single;
@@ -143,15 +143,15 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     // Object.assign(this, { single, multi });
     this.create = true;
   }
-  onValuesToPlotSelectionChange(event: MatSelectChange) {
+  public onValuesToPlotSelectionChange(event: MatSelectChange) {
     this.changeGraph();
   }
 
-  onPairsToPlotSelectionChange(event: MatSelectChange) {
+  public onPairsToPlotSelectionChange(event: MatSelectChange) {
     this.changeGraph();
   }
 
-  changeGraph() {
+  public changeGraph() {
     this.multi = [];
     for (let pair of this.selectedCryptoPair) {
       for (let value of this.selecetedValuesToPlot) {
@@ -162,7 +162,7 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterAllReceivedPriceDetails(pair: string, valueToPlot: string): GraphLine {
+  public filterAllReceivedPriceDetails(pair: string, valueToPlot: string): GraphLine {
     // let seriesName = String.Join("/", message.FROMSYMBOL, message.TOSYMBOL);
     let currenciesInPair = pair.split("/");
     let fileteredPriceDetails = this.allReceivedPriceDetails.filter(
@@ -181,9 +181,9 @@ export class PricegraphComponent implements OnInit, OnDestroy {
     return graphLine;
   }
 
-  onSelect(event) {
+  public onSelect(event) {
     console.log(event);
   }
 
-  ngOnInit() {}
+  public ngOnInit() {}
 }

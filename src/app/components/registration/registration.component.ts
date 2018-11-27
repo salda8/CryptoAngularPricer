@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { UserService } from "../../services/user.service";
 import { AlertService } from "../../services/alert.service";
 import { GlobalErrorHandler } from "../../global-error-handler";
+import { User } from "../../models/user";
 
 @Component({
   selector: "app-registration",
@@ -10,19 +11,19 @@ import { GlobalErrorHandler } from "../../global-error-handler";
   styleUrls: ["./registration.component.css"]
 })
 export class RegistrationComponent {
-  model: any = {};
-  loading = false;
+  public model: User;
+  public loading = false;
 
-  constructor(
+  public constructor(
     private router: Router,
     private userService: UserService,
     private errorHandler: GlobalErrorHandler,
-    private alertService: AlertService) { }
+    private alertService: AlertService
+  ) {}
 
-  register() {
+  public register() {
     this.loading = true;
-    this.userService.create(this.model)
-      .subscribe(
+    this.userService.create(this.model).subscribe(
       data => {
         // set success message and pass true paramater to persist the message after redirecting to the login page
         this.alertService.success("Registration successful", true);
@@ -31,6 +32,7 @@ export class RegistrationComponent {
       error => {
         this.errorHandler.handleAndAlert(error);
         this.loading = false;
-      });
+      }
+    );
   }
 }

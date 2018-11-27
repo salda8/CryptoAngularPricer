@@ -7,15 +7,15 @@ import { MessageService } from "../models/message-service";
 export class PriceUpdateService implements MessageService<PriceDetails> {
   private subject = new Subject<any>();
 
-  sendMessage(message: PriceDetails) {
+  public sendMessage(message: PriceDetails) {
     this.subject.next(message);
   }
 
-  clearMessage() {
+  public clearMessage() {
     this.subject.next();
   }
 
-  getMessage(): Observable<PriceDetails> {
+  public getMessage(): Observable<PriceDetails> {
     return this.subject.asObservable();
   }
 }

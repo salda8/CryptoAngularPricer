@@ -11,43 +11,43 @@ import { Trade } from "../../models/trade";
   styleUrls: ["./crypto-streamer.component.css"]
 })
 export class CryptoStreamerComponent implements OnInit {
-  service: CryptoPricesService;
-  headerTitle: string = "";
-  streamingSources: string = "";
-  fsym: string = "BTC";
-  tsym: string = "USD";
-  columnNames = ["Market", "Type", "ID", "Price", "Quantity", "Total"];
-  trades: Trade[] = [];
-  currentSubs;
+  public service: CryptoPricesService;
+  public headerTitle: string = "";
+  public streamingSources: string = "";
+  public fsym: string = "BTC";
+  public tsym: string = "USD";
+  public columnNames = ["Market", "Type", "ID", "Price", "Quantity", "Total"];
+  public trades: Trade[] = [];
+  public currentSubs;
   private socket: SocketIOClient.Socket;
   private streamerUtils: StreamerUtils = StreamerUtils.prototype;
 
-  constructor(service: CryptoPricesService, private route: ActivatedRoute) {
+  public constructor(service: CryptoPricesService, private route: ActivatedRoute) {
     this.socket = io.connect("https://streamer.cryptocompare.com/");
     this.service = service;
     this.route = route;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     console.log(this.route.snapshot);
-    this.tsym = this.route.snapshot.queryParams["currency"];
-    this.fsym = this.route.snapshot.queryParams["ticker"];
+    this.tsym = this.route.snapshot.queryParams.currency;
+    this.fsym = this.route.snapshot.queryParams.ticker;
   }
-  displayData(trade: any) {
+  public displayData(trade: any) {
     let maxTableSize = 30;
   }
-  unsubscribe() {
+  public unsubscribe() {
     this.socket.emit("SubRemove", { subs: this.currentSubs });
     this.socket.disconnect();
   }
-  subscribe() {
+  public subscribe() {
     this.getSubs();
   }
 
   private getSubs() {
     this.service.getData(this.fsym, this.tsym).subscribe(msg => {
       // console.log(msg);
-      let possibleSubs = msg[this.tsym]["TRADES"];
+      let possibleSubs = msg[this.tsym].TRADES;
       this.currentSubs = possibleSubs;
       // console.log(this.currentSubs);
       this.subscribeandproceess();
@@ -62,29 +62,29 @@ export class CryptoStreamerComponent implements OnInit {
     let incomingTrade = this.streamerUtils.unpack(data);
 
     let newTrade: Trade = {
-      Market: incomingTrade["M"],
-      Type: incomingTrade["T"],
-      ID: incomingTrade["ID"],
+      Market: incomingTrade.M,
+      Type: incomingTrade.T,
+      ID: incomingTrade.ID,
       Price: this.streamerUtils.current_convertValueToDisplay(
         cointsym,
-        incomingTrade["P"]
+        incomingTrade.P
       ),
       Quantity: this.streamerUtils.current_convertValueToDisplay(
         coinfsym,
-        incomingTrade["Q"]
+        incomingTrade.Q
       ),
       Total: this.streamerUtils.current_convertValueToDisplay(
         cointsym,
-        incomingTrade["TOTAL"]
+        incomingTrade.TOTAL
       )
     };
 
-    if (incomingTrade["F"] & 1) {
-      newTrade["Type"] = "SELL";
-    } else if (incomingTrade["F"] & 2) {
-      newTrade["Type"] = "BUY";
+    if (incomingTrade.F & 1) {
+      newTrade.Type = "SELL";
+    } else if (incomingTrade.F & 2) {
+      newTrade.Type = "BUY";
     } else {
-      newTrade["Type"] = "UNKNOWN";
+      newTrade.Type = "UNKNOWN";
     }
 
     this.trades.push(newTrade);

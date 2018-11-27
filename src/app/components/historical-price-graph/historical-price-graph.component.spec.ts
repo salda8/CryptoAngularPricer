@@ -1,16 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { HistoricalPriceGraphComponent } from './historical-price-graph.component';
+import { HistoricalPriceGraphComponent } from "./historical-price-graph.component";
 
-describe('HistoricalPriceGraphComponent', () => {
+describe("HistoricalPriceGraphComponent", () => {
   let component: HistoricalPriceGraphComponent;
   let fixture: ComponentFixture<HistoricalPriceGraphComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HistoricalPriceGraphComponent ]
+      declarations: [HistoricalPriceGraphComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('HistoricalPriceGraphComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

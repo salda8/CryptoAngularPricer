@@ -6,13 +6,13 @@ import { map } from "rxjs/operators";
   providedIn: "root"
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
+  public constructor(private http: HttpClient) {}
 
-  login(username: string, password: string) {
+  public login(username: string, password: string) {
     return this.http
       .post<any>("/api/authenticate", {
-        username: username,
-        password: password
+        username,
+        password
       })
       .pipe(
         map(user => {
@@ -27,7 +27,7 @@ export class AuthenticationService {
       );
   }
 
-  logout() {
+  public logout() {
     // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
   }

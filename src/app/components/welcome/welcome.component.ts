@@ -9,18 +9,18 @@ import { User } from "../../models/user";
 })
 export class WelcomeComponent implements OnInit {
 
-  currentUser: User;
-  users: User[] = [];
+  public currentUser: User;
+  public users: User[] = [];
 
-  constructor(private userService: UserService) {
+  public constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loadAllUsers();
   }
 
-  deleteUser(id: number) {
+  public deleteUser(id: number) {
     this.userService.delete(id).subscribe(() => { this.loadAllUsers(); });
   }
 

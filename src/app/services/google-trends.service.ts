@@ -10,29 +10,29 @@ import { Welcome } from "../models/google-trends";
 
 @Injectable()
 export class GoogleTrendsService {
-  autoComplete: "Auto complete";
-  interestByRegion: {
+  public autoComplete: "Auto complete";
+  public interestByRegion: {
     path: "trends/api/widgetdata/relatedsearches";
     _id: "RELATED_QUERIES";
   };
-  interestOverTime: {
+  public interestOverTime: {
     path: "trends/api/widgetdata/multiline";
     _id: "TIMESERIES";
   };
-  relatedQueries: "Related queries";
-  relatedTopics: {
+  public relatedQueries: "Related queries";
+  public relatedTopics: {
     path: "trends/api/widgetdata/relatedsearches";
     _id: "RELATED_TOPICS";
   };
-  trendsUtil: GoogleTrendsApi = new GoogleTrendsApi();
+  public trendsUtil: GoogleTrendsApi = new GoogleTrendsApi();
 
   private hostUrl: string = "http://trends.google.com/";
   private corsAnywhere: string = "https://cors-anywhere.herokuapp.com/";
   private url: string = this.corsAnywhere + this.hostUrl;
 
-  constructor(private http: HttpClient, private jsonp: Jsonp) {}
+  public constructor(private http: HttpClient, private jsonp: Jsonp) {}
 
-  interestByRegionTrendSearch(keyword: string, category?: string) {
+  public interestByRegionTrendSearch(keyword: string, category?: string) {
     if (keyword) {
       let settings = {
         path: "trends/api/widgetdata/multiline",
@@ -47,7 +47,7 @@ export class GoogleTrendsService {
         qs: {
           hl: "en-US",
           req: JSON.stringify({
-            comparisonItem: [{ keyword: keyword, geo: "", time: "today+12-m" }],
+            comparisonItem: [{ keyword, geo: "", time: "today+12-m" }],
             category: category ? category : 0,
             property: ""
           }),
@@ -83,7 +83,7 @@ export class GoogleTrendsService {
     return undefined;
   }
 
-  getParams(keyword: string, token?: string, req?: any): HttpParams {
+  public getParams(keyword: string, token?: string, req?: any): HttpParams {
     if (token && req) {
       return new HttpParams()
         .set("hl", keyword)
