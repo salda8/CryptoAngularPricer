@@ -44,7 +44,7 @@
     "bootstrap": "^4.1.3",
     "chart.js": "^2.7.3",
     "chartjs": "^0.3.24",
-    "clean-webpack-plugin": "^1.0.0",
+    "clean-webpack-plugin": "^2.0.0",
     "core-js": "^2.5.7",
     "core.js": "^0.4.2",
     "d3": "^5.7.0",
