@@ -58,7 +58,7 @@
     "primeicons": "^1.0.0",
     "primeng": "^6.1.6",
     "rxjs": "^6.3.3",
-    "rxjs-tslint-rules": "^4.13.0",
+    "rxjs-tslint-rules": "^4.23.0",
     "socket.io-client": "^2.1.1",
     "socketio": "^1.0.0",
     "stacktrace-js": "^2.0.0",
