@@ -53,7 +53,7 @@
     "hammerjs": "^2.0.8",
     "jqwidgets-scripts": "^6.1.0",
     "popper.js": "^1.14.5",
-    "postcss-custom-properties": "^8.0.9",
+    "postcss-custom-properties": "^9.0.2",
     "postscribe": "^2.0.8",
     "primeicons": "^1.0.0",
     "primeng": "^6.1.6",
