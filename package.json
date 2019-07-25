@@ -55,7 +55,7 @@
     "popper.js": "^1.14.5",
     "postcss-custom-properties": "^8.0.9",
     "postscribe": "^2.0.8",
-    "primeicons": "^1.0.0",
+    "primeicons": "^2.0.0",
     "primeng": "^6.1.6",
     "rxjs": "^6.3.3",
     "rxjs-tslint-rules": "^4.13.0",
