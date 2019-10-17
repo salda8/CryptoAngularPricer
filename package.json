@@ -51,7 +51,7 @@
     "datatables.net": "^1.10.19",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
-    "jqwidgets-scripts": "^6.1.0",
+    "jqwidgets-scripts": "^7.0.0",
     "popper.js": "^1.14.5",
     "postcss-custom-properties": "^8.0.9",
     "postscribe": "^2.0.8",
