@@ -56,7 +56,7 @@
     "postcss-custom-properties": "^8.0.9",
     "postscribe": "^2.0.8",
     "primeicons": "^1.0.0",
-    "primeng": "^6.1.6",
+    "primeng": "^8.1.0",
     "rxjs": "^6.3.3",
     "rxjs-tslint-rules": "^4.13.0",
     "socket.io-client": "^2.1.1",
