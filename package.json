@@ -37,7 +37,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/zone.js": "^0.5.12",
     "ajv": "^6.5.5",
-    "angular-bootstrap-md": "^7.0.0",
+    "angular-bootstrap-md": "^8.8.1",
     "angular-datatables": "^7.0.0",
     "angular-in-memory-web-api": "^0.7.0",
     "angular-pipes": "^9.0.2",
